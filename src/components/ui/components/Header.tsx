@@ -1,52 +1,103 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Search, Bell, Settings } from "lucide-react";
+import { Search, Bell, Settings, Menu, X, Home, MessageCircle, Compass, Wallet as WalletIcon, Folder } from "lucide-react";
 
 export default function Header() {
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
+
   return (
     <header className="w-full flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-white shadow-sm border-b">
-      {/* Left Section: Logo + Nav */}
-      <div className="flex items-center space-x-4 lg:space-x-8">
-        {/* TWISTY Logo */}
-        <div className="flex items-center space-x-2">
-          <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-xs sm:text-sm">T</span>
-          </div>
-          <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-            TWISTY
-          </span>
+      {/* Left: Hamburger (mobile) + Logo */}
+      <div className="flex items-center gap-3">
+        {/* Hamburger Icon (only on small screens, left side) */}
+        <button
+          className="block sm:hidden mr-2"
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Open menu"
+        >
+          <Menu className="w-7 h-7" />
+        </button>
+        {/* Logo */}
+        <div className="font-bold text-xl text-orange-600 flex items-center">
+          <span className="mr-2">{/* Logo SVG or image here */}</span>
+          TWISTY
+        </div>
+      </div>
+      {/* Nav Items (hidden on small screens) */}
+      <div className="hidden sm:flex gap-6">
+        <a href="#" className="hover:text-blue-600">Home</a>
+        <a href="#" className="hover:text-blue-600">Messages</a>
+        <a href="#" className="hover:text-blue-600">Discover</a>
+        <a href="#" className="hover:text-blue-600">Wallet</a>
+        <a href="#" className="hover:text-blue-600">Projects</a>
+      </div>
+      {/* Right side icons */}
+      <div className="flex items-center gap-4">
+        {/* Search bar (only on small screens) */}
+        <div className="relative block sm:hidden">
+          <Input
+            type="text"
+            placeholder="Search..."
+            className="w-32 pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          />
+          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
         </div>
         
-        {/* Navigation */}
-        <nav className="hidden lg:flex items-center space-x-6 xl:space-x-10 text-sm">
-          <a href="#" className="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Home</a>
-          <a href="#" className="text-gray-600 hover:text-gray-800">Messages</a>
-          <a href="#" className="text-gray-600 hover:text-gray-800">Discover</a>
-          <a href="#" className="text-gray-600 hover:text-gray-800">Wallet</a>
-          <a href="#" className="text-gray-600 hover:text-gray-800">Projects</a>
-        </nav>
-      </div>
-
-      {/* Right Section: Search + Icons + Avatar */}
-      <div className="flex items-center space-x-2 sm:space-x-4">
         <div className="relative hidden sm:block">
           <Input
+            type="text"
             placeholder="Enter your search request..."
-            className="w-40 sm:w-48 lg:w-64 pl-8 sm:pl-10 pr-3 sm:pr-4 text-sm"
+            className="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-          <Search className="absolute left-2 sm:left-3 top-1/2 transform -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
         </div>
         
-        <div className="flex items-center space-x-2 sm:space-x-3">
-          <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 cursor-pointer hover:text-gray-800" />
-          <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 cursor-pointer hover:text-gray-800" />
-          <Avatar className="w-6 h-6 sm:w-8 sm:h-8">
-            <AvatarImage src="/avatar.jpg" />
-            <AvatarFallback className="bg-gray-200 text-gray-600 text-xs sm:text-sm">U</AvatarFallback>
-          </Avatar>
+        {/* Settings and Bell icons (hidden on small screens) */}
+        <div className="hidden sm:flex items-center gap-4">
+          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+            <Settings className="w-5 h-5 text-gray-600" />
+          </button>
+          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+            <Bell className="w-5 h-5 text-gray-600" />
+          </button>
         </div>
+        
+        {/* Avatar (visible on all screens) */}
+        <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
+          <AvatarImage src="/placeholder-avatar.jpg" alt="User" />
+          <AvatarFallback className="bg-blue-600 text-white font-semibold text-sm">
+            U
+          </AvatarFallback>
+        </Avatar>
       </div>
+
+      {/* Sidebar Drawer (only on small screens) */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex">
+          <div className="w-64 bg-white h-full shadow-lg p-6 flex flex-col items-start">
+            <button
+              className="mb-6 ml-auto"
+              onClick={() => setSidebarOpen(false)}
+              aria-label="Close menu"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><Home className="w-5 h-5" /> Home</a>
+            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><MessageCircle className="w-5 h-5" /> Messages</a>
+            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><Compass className="w-5 h-5" /> Discover</a>
+            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><WalletIcon className="w-5 h-5" /> Wallet</a>
+            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><Folder className="w-5 h-5" /> Projects</a>
+            {/* Settings and Bell icons (only on small screens) */}
+            <div className="sm:hidden mt-4 pt-4 border-t border-gray-200">
+              <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><Settings className="w-5 h-5" /> Settings</a>
+              <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><Bell className="w-5 h-5" /> Notifications</a>
+            </div>
+          </div>
+          {/* Click outside to close */}
+          <div className="flex-1" onClick={() => setSidebarOpen(false)} />
+        </div>
+      )}
     </header>
   );
 }

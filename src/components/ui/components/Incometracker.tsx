@@ -60,15 +60,15 @@ export default function IncomeTracker() {
         </Popover>
       </CardHeader>
 
-      <CardContent className="mt-6 sm:mt-6">
+      <CardContent className="mt-0 sm:mt-0">
         {/* Left Stat for mobile only */}
-        <div className="block sm:hidden mb-2 text-center">
+        <div className="block sm:hidden mb-0 text-center">
           <p className="text-base font-semibold">+20%</p>
           <p className="text-xs text-muted-foreground">This week’s income is higher than last week’s</p>
         </div>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 sm:gap-4 h-48 sm:h-62 w-full">
           {/* Left Stat for desktop only */}
-          <div className="hidden sm:block text-center md:text-left mb-2 sm:mb-0">
+          <div className="hidden sm:block text-center md:text-left mb-10 sm:mb-0">
             <p className="text-2xl lg:text-3xl font-semibold">+20%</p>
             <p className="text-sm text-muted-foreground">This week’s income is higher than last week’s</p>
           </div>
