@@ -5,9 +5,9 @@ import { Search, Bell, Settings } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className="w-full flex items-center justify-between px-6 py-4 bg-white shadow-sm border-b">
+    <header className="w-full flex items-center  justify-between px-8 py-4 bg-white  shadow-sm border-b">
       {/* Left Section: Logo + Nav */}
-      <div className="flex items-center space-x-8">
+      <div className="flex items-center space-x-45">
         {/* TWISTY Logo */}
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
@@ -19,8 +19,8 @@ export default function Header() {
         </div>
         
         {/* Navigation */}
-        <nav className="hidden md:flex items-center space-x-6 text-sm">
-          <a href="#" className="text-blue-600 font-semibold">Home</a>
+        <nav className="hidden md:flex items-center space-x-10 text-sm">
+          <a href="#" className="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Home</a>
           <a href="#" className="text-gray-600 hover:text-gray-800">Messages</a>
           <a href="#" className="text-gray-600 hover:text-gray-800">Discover</a>
           <a href="#" className="text-gray-600 hover:text-gray-800">Wallet</a>

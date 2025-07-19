@@ -29,8 +29,8 @@ const users: User[] = [
 
 export default function LetsConnect() {
   return (
-    <Card className="bg-white h-full flex flex-col">
-      <CardHeader className="pb-4 flex-shrink-0">
+    <Card className="bg-white shadow-sm">
+      <CardHeader className="pb-4 px-6 pt-6">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold text-gray-800">
             Let's Connect
@@ -41,15 +41,15 @@ export default function LetsConnect() {
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col justify-center space-y-6">
+      <CardContent className="px-6 pb-6 space-y-4">
         {users.map((user, idx) => (
           <div
             key={idx}
-            className="flex items-center justify-between p-4 border border-gray-100 rounded-lg hover:shadow-sm transition-shadow bg-gray-50/50"
+            className="flex items-center justify-between p-3 border border-gray-100 rounded-lg hover:shadow-sm transition-shadow bg-gray-50/50"
           >
             <div className="flex items-center gap-3">
-              <Avatar className="w-12 h-12">
-                <AvatarFallback className="bg-gray-200 text-gray-700 font-medium text-sm">
+              <Avatar className="w-10 h-10">
+                <AvatarFallback className="bg-gray-200 text-gray-700 font-medium">
                   {user.avatar}
                 </AvatarFallback>
               </Avatar>

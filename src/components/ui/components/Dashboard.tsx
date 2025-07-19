@@ -13,38 +13,37 @@ export default function Dashboard() {
       <Header />
       
       {/* Main Dashboard Content */}
-      <main className="container mx-auto px-6 py-8">
-        {/* Row 2: Income Tracker (60%) + Recent Projects (40%) */}
-        <div className="grid grid-cols-5 gap-8 mb-8">
-          {/* Income Tracker - 60% (3/5 columns) */}
-          <div className="col-span-3">
+      <main className="container mx-auto px-4 sm:px-6 py-6 lg:py-8">
+        {/* Main Grid Layout: Left (2/3) + Right (1/3) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          
+          {/* Left Section - 2/3 width */}
+          <div className="lg:col-span-2 space-y-6 lg:space-y-8">
+            {/* Income Tracker - Top full width */}
             <IncomeTracker />
+            
+            {/* Bottom row: Let's Connect + Upgrade Premium */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+              <LetsConnect />
+              <UpgradePremium />
+            </div>
           </div>
-          
-          {/* Recent Projects - 40% (2/5 columns) */}
-          <div className="col-span-2">
-            <YourRecentProjects />
-          </div>
-        </div>
 
-        {/* Row 3: Three columns layout with equal height */}
-        <div className="grid grid-cols-10 gap-8 h-full">
-          {/* Let's Connect - 30% (3/10 columns) */}
-          <div className="col-span-3">
-            <LetsConnect />
-          </div>
-          
-          {/* Upgrade Premium - 30% (3/10 columns) */}
-          <div className="col-span-3">
-            <UpgradePremium />
-          </div>
-          
-          {/* Proposal Progress - 40% (4/10 columns) */}
-          <div className="col-span-4">
-            <ProposalProgress />
+          {/* Right Section - 1/3 width */}
+          <div className="flex flex-col h-full">
+            {/* Your Recent Projects - Scrollable container */}
+            <div className="flex-1 overflow-y-auto scrollbar-hide">
+              <YourRecentProjects />
+            </div>
+            
+            {/* Proposal Progress - Fixed at bottom */}
+            <div className="flex-shrink-0 mt-6 lg:mt-8">
+              <ProposalProgress />
+            </div>
           </div>
         </div>
       </main>
     </div>
   );
 }
+
