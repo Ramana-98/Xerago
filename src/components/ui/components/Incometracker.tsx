@@ -1,137 +1,127 @@
-import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { CalendarIcon, ChevronDown } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { ChevronDown, TrendingUp } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+const data = [
+  { day: "S", amount: 1200 },
+  { day: "M", amount: 1800 },
+  { day: "T", amount: 2567 },
+  { day: "W", amount: 2100 },
+  { day: "T", amount: 2300 },
+  { day: "F", amount: 1900 },
+  { day: "S", amount: 1500 },
+];
+
+const maxAmount = Math.max(...data.map((d) => d.amount));
 
 export default function IncomeTracker() {
-  const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-  const data = [1200, 1800, 2567, 1900, 1600, 1300, 900];
-  const max = Math.max(...data);
-  const min = Math.min(...data);
-  const [selectedDay, setSelectedDay] = useState(2); // Tuesday (index 2) - default selected
+  const [selectedDay, setSelectedDay] = useState<number | null>(2); // Default to Tuesday (index 2)
 
-  const handleDayClick = (index: number) => {
-    setSelectedDay(index);
-  };
-
-  // Calculate normalized position based on actual data range
-  const getNormalizedHeight = (value: number) => {
-    const range = max - min;
-    return range === 0 ? 50 : ((value - min) / range) * 100;
+  const handleBarClick = (index: number) => {
+    setSelectedDay(selectedDay === index ? null : index);
   };
 
   return (
-    <TooltipProvider>
-      <Card className="bg-white shadow-sm">
-        <CardHeader className="pb-6 px-6 pt-6">
-          <div className="flex items-start justify-between">
-            <div className="flex items-start gap-4">
-              <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                <TrendingUp className="w-4 h-4 text-gray-700" />
-              </div>
-              <div className="space-y-2">
-                <CardTitle className="text-xl font-bold text-gray-800 leading-tight text-left ">
-                  Income Tracker
-                </CardTitle>
-                <p className="text-sm text-gray-500 leading-relaxed max-w-md text-left">
-                  Track changes in income over time and access detailed data on each project and payments received
-                </p>
-              </div>
-            </div>
-            <Button variant="outline" size="sm" className="text-gray-600 h-8 px-3 text-sm">
+    <Card className="rounded-2xl bg-[#f7f8f9] p-3 sm:p-4 w-full h-100">
+      <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-2 gap-1 sm:gap-0">
+        <div className="w-full sm:w-auto">
+          <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
+            <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+            Income Tracker
+          </CardTitle>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+            Track changes in income over time and access detailed data on each project and payments received
+          </p>
+        </div>
+
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              className="rounded-full px-3 sm:px-4 py-1 text-xs sm:text-sm w-full sm:w-auto"
+            >
               Week
-              <ChevronDown className="w-3 h-3 ml-1" />
+              <ChevronDown className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
-          </div>
-        </CardHeader>
-        
-        <CardContent className="px-6 pb-6">
-          {/* Chart Section */}
-          <div className="flex justify-between items-end h-48 relative mb-8">
-            {/* Connecting line between data points */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none">
-              <polyline
-                fill="none"
-                stroke="#3B82F6"
-                strokeWidth="3"
-                points={data.map((value, idx) => {
-                  const x = (idx / (data.length - 1)) * 100;
-                  const normalizedHeight = getNormalizedHeight(value);
-                  const y = 100 - normalizedHeight;
-                  return `${x}%,${y}%`;
-                }).join(' ')}
-              />
-            </svg>
+          </PopoverTrigger>
+          <PopoverContent className="w-32 sm:w-40 p-2">
+            <p className="text-xs sm:text-sm text-muted-foreground">Week Selector</p>
+            {/* You can add Calendar component here */}
+          </PopoverContent>
+        </Popover>
+      </CardHeader>
 
-            {data.map((value, idx) => {
-              const normalizedHeight = getNormalizedHeight(value);
-              const isSelected = idx === selectedDay;
-              
-              return (
-                <div key={idx} className="flex flex-col items-center relative w-10">
-                  {/* Vertical line for each day - based on actual data range */}
-                  <div 
-                    className={`absolute bottom-8 w-0.5 transition-all duration-200 ${
-                      isSelected ? 'bg-gray-800' : 'bg-gray-300'
-                    }`} 
-                    style={{ 
-                      height: `${normalizedHeight}%`,
-                      bottom: '32px' // Align with day labels
-                    }}
-                  ></div>
-                  
-                  {/* Data point dot with tooltip - positioned based on actual data */}
-                  <Tooltip>
+      <CardContent className="mt-6 sm:mt-6">
+        {/* Left Stat for mobile only */}
+        <div className="block sm:hidden mb-2 text-center">
+          <p className="text-base font-semibold">+20%</p>
+          <p className="text-xs text-muted-foreground">This week’s income is higher than last week’s</p>
+        </div>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 sm:gap-4 h-48 sm:h-62 w-full">
+          {/* Left Stat for desktop only */}
+          <div className="hidden sm:block text-center md:text-left mb-2 sm:mb-0">
+            <p className="text-2xl lg:text-3xl font-semibold">+20%</p>
+            <p className="text-sm text-muted-foreground">This week’s income is higher than last week’s</p>
+          </div>
+
+          {/* Vertical Bar Chart */}
+          <TooltipProvider>
+            <div className="flex justify-between items-end w-full max-w-xl mx-auto gap-1 sm:gap-2 lg:gap-3 overflow-hidden px-1 sm:px-0">
+              {data.map((d, i) => {
+                // Enhanced height calculation with more dramatic range
+                const normalizedValue = (d.amount - Math.min(...data.map(item => item.amount))) / (Math.max(...data.map(item => item.amount)) - Math.min(...data.map(item => item.amount)));
+                const height = 30 + (normalizedValue * 170); // 30px minimum, 200px maximum
+                const isSelected = selectedDay === i;
+
+                return (
+                  <Tooltip key={i}>
                     <TooltipTrigger asChild>
-                      <div
-                        className={`absolute bottom-8 w-3 h-3 rounded-full cursor-pointer transition-all duration-200 ${
-                          isSelected ? 'bg-blue-500 shadow-lg' : 'bg-blue-500 hover:bg-blue-600'
-                        }`}
-                        style={{ bottom: `${normalizedHeight}%` }}
-                        onClick={() => handleDayClick(idx)}
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-gray-800 text-white border-gray-700">
-                      <p className="font-medium">${value.toLocaleString()}</p>
-                      <p className="text-xs text-gray-300">{days[idx]} - {value >= 2000 ? 'High' : value >= 1500 ? 'Medium' : 'Low'} Income</p>
-                    </TooltipContent>
-                  </Tooltip>
-                  
-                  {/* Day label with tooltip */}
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <button
-                        onClick={() => handleDayClick(idx)}
-                        className={`text-xs mt-3 w-7 h-7 rounded-full flex items-center justify-center font-medium transition-all duration-200 cursor-pointer ${
-                          isSelected 
-                            ? 'bg-gray-800 text-white shadow-md' 
-                            : 'text-gray-600 bg-gray-100 hover:bg-gray-200'
-                        }`}
+                      <div 
+                        className="flex flex-col items-center gap-1 cursor-pointer"
+                        onClick={() => handleBarClick(i)}
                       >
-                        {days[idx]}
-                      </button>
+                        {isSelected && (
+                          <div className="text-xs font-medium bg-black text-white rounded-full px-2 py-0.5 mb-1">
+                            ${d.amount.toLocaleString()}
+                          </div>
+                        )}
+                        <div
+                          className={cn(
+                            "w-1.5 sm:w-2 rounded-full bg-gradient-to-b from-[#d4d8db] to-[#f0f1f2] hover:opacity-80 transition-opacity",
+                            isSelected && "bg-black ring-2 ring-blue-500"
+                          )}
+                          style={{ height: `${height}px`, minHeight: "30px", maxHeight: "200px" }}
+                        />
+                        <div
+                          className={cn(
+                            "text-xs sm:text-sm text-muted-foreground w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#d7d8da] flex items-center justify-center mt-1",
+                            isSelected && "bg-black text-white"
+                          )}
+                        >
+                          {d.day}
+                        </div>
+                      </div>
                     </TooltipTrigger>
-                    <TooltipContent className="bg-gray-800 text-white border-gray-700">
-                      <p className="font-medium">{days[idx]} - ${value.toLocaleString()}</p>
+                    <TooltipContent>
+                      <p className="font-medium">${d.amount.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">Click to select {d.day}day's data</p>
                     </TooltipContent>
                   </Tooltip>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Summary Section */}
-          <div className="flex items-start">
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-gray-800">+20%</div>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
-                This week's income is higher than last week's
-              </p>
+                );
+              })}
             </div>
-          </div>
-        </CardContent>
-      </Card>
-    </TooltipProvider>
+          </TooltipProvider>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

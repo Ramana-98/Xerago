@@ -19,19 +19,20 @@ const metrics: Metric[] = [
 export default function ProposalProgress() {
   return (
     <Card className="bg-white shadow-sm">
-      <CardHeader className="pb-8 px-2 pt-6">
+      <CardHeader className="pb-6 sm:pb-8 px-2 pt-4 sm:pt-6">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold text-gray-800">
+          <CardTitle className="text-base sm:text-lg font-semibold text-gray-800">
             Proposal Progress
           </CardTitle>
-          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-800">
-            <Calendar className="w-4 h-4 mr-2" />
-            April 11, 2024
-            <ChevronDown className="w-4 h-4 ml-1" />
+          <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-800 text-xs sm:text-sm">
+            <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">April 11, 2024</span>
+            <span className="sm:hidden">Apr 11</span>
+            <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="px-6 pb-6">
+      <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
         <div className="grid grid-cols-3 gap-0">
           {metrics.map((metric, idx) => (
             <div key={idx} className="relative">
@@ -44,19 +45,19 @@ export default function ProposalProgress() {
                 />
               )}
               
-              <div className="px-4 text-center space-y-3">
+              <div className="px-2 sm:px-4 text-center space-y-2 sm:space-y-3">
                 {/* Label */}
-                <div className="text-sm text-gray-500 font-medium">
+                <div className="text-xs sm:text-sm text-gray-500 font-medium">
                   {metric.label}
                 </div>
                 
                 {/* Value */}
-                <div className={`text-2xl font-bold ${metric.color}`}>
+                <div className={`text-xl sm:text-2xl font-bold ${metric.color}`}>
                   {metric.value}
                 </div>
                 
                 {/* Vertical bars */}
-                <div className="flex items-end justify-center gap-1 h-8">
+                <div className="flex items-end justify-center gap-0.5 sm:gap-1 h-6 sm:h-8">
                   {Array.from({ length: 15 }, (_, i) => (
                     <div
                       key={i}

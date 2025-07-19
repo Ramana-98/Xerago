@@ -1,108 +1,209 @@
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardContent,
-  } from "@/components/ui/card";
-  import { Button } from "@/components/ui/button";
-  import { ChevronDown } from "lucide-react";
-  import {
-    LineChart,
-    Line,
-    XAxis,
-    Tooltip,
-    ResponsiveContainer,
-    CartesianGrid,
-  } from "recharts";
+import React, { useState } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ArrowUp, ArrowDown, Settings, FileText, Moon, Code, Palette, Database } from "lucide-react";
+
+interface Project {
+  title: string;
+  status: "Paid" | "Not Paid";
+  rate: string;
+  description?: string;
+  tags?: string[];
+  country?: string;
+  time?: string;
+  icon: "settings" | "file" | "moon" | "code" | "palette" | "database";
+}
+
+const initialProjects: Project[] = [
+  {
+    title: "Web Development Project",
+    status: "Paid",
+    rate: "$10/hour",
+    description: "This project involves implementing both frontend and backend functionalities, as well as integrating with third-party APIs.",
+    tags: ["Remote", "Part-time"],
+    country: "Germany",
+    time: "2h ago",
+    icon: "settings",
+  },
+  {
+    title: "Copyright Project",
+    status: "Not Paid",
+    rate: "$10/hour",
+    icon: "file",
+  },
+  {
+    title: "Web Design Project",
+    status: "Paid",
+    rate: "$10/hour",
+    icon: "moon",
+  },
   
-  const data = [
-    { name: "S", income: 1000 },
-    { name: "M", income: 1800 },
-    { name: "T", income: 2567 },
-    { name: "W", income: 1900 },
-    { name: "T", income: 2200 },
-    { name: "F", income: 1700 },
-    { name: "S", income: 1200 },
-  ];
+];
+
+const additionalProjects: Project[] = [
   
-  const CustomDot = (props: any) => {
-    const { cx, cy, value, index } = props;
-    return (
-      <>
-        <circle cx={cx} cy={cy} r={5} fill="#60A5FA" stroke="white" strokeWidth={2} />
-        <line x1={cx} y1={cy} x2={cx} y2={220} stroke="#E5E7EB" strokeWidth={1} />
-      </>
-    );
-  };
-  
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-gray-900 text-white text-xs px-2 py-1 rounded-md">
-          ${payload[0].value}
-        </div>
-      );
-    }
-    return null;
-  };
-  
-  export default function IncomeTracker() {
-    return (
-      <Card className="h-[320px] bg-white shadow-sm">
-        <CardHeader className="pb-0 px-6 pt-6">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-semibold text-gray-800">
-              Income Tracker
-            </CardTitle>
-            <Button
-              variant="outline"
-              size="sm"
-              className="text-sm text-gray-600 border-gray-200"
-            >
-              Week <ChevronDown className="w-4 h-4 ml-1" />
-            </Button>
-          </div>
-          <p className="text-sm text-gray-500 mt-2">
-            Track changes in income over time and access detailed data on each project and payments received
-          </p>
-        </CardHeader>
-  
-        <CardContent className="px-6 pt-2 pb-4">
-          <div className="flex items-end justify-between mb-2">
-            <div>
-              <p className="text-2xl font-semibold text-gray-800">+20%</p>
-              <p className="text-xs text-gray-500">
-                This week's income is higher than last week's
-              </p>
-            </div>
-          </div>
-          <ResponsiveContainer width="100%" height={140}>
-            <LineChart data={data}>
-              <XAxis
-                dataKey="name"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: "#9CA3AF", fontSize: 12 }}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <CartesianGrid vertical={false} strokeDasharray="3 3" />
-              <Line
-                type="monotone"
-                dataKey="income"
-                stroke="#60A5FA"
-                strokeWidth={2}
-                dot={<CustomDot />}
-                activeDot={{
-                  r: 8,
-                  fill: "#1F2937",
-                  stroke: "white",
-                  strokeWidth: 2,
-                }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-    );
+  {
+    title: "UI/UX Design Project",
+    status: "Not Paid",
+    rate: "$12/hour",
+    description: "Creating comprehensive user interface designs and user experience flows for a fintech application.",
+    tags: ["Remote", "Part-time"],
+    country: "Canada",
+    time: "3h ago",
+    icon: "palette",
+  },
+  {
+    title: "Database Optimization",
+    status: "Paid",
+    rate: "$18/hour",
+    description: "Optimizing database performance and implementing efficient query structures for large-scale applications.",
+    tags: ["Remote", "Contract"],
+    country: "UK",
+    time: "4h ago",
+    icon: "database",
+  },
+  {
+    title: "API Integration Project",
+    status: "Not Paid",
+    rate: "$14/hour",
+    icon: "settings",
+  },
+  {
+    title: "E-commerce Platform",
+    status: "Paid",
+    rate: "$16/hour",
+    icon: "code",
+  },
+];
+
+const getIcon = (icon: string) => {
+  switch (icon) {
+    case "settings":
+      return <Settings className="w-3 h-3 text-gray-600" />;
+    case "file":
+      return <FileText className="w-3 h-3 text-gray-600" />;
+    case "moon":
+      return <Moon className="w-3 h-3 text-gray-600" />;
+    case "code":
+      return <Code className="w-3 h-3 text-gray-600" />;
+    case "palette":
+      return <Palette className="w-3 h-3 text-gray-600" />;
+    case "database":
+      return <Database className="w-3 h-3 text-gray-600" />;
+    default:
+      return <Settings className="w-3 h-3" />;
   }
-  
+};
+
+export default function YourRecentProjects() {
+  const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set([0])); // First project expanded by default
+  const [showAllProjects, setShowAllProjects] = useState(false);
+
+  const toggleProject = (index: number) => {
+    const newExpanded = new Set(expandedProjects);
+    if (newExpanded.has(index)) {
+      newExpanded.delete(index);
+    } else {
+      newExpanded.add(index);
+    }
+    setExpandedProjects(newExpanded);
+  };
+
+  const toggleShowAllProjects = () => {
+    setShowAllProjects(!showAllProjects);
+  };
+
+  const allProjects = showAllProjects ? [...initialProjects, ...additionalProjects] : initialProjects;
+
+  return (
+    <Card className="bg-white shadow-sm h-[400px] flex flex-col">
+      <CardHeader className="pb-2 px-3 sm:px-4 pt-3 sm:pt-4 flex-shrink-0">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-sm sm:text-base font-semibold text-gray-800">
+            Your Recent Projects
+          </CardTitle>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-blue-600 hover:text-blue-700 text-xs"
+            onClick={toggleShowAllProjects}
+          >
+            <span className="hidden sm:inline">{showAllProjects ? "Show Less" : "See all Project"}</span>
+            <span className="sm:hidden">{showAllProjects ? "Less" : "All"}</span>
+            <ArrowUp className={`w-3 h-3 ml-1 transition-transform ${showAllProjects ? 'rotate-180' : ''}`} />
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className="px-2 sm:px-3 pb-4 flex-1 overflow-y-auto scrollbar-hide">
+        <div className="space-y-2 sm:space-y-3">
+          {allProjects.map((proj, idx) => (
+            <div
+              key={idx}
+              className="border border-gray-100 rounded-lg p-2 sm:p-3 space-y-2 hover:shadow-sm transition-shadow bg-gray-50/30"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex items-start gap-2">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded-lg flex items-center justify-center mt-1">
+                    {getIcon(proj.icon)}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-1 sm:gap-2 mb-1">
+                      <p className="font-medium text-xs text-gray-800 truncate">{proj.title}</p>
+                      <span className="text-xs text-gray-500 flex-shrink-0">{proj.rate}</span>
+                    </div>
+                    <Badge
+                      variant={proj.status === "Paid" ? "default" : "outline"}
+                      className={`text-xs ${
+                        proj.status === "Paid" 
+                          ? "bg-gray-800 text-white" 
+                          : "border-gray-300 text-gray-600 bg-gray-50"
+                      }`}
+                    >
+                      {proj.status}
+                    </Badge>
+                  </div>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="ghost" 
+                  className="w-5 h-5 p-0"
+                  onClick={() => toggleProject(idx)}
+                >
+                  {expandedProjects.has(idx) ? (
+                    <ArrowUp className="w-3 h-3 text-gray-600" />
+                  ) : (
+                    <ArrowDown className="w-3 h-3 text-gray-600" />
+                  )}
+                </Button>
+              </div>
+              
+              {/* Expandable content */}
+              {expandedProjects.has(idx) && proj.description && (
+                <p className="text-xs text-gray-500 ml-11">
+                  {proj.description}
+                </p>
+              )}
+              
+              {expandedProjects.has(idx) && proj.tags && (
+                <div className="flex flex-wrap gap-2 ml-11">
+                  {proj.tags.map((tag, i) => (
+                    <Badge key={i} variant="outline" className="text-xs border-gray-200 text-gray-600 bg-gray-50">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              )}
+              
+              {expandedProjects.has(idx) && proj.country && (
+                <p className="text-xs text-gray-500 ml-11">
+                  {proj.country} • {proj.time}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
