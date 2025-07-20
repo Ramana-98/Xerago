@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Plus, ArrowRight, CheckIcon } from "lucide-react";
@@ -12,16 +12,59 @@ interface User {
   role: string;
   level: "Senior" | "Middle";
   avatar: string;
+  avatarUrl: string;
 }
 
 const users: User[] = [
-  { name: "Randy Gouse", role: "Cybersecurity specialist", level: "Senior", avatar: "RG" },
-  { name: "Giana Schleifer", role: "UX/UI Designer", level: "Middle", avatar: "GS" },
-  { name: "Alex Kim", role: "Frontend Developer", level: "Middle", avatar: "AK" },
-  { name: "Priya Patel", role: "Project Manager", level: "Senior", avatar: "PP" },
-  { name: "Liam Smith", role: "Backend Developer", level: "Middle", avatar: "LS" },
-  { name: "Maria Garcia", role: "QA Engineer", level: "Senior", avatar: "MG" },
-  { name: "Chen Wei", role: "DevOps Engineer", level: "Middle", avatar: "CW" },
+  { 
+    name: "Randy Gouse", 
+    role: "Cybersecurity specialist", 
+    level: "Senior", 
+    avatar: "RG",
+    avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+  },
+  { 
+    name: "Giana Schleifer", 
+    role: "UX/UI Designer", 
+    level: "Middle", 
+    avatar: "GS",
+    avatarUrl: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+  },
+  { 
+    name: "Alex Kim", 
+    role: "Frontend Developer", 
+    level: "Middle", 
+    avatar: "AK",
+    avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
+  },
+  { 
+    name: "Priya Patel", 
+    role: "Project Manager", 
+    level: "Senior", 
+    avatar: "PP",
+    avatarUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+  },
+  { 
+    name: "Liam Smith", 
+    role: "Backend Developer", 
+    level: "Middle", 
+    avatar: "LS",
+    avatarUrl: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&h=150&fit=crop&crop=face"
+  },
+  { 
+    name: "Maria Garcia", 
+    role: "QA Engineer", 
+    level: "Senior", 
+    avatar: "MG",
+    avatarUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+  },
+  { 
+    name: "Chen Wei", 
+    role: "DevOps Engineer", 
+    level: "Middle", 
+    avatar: "CW",
+    avatarUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face"
+  },
 ];
 
 export default function LetsConnect() {
@@ -36,7 +79,7 @@ export default function LetsConnect() {
   };
 
   return (
-    <Card className="bg-white shadow-sm flex flex-col h-80"> {/* h-80 = 20rem, adjust as needed */}
+    <Card className="bg-gray-100 shadow-sm flex flex-col h-80 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"> {/* h-80 = 20rem, adjust as needed */}
       <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-6 pt-4 sm:pt-6">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base sm:text-lg font-semibold text-gray-800">
@@ -63,10 +106,15 @@ export default function LetsConnect() {
           {(showAll ? users : users.slice(0, 2)).map((user, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-2 sm:p-3 border border-gray-100 rounded-lg hover:shadow-sm transition-shadow bg-gray-50/50"
+              className="flex items-center justify-between p-2 sm:p-3 border border-gray-100 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-200 bg-gray-50/50"
             >
               <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                 <Avatar className="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0">
+                  <AvatarImage 
+                    src={user.avatarUrl} 
+                    alt={`${user.name} avatar`}
+                    className="object-cover"
+                  />
                   <AvatarFallback className="bg-gray-200 text-gray-700 font-medium text-xs sm:text-sm">
                     {user.avatar}
                   </AvatarFallback>

@@ -11,7 +11,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
-const data = [
+// Data for different time periods
+const weekData = [
   { day: "S", amount: 1200 },
   { day: "M", amount: 1800 },
   { day: "T", amount: 2567 },
@@ -21,17 +22,88 @@ const data = [
   { day: "S", amount: 1500 },
 ];
 
-const maxAmount = Math.max(...data.map((d) => d.amount));
+const monthData = [
+  { day: "W1", amount: 8500 },
+  { day: "W2", amount: 9200 },
+  { day: "W3", amount: 7800 },
+  { day: "W4", amount: 10500 },
+];
+
+const yearData = [
+  { day: "Jan", amount: 32000 },
+  { day: "Feb", amount: 28000 },
+  { day: "Mar", amount: 35000 },
+  { day: "Apr", amount: 42000 },
+  { day: "May", amount: 38000 },
+  { day: "Jun", amount: 45000 },
+  { day: "Jul", amount: 41000 },
+  { day: "Aug", amount: 48000 },
+  { day: "Sep", amount: 44000 },
+  { day: "Oct", amount: 52000 },
+  { day: "Nov", amount: 47000 },
+  { day: "Dec", amount: 55000 },
+];
+
+type TimePeriod = 'week' | 'month' | 'year';
 
 export default function IncomeTracker() {
-  const [selectedDay, setSelectedDay] = useState<number | null>(2); // Default to Tuesday (index 2)
+  const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>('week');
+  const [selectedDay, setSelectedDay] = useState<number | null>(5); // Default to Tuesday (index 2)
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const getCurrentData = () => {
+    switch (selectedPeriod) {
+      case 'week':
+        return weekData;
+      case 'month':
+        return monthData;
+      case 'year':
+        return yearData;
+      default:
+        return weekData;
+    }
+  };
+
+  const getSummaryText = () => {
+    switch (selectedPeriod) {
+      case 'week':
+        return "This week's income is higher than last week's";
+      case 'month':
+        return "This month's income is higher than last month's";
+      case 'year':
+        return "This year's income is higher than last year's";
+      default:
+        return "This week's income is higher than last week's";
+    }
+  };
+
+  const getSummaryPercentage = () => {
+    switch (selectedPeriod) {
+      case 'week':
+        return "+20%";
+      case 'month':
+        return "+15%";
+      case 'year':
+        return "+25%";
+      default:
+        return "+20%";
+    }
+  };
 
   const handleBarClick = (index: number) => {
     setSelectedDay(selectedDay === index ? null : index);
   };
 
+  const handlePeriodChange = (period: TimePeriod) => {
+    setSelectedPeriod(period);
+    setSelectedDay(null); // Reset selection when changing period
+    setIsPopoverOpen(false);
+  };
+
+  const currentData = getCurrentData();
+
   return (
-    <Card className="rounded-2xl bg-[#f7f8f9] p-3 sm:p-4 w-full h-100">
+    <Card className="rounded-2xl bg-[#f7f8f9] p-3 sm:p-4 w-full h-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
       <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-2 gap-1 sm:gap-0">
         <div className="w-full sm:w-auto">
           <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
@@ -43,43 +115,70 @@ export default function IncomeTracker() {
           </p>
         </div>
 
-        <Popover>
+        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               className="rounded-full px-3 sm:px-4 py-1 text-xs sm:text-sm w-full sm:w-auto"
             >
-              Week
+              {selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)}
               <ChevronDown className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-32 sm:w-40 p-2">
-            <p className="text-xs sm:text-sm text-muted-foreground">Week Selector</p>
-            {/* You can add Calendar component here */}
+            <div className="space-y-1">
+              <button
+                onClick={() => handlePeriodChange('week')}
+                className={cn(
+                  "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
+                  selectedPeriod === 'week' && "bg-blue-50 text-blue-600 font-medium"
+                )}
+              >
+                Week
+              </button>
+              <button
+                onClick={() => handlePeriodChange('month')}
+                className={cn(
+                  "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
+                  selectedPeriod === 'month' && "bg-blue-50 text-blue-600 font-medium"
+                )}
+              >
+                Month
+              </button>
+              <button
+                onClick={() => handlePeriodChange('year')}
+                className={cn(
+                  "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
+                  selectedPeriod === 'year' && "bg-blue-50 text-blue-600 font-medium"
+                )}
+              >
+                Year
+              </button>
+            </div>
           </PopoverContent>
         </Popover>
       </CardHeader>
 
-      <CardContent className="mt-0 sm:mt-0">
+      <CardContent className="mt-0 sm:mt-0 pb-2 sm:pb-4">
         {/* Left Stat for mobile only */}
         <div className="block sm:hidden mb-0 text-center">
-          <p className="text-base font-semibold">+20%</p>
-          <p className="text-xs text-muted-foreground">This week’s income is higher than last week’s</p>
+          <p className="text-base font-semibold">{getSummaryPercentage()}</p>
+          <p className="text-xs text-muted-foreground">{getSummaryText()}</p>
         </div>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 sm:gap-4 h-48 sm:h-62 w-full">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 sm:gap-4 min-h-48 sm:h-62 w-full">
           {/* Left Stat for desktop only */}
           <div className="hidden sm:block text-center md:text-left mb-10 sm:mb-0">
-            <p className="text-2xl lg:text-3xl font-semibold">+20%</p>
-            <p className="text-sm text-muted-foreground">This week’s income is higher than last week’s</p>
+            <p className="text-2xl lg:text-3xl font-semibold">{getSummaryPercentage()}</p>
+            <p className="text-sm text-muted-foreground">{getSummaryText()}</p>
           </div>
 
           {/* Vertical Bar Chart */}
           <TooltipProvider>
-            <div className="flex justify-between items-end w-full max-w-xl mx-auto gap-1 sm:gap-2 lg:gap-3 overflow-hidden px-1 sm:px-0">
-              {data.map((d, i) => {
+            <div className="flex justify-between items-end w-full max-w-xl mx-auto gap-1 sm:gap-2 lg:gap-3 overflow-hidden px-1 sm:px-0 min-h-0">
+              {currentData.map((d, i) => {
                 // Enhanced height calculation with more dramatic range
-                const normalizedValue = (d.amount - Math.min(...data.map(item => item.amount))) / (Math.max(...data.map(item => item.amount)) - Math.min(...data.map(item => item.amount)));
-                const height = 30 + (normalizedValue * 170); // 30px minimum, 200px maximum
+                const normalizedValue = (d.amount - Math.min(...currentData.map(item => item.amount))) / (Math.max(...currentData.map(item => item.amount)) - Math.min(...currentData.map(item => item.amount)));
+                const height = 20 + (normalizedValue * 120); // 20px minimum, 140px maximum for better mobile fit
                 const isSelected = selectedDay === i;
 
                 return (
@@ -99,7 +198,7 @@ export default function IncomeTracker() {
                             "w-1.5 sm:w-2 rounded-full bg-gradient-to-b from-[#d4d8db] to-[#f0f1f2] hover:opacity-80 transition-opacity",
                             isSelected && "bg-black ring-2 ring-blue-500"
                           )}
-                          style={{ height: `${height}px`, minHeight: "30px", maxHeight: "200px" }}
+                          style={{ height: `${height}px`, minHeight: "20px", maxHeight: "140px" }}
                         />
                         <div
                           className={cn(

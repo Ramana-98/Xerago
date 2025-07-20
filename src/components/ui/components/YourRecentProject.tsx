@@ -117,7 +117,7 @@ export default function YourRecentProjects() {
   const allProjects = showAllProjects ? [...initialProjects, ...additionalProjects] : initialProjects;
 
   return (
-    <Card className="bg-white shadow-sm h-[400px] flex flex-col">
+    <Card className="bg-gray-100 shadow-sm h-[400px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
       <CardHeader className="pb-2 px-3 sm:px-4 pt-3 sm:pt-4 flex-shrink-0">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm sm:text-base font-semibold text-gray-800">
@@ -140,7 +140,7 @@ export default function YourRecentProjects() {
           {allProjects.map((proj, idx) => (
             <div
               key={idx}
-              className="border border-gray-100 rounded-lg p-2 sm:p-3 space-y-2 hover:shadow-sm transition-shadow bg-gray-50/30"
+              className="border border-gray-100 rounded-lg p-2 sm:p-3 space-y-2 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 bg-gray-50/30"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-2">
@@ -188,7 +188,17 @@ export default function YourRecentProjects() {
               {expandedProjects.has(idx) && proj.tags && (
                 <div className="flex flex-wrap gap-2 ml-11">
                   {proj.tags.map((tag, i) => (
-                    <Badge key={i} variant="outline" className="text-xs border-gray-200 text-gray-600 bg-gray-50">
+                    <Badge 
+                      key={i} 
+                      variant="outline" 
+                      className={`text-xs ${
+                        tag === "Remote" 
+                          ? "border-red-200 text-red-700 bg-red-50" 
+                          : tag === "Part-time"
+                          ? "border-blue-200 text-blue-700 bg-blue-50"
+                          : "border-gray-200 text-gray-600 bg-gray-50"
+                      }`}
+                    >
                       {tag}
                     </Badge>
                   ))}

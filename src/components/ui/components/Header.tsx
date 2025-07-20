@@ -65,7 +65,10 @@ export default function Header() {
         
         {/* Avatar (visible on all screens) */}
         <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
-          <AvatarImage src="/placeholder-avatar.jpg" alt="User" />
+          <AvatarImage 
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" 
+            alt="User Profile" 
+          />
           <AvatarFallback className="bg-blue-600 text-white font-semibold text-sm">
             U
           </AvatarFallback>
