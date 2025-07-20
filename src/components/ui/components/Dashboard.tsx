@@ -8,11 +8,13 @@ import YourRecentProjects from "./YourRecentProject";
 import Settings from "./Settings";
 import { NotificationsDropdown } from "./Notification";
 import Messages from "./Messages";
+import Discover from "./Discover";
 
 export default function Dashboard() {
   const [showSettings, setShowSettings] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
+  const [showDiscover, setShowDiscover] = useState(false);
 
   if (showSettings) {
     return (
@@ -22,7 +24,9 @@ export default function Dashboard() {
             className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
             onClick={() => setShowSettings(false)}
           >
-            Back to Dashboard
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
           </button>
         </div>
         <Settings />
@@ -38,7 +42,9 @@ export default function Dashboard() {
             className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
             onClick={() => setShowNotifications(false)}
           >
-            Back to Dashboard
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M15 18l-6-6 6-6"/>
+            </svg>
           </button>
         </div>
         <NotificationsDropdown />
@@ -49,15 +55,16 @@ export default function Dashboard() {
   if (showMessages) {
     return (
       <div className="min-h-screen bg-gray-200">
-        <div className="flex justify-end p-4">
-          <button
-            className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
-            onClick={() => setShowMessages(false)}
-          >
-            Back to Dashboard
-          </button>
-        </div>
+        
         <Messages />
+      </div>
+    );
+  }
+
+  if (showDiscover) {
+    return (
+      <div className="min-h-screen bg-gray-200">
+        <Discover onBack={() => setShowDiscover(false)} />
       </div>
     );
   }
@@ -69,6 +76,7 @@ export default function Dashboard() {
         onOpenSettings={() => setShowSettings(true)}
         onOpenNotifications={() => setShowNotifications(true)}
         onOpenMessages={() => setShowMessages(true)}
+        onOpenDiscover={() => setShowDiscover(true)}
       />
       {/* Main Dashboard Content */}
       <main className="container mx-auto px-4 sm:px-6 py-6 lg:py-8">

@@ -61,7 +61,7 @@ export default function ProposalProgress() {
   const currentMetrics = getRandomMetricsForDate(selectedDate);
 
   return (
-    <Card className="bg-white shadow-sm rounded-2xl flex flex-col h-80 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+    <Card className="bg-white shadow-sm rounded-2xl flex flex-col h-80 hover:shadow-lg hover:bg-amber-200 hover:-translate-y-1 transition-all duration-200">
       <CardHeader className="pb-2 sm:pb-8 px-6 pt-4 sm:pt-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base sm:text-lg font-semibold text-gray-900">

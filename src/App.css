@@ -49,3 +49,19 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
 }
+
+button, [role="button"], .btn, .button {
+  cursor: pointer;
+}
+
+.back-btn {
+  background: #1a202c; /* or your color */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  /* Add hover/focus styles as needed */
+}

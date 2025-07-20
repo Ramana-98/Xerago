@@ -75,9 +75,21 @@ export default function Messages() {
       {/* Sidebar/Contacts */}
       {( !mobileChatOpen || window.innerWidth >= 640 ) && (
         <div className="w-full sm:w-80 bg-white border-r flex-shrink-0 flex flex-col">
-          <div className="p-4 border-b flex items-center gap-2">
-            <span className="font-bold text-lg flex-1">Messages</span>
-            <Button variant="ghost" size="icon"><Plus className="w-5 h-5" /></Button>
+          <div className="p-4 border-b flex flex-col gap-2">
+            <button
+              className="back-btn self-start mb-2"
+              aria-label="Back to Dashboard"
+              onClick={() => {
+                // Replace with your navigation logic, e.g., navigate("/dashboard")
+                window.location.href = "/"; // or use your router
+              }}
+            >
+              ←
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-lg flex-1">Messages</span>
+              <Button variant="ghost" size="icon"><Plus className="w-5 h-5" /></Button>
+            </div>
           </div>
           <div className="p-2">
             <Input

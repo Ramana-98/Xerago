@@ -71,7 +71,6 @@ export default function LetsConnect() {
   const [connected, setConnected] = useState<boolean[]>(users.map(() => false));
   const [popoverOpen, setPopoverOpen] = useState<number | null>(null);
   const [showAll, setShowAll] = useState(false);
-
   const handleConnect = (idx: number) => {
     setConnected((prev) => prev.map((val, i) => (i === idx ? true : val)));
     setPopoverOpen(idx);

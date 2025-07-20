@@ -13,9 +13,10 @@ interface HeaderProps {
   onOpenSettings?: () => void;
   onOpenNotifications?: () => void;
   onOpenMessages?: () => void;
+  onOpenDiscover?: () => void;
 }
 
-export default function Header({ onOpenSettings, onOpenNotifications, onOpenMessages }: HeaderProps) {
+export default function Header({ onOpenSettings, onOpenNotifications, onOpenMessages, onOpenDiscover }: HeaderProps) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
   const [isEditing, setIsEditing] = React.useState(false);
@@ -175,17 +176,35 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         </button>
         {/* Logo */}
         <div className="font-bold text-xl text-orange-600 flex items-center">
-          <span className="mr-2">{/* Logo SVG or image here */}</span>
-          TWISTY
+          {/* Letter logo */}
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 36,
+              height: 36,
+              background: '#F44A1A', // or your brand color
+              color: '#fff',
+              borderRadius: '40% 60% 60% 40% / 60% 40% 60% 40%', // for an organic shape
+              fontWeight: 'bold',
+              fontSize: 24,
+              marginRight: 8,
+              boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+            }}
+          >
+            R
+          </span>
+          RAMZZ
         </div>
       </div>
       {/* Nav Items (hidden on small screens) */}
       <div className="hidden sm:flex gap-6">
         <a href="#" className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray/50">Home</a>
         <button className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-300/50" onClick={onOpenMessages}>Messages</button>
-        <a href="#" className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray/50">Discover</a>
+        <button className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-50" onClick={onOpenDiscover}>Discover</button>
         <a href="#" className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-300/50">Wallet</a>
-        <a href="#" className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray/50">Projects</a>
+        <a href="#" className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-50">Projects</a>
       </div>
       {/* Right side icons */}
       <div className="flex items-center gap-4">
@@ -613,7 +632,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             </button>
             <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><Home className="w-5 h-5" /> Home</a>
             <button className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={onOpenMessages}><MessageCircle className="w-5 h-5" /> Messages</button>
-            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><Compass className="w-5 h-5" /> Discover</a>
+            <button className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => { onOpenDiscover?.(); setSidebarOpen(false); }}><Compass className="w-5 h-5" /> Discover</button>
             <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><WalletIcon className="w-5 h-5" /> Wallet</a>
             <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><Folder className="w-5 h-5" /> Projects</a>
             {/* Settings and Bell icons (only on small screens) */}
