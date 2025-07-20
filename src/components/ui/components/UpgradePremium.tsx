@@ -11,7 +11,7 @@ export default function UpgradePremium() {
     setTimeout(() => setPopoverOpen(false), 3000); // Auto-close after 3s
   };
   return (
-    <Card className="bg-gray-300 text-black hover:bg-[#e2e2ee] rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+    <Card className="bg-gray-300 text-black hover:bg-gray-500 rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
       {/* Dotted background pattern */}
       <div className="absolute inset-0 opacity-40 pointer-events-none">
         <div

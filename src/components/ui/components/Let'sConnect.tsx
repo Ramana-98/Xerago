@@ -79,7 +79,7 @@ export default function LetsConnect() {
   };
 
   return (
-    <Card className="bg-gray-100 shadow-sm flex flex-col h-80 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"> {/* h-80 = 20rem, adjust as needed */}
+    <Card className="bg-gray-200 shadow-sm flex flex-col h-80 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"> {/* h-80 = 20rem, adjust as needed */}
       <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-6 pt-4 sm:pt-6">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base sm:text-lg font-semibold text-gray-800">

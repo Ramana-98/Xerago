@@ -117,7 +117,7 @@ export default function YourRecentProjects() {
   const allProjects = showAllProjects ? [...initialProjects, ...additionalProjects] : initialProjects;
 
   return (
-    <Card className="bg-gray-100 shadow-sm h-[400px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+    <Card className="bg-gray-200 shadow-sm h-[400px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
       <CardHeader className="pb-2 px-3 sm:px-4 pt-3 sm:pt-4 flex-shrink-0">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm sm:text-base font-semibold text-gray-800">
