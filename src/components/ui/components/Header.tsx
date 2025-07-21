@@ -9,6 +9,7 @@ import { NotificationsDropdown } from "./Notification";
 import { Calendar } from "@/components/ui/calendar";
 
 
+
 interface HeaderProps {
   onOpenSettings?: () => void;
   onOpenNotifications?: () => void;
@@ -45,6 +46,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
   const [dob, setDob] = useState<Date | undefined>();
   const [sidebarWidth, setSidebarWidth] = useState(260); // default width in px
   const [isResizing, setIsResizing] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     function handleMouseMove(e: MouseEvent) {
@@ -93,14 +95,6 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
       ...prev,
       [field]: value
     }));
-  };
-
-  const handleLogout = () => {
-    setShowLogoutAlert(true);
-  };
-
-  const handleLogoutCancel = () => {
-    setShowLogoutAlert(false);
   };
 
   const handleSignInOut = () => {
@@ -242,6 +236,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
       </div>
       {/* Right side icons */}
       <div className="flex items-center gap-4">
+        
         {/* Search bar (only on small screens) */}
         <div className="relative block sm:hidden">
           <Input
@@ -549,7 +544,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={handleLogoutCancel}
+                    onClick={() => setShowLogoutAlert(false)}
                     className="flex-1"
                   >
                     No
