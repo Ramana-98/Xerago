@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { toast } from "sonner";
 
 export default function UpgradePremium() {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
@@ -11,7 +12,7 @@ export default function UpgradePremium() {
     setTimeout(() => setPopoverOpen(false), 3000); // Auto-close after 3s
   };
   return (
-    <Card className="bg-gray-300 text-black hover:bg-gray-500 rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+    <Card className="bg-gray-300 text-black hover:bg-sky-300 rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
       {/* Dotted background pattern */}
       <div className="absolute inset-0 opacity-40 pointer-events-none">
         <div
@@ -58,9 +59,21 @@ export default function UpgradePremium() {
             </div>
             <div className="mt-3">
               <input className="w-full rounded border px-2 py-1 mb-2 text-sm" placeholder="Promo code (optional)" disabled />
-              <button className="w-full bg-blue-600 text-white rounded-full py-2 font-semibold text-base cursor-pointer opacity-90 hover:opacity-100 transition disabled:opacity-60" disabled>
+              <Button
+                className="w-full bg-blue-600 hover:bg-blue-700"
+                onClick={() => {
+                  toast("Are you sure you want to pay?", {
+                    action: {
+                      label: "Undo",
+                      onClick: () => {
+                        toast("Payment cancelled");
+                      }
+                    }
+                  });
+                }}
+              >
                 Pay with Card
-              </button>
+              </Button>
             </div>
           </PopoverContent>
         </Popover>

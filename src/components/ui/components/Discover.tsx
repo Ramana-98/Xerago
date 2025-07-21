@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Heart } from "lucide-react";
+import { Carousel, CarouselItem, CarouselContent, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 
 type DiscoverProps = {
   onBack?: () => void;
@@ -101,20 +102,53 @@ const projects = [
   },
 ];
 
+const carouselItems = [
+  {
+    title: "Trending: Frontend Dashboard for SaaS App",
+    description: "High demand for React/Tailwind developers!",
+  },
+  {
+    title: "Recommended: Design Projects",
+    description: "UI/UX and branding projects are hot right now.",
+  },
+  {
+    title: "Spotlight: Jane Smith",
+    description: "Top-rated freelancer in Web Development.",
+  },
+];
+
 export default function Discover({ onBack }: DiscoverProps) {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
   // Filter logic here...
-  const filteredProjects = activeCategory === "All"
-    ? projects
-    : projects.filter(p => p.category === activeCategory);
+  const filteredProjects = projects.filter(p =>
+    p.title.toLowerCase().includes(search.toLowerCase())
+    && (activeCategory === "All" || p.category === activeCategory)
+  );
 
   const featuredProjects = filteredProjects.filter(p => p.featured);
   const regularProjects = filteredProjects.filter(p => !p.featured);
 
   return (
     <div className="p-2 sm:p-4 md:p-6 bg-gray-100 min-h-screen">
+      <Carousel className="w-full max-w-2xl mx-auto mb-6 relative">
+        {/* Add extra horizontal padding to make space for arrows */}
+        <div className="relative px-8">
+          <CarouselContent>
+            {carouselItems.map((item, idx) => (
+              <CarouselItem key={idx} className="p-2">
+                <div className="bg-blue-50 rounded-lg shadow flex flex-col items-start p-4 min-h-[80px]">
+                  <h3 className="font-bold text-lg mb-1">{item.title}</h3>
+                  <p className="text-sm text-gray-700">{item.description}</p>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
+          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+        </div>
+      </Carousel>
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 mb-6">
         <div className="flex items-center gap-2">
@@ -136,12 +170,24 @@ export default function Discover({ onBack }: DiscoverProps) {
           >
             ←
           </button>
-          <Input
-            placeholder="Search projects..."
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="flex-1 min-w-[120px]"
-          />
+          <div className="relative flex-1 min-w-[120px]">
+            <Input
+              placeholder="Search projects..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="w-full"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                aria-label="Clear search"
+              >
+                ×
+              </button>
+            )}
+          </div>
         </div>
         <div className="flex gap-2 flex-wrap justify-start sm:justify-end">
           {categories.map(cat => (

@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { User, Search, Star, Archive, Plus, CheckCircle, Circle } from "lucide-react";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 // Mock data
 const contacts = [
@@ -78,6 +80,10 @@ export default function Messages() {
   );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [mobileChatOpen, setMobileChatOpen] = useState(false);
+  const [newMessageOpen, setNewMessageOpen] = useState(false);
+  const [recipient, setRecipient] = useState("");
+  const [subject, setSubject] = useState("");
+  const [messageBody, setMessageBody] = useState("");
 
   // Scroll to bottom on new message
   useEffect(() => {
@@ -123,17 +129,76 @@ export default function Messages() {
             </button>
             <div className="flex items-center gap-2">
               <span className="font-bold text-lg flex-1">Messages</span>
-              <Button variant="ghost" size="icon" className="hover:scale-105 hover:shadow-md transition-all duration-200"><Plus className="w-5 h-5" /></Button>
+              <Dialog open={newMessageOpen} onOpenChange={setNewMessageOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="icon" className="hover:scale-105 hover:shadow-md transition-all duration-200"><Plus className="w-5 h-5" /></Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>New Message</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-3">
+                    <Input
+                      placeholder="Recipient name"
+                      value={recipient}
+                      onChange={e => setRecipient(e.target.value)}
+                    />
+                    <Input
+                      placeholder="Subject or Project (optional)"
+                      value={subject}
+                      onChange={e => setSubject(e.target.value)}
+                    />
+                    <Textarea
+                      placeholder="Type your message..."
+                      value={messageBody}
+                      onChange={e => setMessageBody(e.target.value)}
+                      className="min-h-[80px]"
+                    />
+                  </div>
+                  <DialogFooter className="mt-4 flex gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => setNewMessageOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        // Here you would handle sending the message
+                        setNewMessageOpen(false);
+                        setRecipient("");
+                        setSubject("");
+                        setMessageBody("");
+                      }}
+                      disabled={!recipient.trim() || !messageBody.trim()}
+                    >
+                      Send
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
           <div className="p-2 ">
-            <Input
-              placeholder="Search messages..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="mb-2"
-              style={{ backgroundColor: "white", }}
-            />
+            <div className="relative">
+              <Input
+                placeholder="Search messages..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                className="mb-2"
+                style={{ backgroundColor: "white", }}
+              />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setSearch("")}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  aria-label="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </div>
             <div className="flex gap-2 mb-2">
               {filters.map((f) => (
                 <Button

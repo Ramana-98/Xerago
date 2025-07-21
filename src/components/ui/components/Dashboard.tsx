@@ -10,6 +10,8 @@ import { NotificationsDropdown } from "./Notification";
 import Messages from "./Messages";
 import Discover from "./Discover";
 import WalletPage from "./WalletPage";
+import ProjectsPage from "./ProjectsPage";
+import { Toaster } from "sonner";
 
 export default function Dashboard() {
   const [showSettings, setShowSettings] = useState(false);
@@ -17,7 +19,7 @@ export default function Dashboard() {
   const [showMessages, setShowMessages] = useState(false);
   const [showDiscover, setShowDiscover] = useState(false);
   const [showWallet, setShowWallet] = useState(false);
-
+  const [showProjects, setShowProjects] = useState(false);
   if (showSettings) {
     return (
       <div className="min-h-screen bg-gray-200">
@@ -89,6 +91,14 @@ export default function Dashboard() {
     );
   }
 
+  if (showProjects) {
+    return (
+      <div className="min-h-screen bg-gray-200">
+        <ProjectsPage onBack={() => setShowProjects(false)} />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-200">
       {/* Row 1: Header */}
@@ -98,9 +108,10 @@ export default function Dashboard() {
         onOpenMessages={() => setShowMessages(true)}
         onOpenDiscover={() => setShowDiscover(true)}
         onOpenWallet={() => setShowWallet(true)}
+        onOpenProjects={() => setShowProjects(true)}
       />
       {/* Main Dashboard Content */}
-      <main className="container mx-auto px-4 sm:px-6 py-6 lg:py-8">
+      <main className="w-full px-4 sm:px-6 py-6 lg:py-8 max-w-[1400px] mx-auto">
         {/* Main Grid Layout: Left (2/3) + Right (1/3) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Section - 2/3 width */}
@@ -126,6 +137,7 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
+      <Toaster />
     </div>
   );
 }

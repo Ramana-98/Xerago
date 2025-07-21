@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Search, Settings, Menu, X, Home, MessageCircle, Compass, Wallet as WalletIcon, Folder, User, LogOut, Check, Camera, Image, Bell } from "lucide-react";
 import { NotificationsDropdown } from "./Notification";
-
+import { Calendar } from "@/components/ui/calendar";
 
 
 interface HeaderProps {
@@ -15,9 +15,10 @@ interface HeaderProps {
   onOpenMessages?: () => void;
   onOpenDiscover?: () => void;
   onOpenWallet?: () => void;
+  onOpenProjects?: () => void;
 }
 
-export default function Header({ onOpenSettings, onOpenNotifications, onOpenMessages, onOpenDiscover, onOpenWallet }: HeaderProps) {
+export default function Header({ onOpenSettings, onOpenNotifications, onOpenMessages, onOpenDiscover, onOpenWallet, onOpenProjects }: HeaderProps) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
   const [isEditing, setIsEditing] = React.useState(false);
@@ -41,6 +42,28 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
     email: "",
     password: ""
   });
+  const [dob, setDob] = useState<Date | undefined>();
+  const [sidebarWidth, setSidebarWidth] = useState(260); // default width in px
+  const [isResizing, setIsResizing] = useState(false);
+
+  useEffect(() => {
+    function handleMouseMove(e: MouseEvent) {
+      if (isResizing) {
+        setSidebarWidth(Math.min(Math.max(e.clientX, 180), 400)); // clamp between 180 and 400px
+      }
+    }
+    function handleMouseUp() {
+      setIsResizing(false);
+    }
+    if (isResizing) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isResizing]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -210,7 +233,12 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         >
           Wallet
         </button>
-        <a href="#" className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-50">Projects</a>
+        <button
+          className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-50"
+          onClick={onOpenProjects}
+        >
+          Projects
+        </button>
       </div>
       {/* Right side icons */}
       <div className="flex items-center gap-4">
@@ -603,6 +631,30 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                       required
                     />
                   </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="dob" className="text-sm font-medium text-gray-700">
+                      Date of Birth
+                    </Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={"w-full justify-start text-left font-normal" + (!dob ? " text-muted-foreground" : "")}
+                        >
+                          {dob ? dob.toLocaleDateString() : "Pick a date"}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <Calendar
+                          mode="single"
+                          selected={dob}
+                          onSelect={setDob}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
                   
                   <Button
                     type="submit"
@@ -627,8 +679,15 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
 
       {/* Sidebar Drawer (only on small screens) */}
       {sidebarOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex">
-          <div className="w-64 bg-white h-full shadow-lg p-6 flex flex-col items-start">
+        <div
+          className="fixed inset-0 z-50 bg-black bg-opacity-40 flex"
+          style={{ touchAction: "none" }}
+        >
+          <div
+            className="bg-white h-full shadow-lg p-6 flex flex-col items-start relative"
+            style={{ width: sidebarWidth, minWidth: 180, maxWidth: 400 }}
+          >
+            {/* Sidebar content here */}
             <button
               className="mb-6 ml-auto"
               onClick={() => setSidebarOpen(false)}
@@ -645,11 +704,11 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             >
               <WalletIcon className="w-5 h-5" /> Wallet
             </button>
-            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => setSidebarOpen(false)}><Folder className="w-5 h-5" /> Projects</a>
+            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3" onClick={() => { onOpenProjects?.(); setSidebarOpen(false); }}><Folder className="w-5 h-5" /> Projects</a>
             {/* Settings and Bell icons (only on small screens) */}
             <div className="sm:hidden mt-4 pt-4 border-t border-gray-200">
               <button
-                className="flex items-center gap-3 px-4 py-2 w-full"
+                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left hover:text-blue-600"
                 onClick={() => {
                   onOpenSettings?.();
                   setSidebarOpen(false);
@@ -659,7 +718,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                 Settings
               </button>
               <button
-                className="flex items-center gap-3 px-4 py-2 w-full"
+                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left hover:text-blue-600"
                 onClick={() => {
                   onOpenNotifications?.();
                   setSidebarOpen(false);
@@ -669,6 +728,12 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                 Notifications
               </button>
             </div>
+            {/* Drag handle */}
+            <div
+              className="absolute top-0 right-0 h-full w-3 cursor-ew-resize bg-gray-200 opacity-50 hover:opacity-100"
+              onMouseDown={() => setIsResizing(true)}
+              style={{ zIndex: 10 }}
+            />
           </div>
           {/* Click outside to close */}
           <div className="flex-1" onClick={() => setSidebarOpen(false)} />

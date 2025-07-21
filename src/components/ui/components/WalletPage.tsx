@@ -28,11 +28,12 @@ const paymentSchedule = [
 export default function Dashboard() {
   const [showWallet, setShowWallet] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [uplift, setUplift] = useState(false);
   // Add state for linked accounts, settings, etc.
 
   if (showWallet) {
     return (
-      <div className="min-h-screen bg-gray-200">
+      <div className="min-h-screen bg-gray-200 ">
         <div className="flex justify-end p-4">
           <button
             className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700"
@@ -51,7 +52,12 @@ export default function Dashboard() {
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       {/* Account Balance */}
-      <Card>
+      <Card
+        onClick={() => setUplift((prev) => !prev)}
+        className={`transition-all duration-300 cursor-pointer ${
+          uplift ? "shadow-2xl -translate-y-4 scale-105" : "shadow"
+        }`}
+      >
         <CardHeader>Account Balance</CardHeader>
         <CardContent className="flex gap-8">
           <div>
