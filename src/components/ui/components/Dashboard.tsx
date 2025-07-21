@@ -6,7 +6,7 @@ import ProposalProgress from "./ProposalProgress";
 import UpgradePremium from "./UpgradePremium";
 import YourRecentProjects from "./YourRecentProject";
 import Settings from "./Settings";
-import { NotificationsDropdown } from "./Notification";
+import { NotificationsDropdown }   from "./Notification";
 import Messages from "./Messages";
 import Discover from "./Discover";
 import WalletPage from "./WalletPage";

@@ -5,9 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { Check, Trash2, LogOut, Upload, Eye, EyeOff, CreditCard, Bell, Globe, Moon, Sun, User, Lock, FileText, AlertTriangle } from "lucide-react";
+
+import { Trash2, LogOut,  Eye, EyeOff, CreditCard, Bell, Globe, Moon, Sun, User, Lock, FileText, AlertTriangle } from "lucide-react";
 
 function showToast(message: string) {
   alert(message); // Replace with a real toast in your app
@@ -70,8 +69,9 @@ export default function Settings() {
                   accept="image/*"
                   className="block text-xs"
                   onChange={e => {
-                    if (e.target.files && e.target.files[0]) {
-                      setProfile(p => ({ ...p, photo: URL.createObjectURL(e.target.files[0]) }));
+                    const files = e.target?.files;
+                    if (files && files[0]) {
+                      setProfile(p => ({ ...p, photo: URL.createObjectURL(files[0]) }));
                       showToast("Profile photo updated!");
                     }
                   }}
