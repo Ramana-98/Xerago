@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Heart } from "lucide-react";
 import { Carousel, CarouselItem, CarouselContent, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import axios from "axios";
+import { useEffect } from "react";
 
 type DiscoverProps = {
   onBack?: () => void;
@@ -120,6 +126,20 @@ const carouselItems = [
 export default function Discover({ onBack }: DiscoverProps) {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [savedProjects, setSavedProjects] = useState<Set<string | number>>(() => {
+    // Load from localStorage if available
+    const saved = localStorage.getItem("savedProjects");
+    return saved ? new Set(JSON.parse(saved)) : new Set();
+  });
+
+  // Sync savedProjects to localStorage
+  useEffect(() => {
+    localStorage.setItem("savedProjects", JSON.stringify(Array.from(savedProjects)));
+  }, [savedProjects]);
 
   // Filter logic here...
   const filteredProjects = projects.filter(p =>
@@ -130,15 +150,126 @@ export default function Discover({ onBack }: DiscoverProps) {
   const featuredProjects = filteredProjects.filter(p => p.featured);
   const regularProjects = filteredProjects.filter(p => !p.featured);
 
+  // Handler to open dialog
+  const handleApply = (project: Project) => {
+    setSelectedProject(project);
+    setDialogOpen(true);
+  };
+
+  // Toggle save/unsave
+  const handleToggleSave = async (project: Project) => {
+    const isSaved = savedProjects.has(project.id);
+    const updated = new Set(savedProjects);
+    if (isSaved) {
+      updated.delete(project.id);
+      setSavedProjects(updated);
+      toast("Removed from favorites");
+      // Optionally notify backend
+      // await axios.post("/api/unsave", { projectId: project.id });
+    } else {
+      updated.add(project.id);
+      setSavedProjects(updated);
+      toast.success("Project saved to favorites");
+      // Optionally notify backend
+      // await axios.post("/api/save", { projectId: project.id });
+    }
+  };
+
+  // Handle form field changes
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // Handle form submit
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    // Show submitting toast with current time
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    const toastId = toast.loading(`Submitting... (${timeString})`);
+
+    try {
+      // Replace with your API endpoint
+      await axios.post("/api/apply", {
+        projectId: selectedProject?.id,
+        projectTitle: selectedProject?.title,
+        ...form,
+      });
+      toast.success("Application submitted successfully!", { id: toastId });
+      setDialogOpen(false);
+      setForm({ name: "", email: "", message: "" });
+    } catch (err) {
+      toast.error("Failed to submit application.", { id: toastId });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <div className="p-2 sm:p-4 md:p-6 bg-gray-100 min-h-screen">
+      {/* Dialog Modal for Apply Now */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Apply for Project</DialogTitle>
+            <DialogDescription>
+              {selectedProject ? selectedProject.title : ""}
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                name="name"
+                value={form.name}
+                onChange={handleFormChange}
+                required
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={form.email}
+                onChange={handleFormChange}
+                required
+                className="mt-1"
+              />
+            </div>
+            <div>
+              <Label htmlFor="message">Message</Label>
+              <Textarea
+                id="message"
+                name="message"
+                value={form.message}
+                onChange={handleFormChange}
+                required
+                className="mt-1"
+                rows={4}
+                placeholder="Write a cover letter..."
+              />
+            </div>
+            <DialogFooter>
+              <Button type="submit" disabled={submitting} className="w-full">
+                {submitting ? "Submitting..." : "Submit Application"}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
       <Carousel className="w-full max-w-2xl mx-auto mb-6 relative">
         {/* Add extra horizontal padding to make space for arrows */}
         <div className="relative px-8">
           <CarouselContent>
             {carouselItems.map((item, idx) => (
-              <CarouselItem key={idx} className="p-2">
-                <div className="bg-blue-50 rounded-lg shadow flex flex-col items-start p-4 min-h-[80px]">
+              <CarouselItem key={idx} >
+                <div className="bg-blue-50 rounded-lg shadow flex flex-col  text-center p-4 min-h-[80px]">
                   <h3 className="font-bold text-lg mb-1">{item.title}</h3>
                   <p className="text-sm text-gray-700">{item.description}</p>
                 </div>
@@ -209,9 +340,19 @@ export default function Discover({ onBack }: DiscoverProps) {
           <span role="img" aria-label="star">⭐</span> Featured Projects
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {featuredProjects.map(project => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+          {featuredProjects.length === 0 ? (
+            <div className="col-span-2 text-center text-gray-500  py-8">Not Found</div>
+          ) : (
+            featuredProjects.map(project => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onApply={handleApply}
+                isSaved={savedProjects.has(project.id)}
+                onToggleSave={handleToggleSave}
+              />
+            ))
+          )}
         </div>
       </div>
 
@@ -220,9 +361,19 @@ export default function Discover({ onBack }: DiscoverProps) {
         <span role="img" aria-label="clipboard">📋</span> Project Listings
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {regularProjects.map(project => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
+        {regularProjects.length === 0 ? (
+          <div className="col-span-2 text-center text-gray-500 py-8">Not Found</div>
+        ) : (
+          regularProjects.map(project => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onApply={handleApply}
+              isSaved={savedProjects.has(project.id)}
+              onToggleSave={handleToggleSave}
+            />
+          ))
+        )}
       </div>
     </div>
   );
@@ -244,7 +395,12 @@ type Project = {
   category: string;
 };
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, onApply, isSaved, onToggleSave }: {
+  project: Project;
+  onApply?: (project: Project) => void;
+  isSaved?: boolean;
+  onToggleSave?: (project: Project) => void;
+}) {
   return (
     <div className="bg-white rounded-lg shadow p-4 flex flex-col gap-2 border hover:shadow-lg transition">
       <div className="flex items-center justify-between">
@@ -266,8 +422,22 @@ function ProjectCard({ project }: { project: Project }) {
         <span>• {project.posted}</span>
       </div>
       <div className="flex gap-2 mt-2">
-        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">📝 Apply Now</Button>
-        <Button size="sm" variant="outline"><Heart className="w-4 h-4" /> Save</Button>
+        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => onApply && onApply(project)}>
+          📝 Apply Now
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => onToggleSave && onToggleSave(project)}
+          aria-pressed={isSaved}
+        >
+          {isSaved ? (
+            <Heart className="w-4 h-4 fill-red-500 text-red-500" />
+          ) : (
+            <Heart className="w-4 h-4" />
+          )}
+          {isSaved ? "Saved" : "Save"}
+        </Button>
       </div>
     </div>
   );

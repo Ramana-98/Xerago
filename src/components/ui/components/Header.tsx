@@ -48,6 +48,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
   const [sidebarWidth, setSidebarWidth] = useState(260); // default width in px
   const [isResizing, setIsResizing] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   useEffect(() => {
     function handleMouseMove(e: MouseEvent) {
@@ -218,18 +219,18 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         </div>
       </div>
       {/* Nav Items (hidden on md and below, visible on lg and up) */}
-      <div className="hidden lg:flex gap-6">
-        <a href="#" className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray/50">Home</a>
-        <button className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-300/50" onClick={onOpenMessages}>Messages</button>
-        <button className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-50" onClick={onOpenDiscover}>Discover</button>
+      <div className="hidden lg:flex gap-3">
+        <a href="#" className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50">Home</a>
+        <button className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={onOpenMessages}>Messages</button>
+        <button className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={onOpenDiscover}>Discover</button>
         <button
-          className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-300/50"
+          className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50"
           onClick={onOpenWallet}
         >
           Wallet
         </button>
         <button
-          className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-50"
+          className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50"
           onClick={onOpenProjects}
         >
           Projects
@@ -288,7 +289,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         </div>
         
         {/* Avatar with Popover Menu */}
-        <Popover >
+        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
           <PopoverTrigger asChild>
             <button className="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-full">
               <Avatar className="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer hover:opacity-80 transition-opacity">
@@ -453,6 +454,14 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                 </>
               )}
             </div>
+            {/* Cancel/Close button for small screens */}
+            <button
+              className="absolute top-2 right-2 sm:hidden text-gray-400 hover:text-gray-600"
+              onClick={() => setPopoverOpen(false)}
+              aria-label="Close"
+            >
+              ×
+            </button>
           </PopoverContent>
         </Popover>
 

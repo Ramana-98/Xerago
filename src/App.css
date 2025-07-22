@@ -65,3 +65,55 @@ button, [role="button"], .btn, .button {
   align-items: center;
   /* Add hover/focus styles as needed */
 }
+
+@media only screen 
+  and (min-width: 1024px) 
+  and (max-width: 1366px) 
+  and (orientation: portrait) {
+
+  .main-nav-links {
+    display: none !important; /* Hide nav links */
+  }
+  .hamburger-menu {
+    display: flex !important; /* Show hamburger */
+  }
+  .header-right {
+    display: flex !important;
+    align-items: center;
+    gap: 1rem;
+  }
+  .header-avatar {
+    position: static !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    transform: none !important;
+    top: auto !important;
+    right: auto !important;
+    /* Ensures avatar stays in header */
+  }
+}
+
+@media (max-width: 640px) {
+  .transaction-table-container {
+    overflow-x: auto;
+    width: 100%;
+  }
+  .transaction-table {
+    min-width: 600px; /* or whatever fits your columns */
+    width: max-content;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  .transaction-table th,
+  .transaction-table td {
+    white-space: nowrap;
+  }
+  .transaction-table th.sticky-date,
+  .transaction-table td.sticky-date {
+    position: sticky;
+    left: 0;
+    background: #fff; /* match your card/table bg */
+    z-index: 2;
+    box-shadow: 2px 0 2px -1px #eee;
+  }
+}

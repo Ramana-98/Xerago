@@ -6,6 +6,7 @@ import { User, Star, Archive, Plus, CheckCircle } from "lucide-react";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 
+
 // Mock data
 const contacts = [
   { id: 1, name: "John Doe", lastMessage: "See you soon!", unread: 2, project: "UI Design" },
@@ -84,6 +85,7 @@ export default function Messages() {
   const [recipient, setRecipient] = useState("");
   const [subject, setSubject] = useState("");
   const [messageBody, setMessageBody] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   // Scroll to bottom on new message
   useEffect(() => {
@@ -109,6 +111,11 @@ export default function Messages() {
     if (!input.trim()) return;
     setMessages((prev) => [...prev, { fromMe: true, text: input, time: "Now" }]);
     setInput("");
+  };
+
+  const handleEmojiSelect = (emoji: { native: string }) => {
+    setInput(prev => prev + emoji.native);
+    setShowEmojiPicker(false);
   };
 
   return (
@@ -198,6 +205,7 @@ export default function Messages() {
                   ×
                 </button>
               )}
+              
             </div>
             <div className="flex gap-2 mb-2">
               {filters.map((f) => (

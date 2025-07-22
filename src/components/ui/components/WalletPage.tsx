@@ -14,11 +14,61 @@ const balance = {
 };
 
 const transactions = [
-  { id: 1, date: "2024-06-01", type: "Payment Received", amount: 5000, status: "Completed" },
-  { id: 2, date: "2024-05-28", type: "Withdrawal", amount: -3000, status: "Completed" },
-  { id: 3, date: "2024-05-25", type: "Bonus", amount: 1000, status: "Completed" },
-  { id: 4, date: "2024-05-20", type: "Payment Received", amount: 7000, status: "Pending" },
+  {
+    date: "2024-06-01",
+    type: "Payment Received",
+    amount: "+₹5,000",
+    status: "Completed",
+  },
+  {
+    date: "2024-05-28",
+    type: "Withdrawal",
+    amount: "+₹3,000",
+    status: "Completed",
+  },
+  {
+    date: "2024-05-25",
+    type: "Bonus",
+    amount: "+₹1,000",
+    status: "Completed",
+  },
+  {
+    date: "2024-05-20",
+    type: "Payment Received",
+    amount: "+₹7,000",
+    status: "Pending",
+  },
 ];
+
+function TransactionHistoryTable() {
+  return (
+    <div className="bg-white rounded-lg shadow p-4 mt-4">
+      <h2 className="text-2xl font-bold mb-3">Transaction History</h2>
+      <div className="transaction-table-container">
+        <table className="transaction-table min-w-full text-left border">
+          <thead>
+            <tr>
+              <th className="sticky-date px-4 py- border-b">Date</th>
+              <th className="px-4 py-2 border-b">Type</th>
+              <th className="px-4 py-2 border-b">Amount</th>
+              <th className="px-4 py-2 border-b">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map((txn, idx) => (
+              <tr key={idx}>
+                <td className="sticky-date text-center border-b">{txn.date}</td>
+                <td className="px-4 py-2 border-b">{txn.type}</td>
+                <td className="px-4 py-2 border-b text-green-600">{txn.amount}</td>
+                <td className="px-4 py-2 border-b">{txn.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
 
 const paymentSchedule = [
   { project: "UI Redesign", nextRelease: "2024-06-07", status: "Scheduled" },
@@ -54,11 +104,11 @@ export default function Dashboard() {
       {/* Account Balance */}
       <Card
         onClick={() => setUplift((prev) => !prev)}
-        className={`transition-all duration-300 cursor-pointer ${
+        className={`transition-all duration-300 cursor-pointer  ${
           uplift ? "shadow-2xl -translate-y-4 scale-105" : "shadow"
         }`}
       >
-        <CardHeader>Account Balance</CardHeader>
+        <CardHeader className="text-center text-2xl font-bold">Account Balance</CardHeader>
         <CardContent className="flex gap-8">
           <div>
             <div className="text-2xl font-bold">₹{balance.available.toLocaleString()}</div>
@@ -73,7 +123,7 @@ export default function Dashboard() {
 
       {/* Withdrawal Options */}
       <Card>
-        <CardHeader>Withdraw Funds</CardHeader>
+        <CardHeader className="text-center text-2xl font-bold">Withdraw Funds</CardHeader>
         <CardContent className="flex flex-col gap-4">
           <Input
             type="number"
@@ -84,42 +134,21 @@ export default function Dashboard() {
           />
           <Button>Withdraw to Bank</Button>
           <Button variant="outline">Link New Account</Button>
-          <div className="text-xs text-gray-500">Minimum withdrawal: ₹500</div>
+          <div className="text-xs text-gray-500">Minimum withdrawal: ₹9500</div>
         </CardContent>
       </Card>
 
       {/* Transaction History */}
       <Card>
-        <CardHeader>Transaction History</CardHeader>
+        
         <CardContent>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Amount</TableCell>
-                <TableCell>Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {transactions.map(tx => (
-                <TableRow key={tx.id}>
-                  <TableCell>{tx.date}</TableCell>
-                  <TableCell>{tx.type}</TableCell>
-                  <TableCell className={tx.amount < 0 ? "text-red-500" : "text-green-600"}>
-                    {tx.amount < 0 ? "-" : "+"}₹{Math.abs(tx.amount).toLocaleString()}
-                  </TableCell>
-                  <TableCell>{tx.status}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <TransactionHistoryTable />
         </CardContent>
       </Card>
 
       {/* Payment Schedule */}
       <Card>
-        <CardHeader>Payment Schedule</CardHeader>
+        <CardHeader className="text-center text-2xl font-bold">Payment Schedule</CardHeader>
         <CardContent>
           <ul>
             {paymentSchedule.map((p, i) => (
@@ -133,7 +162,7 @@ export default function Dashboard() {
 
       {/* Payment Settings */}
       <Card>
-        <CardHeader>Payment Settings</CardHeader>
+        <CardHeader className="text-center text-2xl font-bold">Payment Settings</CardHeader>
         <CardContent>
           <div>Bank: <span className="font-medium">HDFC Bank</span></div>
           <div>UPI: <span className="font-medium">yourname@upi</span></div>
