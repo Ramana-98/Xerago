@@ -23,60 +23,63 @@ export default function UpgradePremium() {
           }}
         ></div>
       </div>
-      <CardContent className="relative z-10 flex flex-col items-start p-6 space-y-4">
-        <h4 className="text-2xl font-bold text-gray-900 mb-1">Unlock Premium Features</h4>
-        <p className="text-gray-700 text-base mb-2">
+      <CardContent className="relative z-10 flex flex-col items-start p-6 space-y-4 h-full">
+        <h4 className="text-2xl font-bold text-gray-900 mb-1 text-left w-full">Unlock Premium Features</h4>
+        <p className="text-gray-700 text-base mb-2 text-left w-full">
           Get access to exclusive benefits and expand your freelancing opportunities
         </p>
-        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              className="bg-white text-blue-700 hover:bg-blue-50 rounded-full px-6 py-3 text-lg font-semibold shadow transition-all flex items-center mx-auto mt-auto"
-              style={{ boxShadow: "0 2px 16px 0 rgba(16,30,54,0.08)" }}
-              onClick={handleUpgradeClick}
-            >
-              Upgrade now
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent side="top" align="center" className="text-gray-800 text-base font-medium space-y-2 w-72">
-            <div className="font-semibold mb-1">Premium Features:</div>
-            <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 mb-2">
-              <li>Priority project support</li>
-              <li>Advanced analytics dashboard</li>
-              <li>Unlimited proposals</li>
-              <li>Early access to new features</li>
-            </ul>
-            <div className="border-t pt-2 mt-2">
-              <div className="flex justify-between text-sm">
-                <span>Premium Plan</span>
-                <span className="font-bold text-blue-700">$19/month</span>
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Billing cycle</span>
-                <span>Monthly</span>
-              </div>
-            </div>
-            <div className="mt-3">
-              <input className="w-full rounded border px-2 py-1 mb-2 text-sm" placeholder="Promo code (optional)" disabled />
+        <div className="flex-grow" />
+        <div className="w-full flex justify-center mt-auto">
+          <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+            <PopoverTrigger asChild>
               <Button
-                className="w-full bg-blue-600 hover:bg-blue-700"
-                onClick={() => {
-                  toast("Are you sure you want to pay?", {
-                    action: {
-                      label: "Undo",
-                      onClick: () => {
-                        toast("Payment cancelled");
-                      }
-                    }
-                  });
-                }}
+                className="w-full bg-white text-blue-700 hover:bg-blue-50 rounded-full py-8 text-xl font-semibold shadow transition-all flex items-center justify-between"
+                style={{ boxShadow: "0 2px 16px 0 rgba(16,30,54,0.08)" }}
+                onClick={handleUpgradeClick}
               >
-                Pay with Card
+                <span className="pl-4 text-left flex-1">Upgrade now</span>
+                <ArrowRight className="w-7 h-7 mr-4" />
               </Button>
-            </div>
-          </PopoverContent>
-        </Popover>
+            </PopoverTrigger>
+            <PopoverContent side="top" align="center" className="text-gray-800 text-base font-medium space-y-2 w-72">
+              <div className="font-semibold mb-1">Premium Features:</div>
+              <ul className="list-disc list-inside text-sm text-gray-700 space-y-1 mb-2">
+                <li>Priority project support</li>
+                <li>Advanced analytics dashboard</li>
+                <li>Unlimited proposals</li>
+                <li>Early access to new features</li>
+              </ul>
+              <div className="border-t pt-2 mt-2">
+                <div className="flex justify-between text-sm">
+                  <span>Premium Plan</span>
+                  <span className="font-bold text-blue-700">$19/month</span>
+                </div>
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>Billing cycle</span>
+                  <span>Monthly</span>
+                </div>
+              </div>
+              <div className="mt-3">
+                <input className="w-full rounded border px-2 py-1 mb-2 text-sm" placeholder="Promo code (optional)" disabled />
+                <Button
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  onClick={() => {
+                    toast("Are you sure you want to pay?", {
+                      action: {
+                        label: "Undo",
+                        onClick: () => {
+                          toast("Payment cancelled");
+                        }
+                      }
+                    });
+                  }}
+                >
+                  Pay with Card
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
       </CardContent>
     </Card>
   );

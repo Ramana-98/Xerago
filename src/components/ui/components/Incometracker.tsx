@@ -106,12 +106,12 @@ export default function IncomeTracker() {
     <Card className="rounded-2xl bg-[#f7f8f9] p-3 sm:p-4 w-full h-100 hover:shadow-lg  hover:-translate-y-1 transition-all duration-200">
       <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-2 gap-1 sm:gap-0">
         <div className="w-full sm:w-auto">
-          <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
+          <CardTitle className="text-lg sm:text-xl font-bold flex items-center gap-2">
             <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
             Income Tracker
           </CardTitle>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-            Track changes in income over time and access detailed data on each project and payments received
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1 text-left">
+            Track changes in income over time and access detailed data on each project and payments received.
           </p>
         </div>
 

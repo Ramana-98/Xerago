@@ -10,6 +10,7 @@ import { Calendar } from "@/components/ui/calendar";
 
 
 
+
 interface HeaderProps {
   onOpenSettings?: () => void;
   onOpenNotifications?: () => void;
@@ -182,11 +183,11 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
 
   return (
     <header className="w-full flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-gray-200 shadow-sm border-b">
-      {/* Left: Hamburger (mobile) + Logo */}
+      {/* Left: Hamburger (mobile/tablet) + Logo */}
       <div className="flex items-center gap-3">
-        {/* Hamburger Icon (only on small screens, left side) */}
+        {/* Hamburger Icon (only on md and below, left side) */}
         <button
-          className="block sm:hidden mr-2"
+          className="block lg:hidden mr-2"
           onClick={() => setSidebarOpen(true)}
           aria-label="Open menu"
         >
@@ -216,8 +217,8 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
           RAMZZ
         </div>
       </div>
-      {/* Nav Items (hidden on small screens) */}
-      <div className="hidden sm:flex gap-6">
+      {/* Nav Items (hidden on md and below, visible on lg and up) */}
+      <div className="hidden lg:flex gap-6">
         <a href="#" className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray/50">Home</a>
         <button className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-300/50" onClick={onOpenMessages}>Messages</button>
         <button className="hover:text-blue-600 hover:-translate-y-1 transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-50" onClick={onOpenDiscover}>Discover</button>
@@ -244,7 +245,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             placeholder="Search..."
             value={searchValue}
             onChange={handleSearchChange}
-            className="w-32 pl-8 pr-8 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-24 pl-7 pr-7 py-1 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           {searchValue && (
@@ -675,7 +676,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
       {/* Sidebar Drawer (only on small screens) */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black bg-opacity-40 flex"
+          className="fixed inset-0 z-50 flex"
           style={{ touchAction: "none" }}
         >
           <div
@@ -703,7 +704,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             {/* Settings and Bell icons (only on small screens) */}
             <div className="sm:hidden mt-4 pt-4 border-t border-gray-200">
               <button
-                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left hover:text-blue-600"
+                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left hover:text-blue-600 font-semibold text-lg"
                 onClick={() => {
                   onOpenSettings?.();
                   setSidebarOpen(false);
@@ -713,7 +714,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                 Settings
               </button>
               <button
-                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left hover:text-blue-600"
+                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left hover:text-blue-600 font-semibold text-lg"
                 onClick={() => {
                   onOpenNotifications?.();
                   setSidebarOpen(false);

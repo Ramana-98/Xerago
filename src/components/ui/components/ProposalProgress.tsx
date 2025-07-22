@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar as CalendarIcon, ChevronDown } from "lucide-react";
+import { Calendar as CalendarIcon, ChevronUp } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
@@ -64,7 +64,7 @@ export default function ProposalProgress() {
     <Card className="bg-white shadow-sm rounded-2xl flex flex-col h-80 hover:shadow-lg hover:bg-amber-200 hover:-translate-y-1 transition-all duration-200">
       <CardHeader className="pb-2 sm:pb-8 px-6 pt-4 sm:pt-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base sm:text-lg font-semibold text-gray-900">
+          <CardTitle className="text-base sm:text-lg font-bold text-gray-900">
             Proposal Progress
           </CardTitle>
           <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
@@ -77,10 +77,15 @@ export default function ProposalProgress() {
                 <CalendarIcon className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">{formatDate(selectedDate)}</span>
                 <span className="sm:hidden">{format(selectedDate, "MMM dd")}</span>
-                <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
+                <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4 ml-1" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="end">
+            <PopoverContent
+              className="w-auto p-0"
+              side="top"
+              align="center"
+              avoidCollisions={false}
+            >
               <Calendar
                 mode="single"
                 selected={selectedDate}
@@ -93,42 +98,39 @@ export default function ProposalProgress() {
         </div>
       </CardHeader>
       <CardContent className="flex-1 min-h-0 px-4 sm:px-6 pb-4 sm:pb-6 flex flex-col">
-        <div className="grid grid-cols-3 gap-0 relative flex-1 items-center">
+        <div className="relative flex flex-row h-full w-full">
           {currentMetrics.map((metric, idx) => (
-            <div key={idx} className="flex flex-col items-center justify-center">
-              <div className="w-full text-center space-y-2 sm:space-y-2 px-2 sm:px-4">
-                {/* Label */}
-                <div className="text-xs sm:text-sm text-gray-500 font-semibold">
-                  {metric.label}
-                </div>
-                
-                {/* Value */}
-                <div className={`text-xl sm:text-2xl font-bold ${metric.color}`}>
-                  {metric.value}
-                </div>
-                
-                {/* Vertical bars */}
-                <div className="flex items-end justify-center gap-0.5 sm:gap-1 h-6 sm:h-8">
-                  {Array.from({ length: 12 }, (_, i) => (
-                    <div
-                      key={i}
-                      className={`w-1 rounded-full ${metric.barColor} ${
-                        i < Math.floor(metric.value / 8.3) ? 'opacity-100' : 'opacity-20'
-                      }`}
-                      style={{ 
-                        height: `${Math.random() * 60 + 20}%`,
-                        minHeight: '4px'
-                      }}
-                    />
-                  ))}
-                </div>
+            <div key={idx} className={`flex flex-col justify-between h-full flex-1 pl-2 pr-4 relative ${idx < 2 ? 'border-r-2' : ''}`} style={{ borderColor: idx === 0 ? '#cbd5e1' : idx === 1 ? '#f87171' : undefined }}>
+              {/* Label */}
+              <div className="text-xs sm:text-sm text-gray-500 font-semibold text-left mb-1 mt-2">
+                {metric.label}
               </div>
+              {/* Value */}
+              <div className={`text-2xl sm:text-4xl font-extrabold ${metric.color} text-left mb-2`}>
+                {metric.value}
+              </div>
+              {/* Bar chart */}
+              <div className="flex items-end justify-start gap-0.5 sm:gap-1 h-10 sm:h-14 w-full">
+                {Array.from({ length: 12 }, (_, i) => (
+                  <div
+                    key={i}
+                    className={`w-1 rounded-full ${metric.barColor} ${
+                      i < Math.floor(metric.value / 8.3) ? 'opacity-100' : 'opacity-20'
+                    }`}
+                    style={{
+                      height: '80%',
+                      minHeight: '12px',
+                      maxHeight: '32px'
+                    }}
+                  />
+                ))}
+              </div>
+              {/* Vertical line at right edge for all but last column */}
+              {idx < 2 && (
+                <div className="absolute top-0 right-0 h-full w-0.5" style={{ backgroundColor: idx === 0 ? '#cbd5e1' : '#f87171' }} />
+              )}
             </div>
           ))}
-          
-          {/* Vertical separator lines positioned absolutely */}
-          <div className="absolute left-1/3 top-8 bottom-4 w-0.5 bg-red-400"></div>
-          <div className="absolute left-2/3 top-8 bottom-4 w-0.5 bg-gray-800"></div>
         </div>
       </CardContent>
     </Card>

@@ -112,10 +112,10 @@ export default function Messages() {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row h-screen bg-blue-100">
+    <div className="flex flex-col sm:flex-row h-screen bg-gray-200">
       {/* Sidebar/Contacts */}
       {( !mobileChatOpen || window.innerWidth >= 640 ) && (
-        <div className="w-full sm:w-80 bg-blue-100 border-r flex-shrink-0 flex flex-col">
+        <div className="w-full sm:w-80 bg-gray-200 border-r flex-shrink-0 flex flex-col">
           <div className="p-4 border-b flex flex-col gap-2">
             <button
               className="back-btn self-start mb-2"

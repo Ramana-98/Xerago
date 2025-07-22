@@ -120,7 +120,7 @@ export default function YourRecentProjects() {
     <Card className="bg-gray-200 shadow-sm h-[400px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
       <CardHeader className="pb-2 px-3 sm:px-4 pt-3 sm:pt-4 flex-shrink-0">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-sm sm:text-base font-semibold text-gray-800">
+          <CardTitle className="text-sm sm:text-base font-bold text-gray-800">
             Your Recent Projects
           </CardTitle>
           <Button 
@@ -180,7 +180,7 @@ export default function YourRecentProjects() {
               
               {/* Expandable content */}
               {expandedProjects.has(idx) && proj.description && (
-                <p className="text-xs text-gray-500 ml-11">
+                <p className="text-xs text-gray-500 ml-11 text-left">
                   {proj.description}
                 </p>
               )}
@@ -206,7 +206,7 @@ export default function YourRecentProjects() {
               )}
               
               {expandedProjects.has(idx) && proj.country && (
-                <p className="text-xs text-gray-500 ml-11">
+                <p className="text-xs text-gray-500 ml-11 text-left">
                   {proj.country} • {proj.time}
                 </p>
               )}
