@@ -1,18 +1,25 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "sonner";
 
-export default function UpgradePremium() {
+interface UpgradePremiumProps {
+  highlight?: boolean;
+}
+
+const UpgradePremium = forwardRef<HTMLDivElement, UpgradePremiumProps>(({ highlight }, ref) => {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   const handleUpgradeClick = () => {
     setPopoverOpen(true);
     setTimeout(() => setPopoverOpen(false), 3000); // Auto-close after 3s
   };
   return (
-    <Card className="bg-gray-300 text-black hover:bg-sky-300 rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+    <Card
+      ref={ref}
+      className={`bg-gray-300 text-black hover:bg-sky-300 rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+    >
       {/* Dotted background pattern */}
       <div className="absolute inset-0 opacity-40 pointer-events-none">
         <div
@@ -83,4 +90,6 @@ export default function UpgradePremium() {
       </CardContent>
     </Card>
   );
-}
+});
+
+export default UpgradePremium;

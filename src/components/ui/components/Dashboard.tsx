@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef,} from "react";
 import Header from "./Header";
 import IncomeTracker from "./Incometracker";
 import LetsConnect from "./Let'sConnect";
@@ -13,6 +13,8 @@ import WalletPage from "./WalletPage";
 import ProjectsPage from "./ProjectsPage";
 import { Toaster } from "sonner";
 
+const normalize = (str: string) => str.replace(/['’]/g, "").toLowerCase();
+
 export default function Dashboard() {
   const [showSettings, setShowSettings] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -20,6 +22,28 @@ export default function Dashboard() {
   const [showDiscover, setShowDiscover] = useState(false);
   const [showWallet, setShowWallet] = useState(false);
   const [showProjects, setShowProjects] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const letsConnectRef = useRef<HTMLDivElement>(null);
+  const upgradePremiumRef = useRef<HTMLDivElement>(null);
+  const incomeTrackerRef = useRef<HTMLDivElement>(null);
+  const yourRecentProjectsRef = useRef<HTMLDivElement>(null);
+  const proposalProgressRef = useRef<HTMLDivElement>(null);
+
+  const handleSearchTrigger = () => {
+    const value = normalize(searchValue);
+    if (value.includes(normalize("Let's Connect")) && letsConnectRef.current) {
+      letsConnectRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else if (value.includes(normalize("Upgrade Premium")) && upgradePremiumRef.current) {
+      upgradePremiumRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else if (value.includes(normalize("Income Tracker")) && incomeTrackerRef.current) {
+      incomeTrackerRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else if (value.includes(normalize("Your Recent Project")) && yourRecentProjectsRef.current) {
+      yourRecentProjectsRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else if (value.includes(normalize("Proposal Progress")) && proposalProgressRef.current) {
+      proposalProgressRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   if (showSettings) {
     return (
       <div className="min-h-screen bg-gray-200">
@@ -109,6 +133,9 @@ export default function Dashboard() {
         onOpenDiscover={() => setShowDiscover(true)}
         onOpenWallet={() => setShowWallet(true)}
         onOpenProjects={() => setShowProjects(true)}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        onSearchTrigger={handleSearchTrigger}
       />
       {/* Main Dashboard Content */}
       <main className="w-full px-4 sm:px-6 py-6 lg:py-8 max-w-[1400px] mx-auto">
@@ -117,22 +144,37 @@ export default function Dashboard() {
           {/* Left Section - 2/3 width */}
           <div className="lg:col-span-2 space-y-6 lg:space-y-8">
             {/* Income Tracker - Top full width */}
-            <IncomeTracker />
+            <IncomeTracker
+              ref={incomeTrackerRef}
+              highlight={normalize(searchValue).includes(normalize("Income Tracker"))}
+            />
             {/* Bottom row: Let's Connect + Upgrade Premium */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-              <LetsConnect />
-              <UpgradePremium />
+              <LetsConnect
+                ref={letsConnectRef}
+                highlight={normalize(searchValue).includes(normalize("Let's Connect"))}
+              />
+              <UpgradePremium
+                ref={upgradePremiumRef}
+                highlight={normalize(searchValue).includes(normalize("Upgrade Premium"))}
+              />
             </div>
           </div>
           {/* Right Section - 1/3 width */}
           <div className="flex flex-col h-full">
             {/* Your Recent Projects - Scrollable container */}
             <div className="flex-1 overflow-y-auto scrollbar-hide">
-              <YourRecentProjects />
+              <YourRecentProjects
+                ref={yourRecentProjectsRef}
+                highlight={normalize(searchValue).includes(normalize("Your Recent Project"))}
+              />
             </div>
             {/* Proposal Progress - Fixed at bottom */}
             <div className="flex-shrink-0 mt-6 lg:mt-8">
-              <ProposalProgress />
+              <ProposalProgress
+                ref={proposalProgressRef}
+                highlight={normalize(searchValue).includes(normalize("Proposal Progress"))}
+              />
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -67,7 +67,11 @@ const users: User[] = [
   },
 ];
 
-export default function LetsConnect() {
+interface LetsConnectProps {
+  highlight?: boolean;
+}
+
+const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight }, ref) => {
   const [connected, setConnected] = useState<boolean[]>(users.map(() => false));
   const [popoverOpen, setPopoverOpen] = useState<number | null>(null);
   const [showAll, setShowAll] = useState(false);
@@ -78,7 +82,10 @@ export default function LetsConnect() {
   };
 
   return (
-    <Card className="bg-gray-200 shadow-sm flex flex-col h-80 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"> {/* h-80 = 20rem, adjust as needed */}
+    <Card
+      ref={ref}
+      className={`bg-gray-200 shadow-sm flex flex-col h-80 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+    >
       <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-6 pt-4 sm:pt-6">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base sm:text-lg font-bold text-gray-800">
@@ -161,4 +168,6 @@ export default function LetsConnect() {
       </CardContent>
     </Card>
   );
-}
+});
+
+export default LetsConnect;

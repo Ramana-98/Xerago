@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarIcon, ChevronUp } from "lucide-react";
@@ -43,7 +43,11 @@ function getRandomMetricsForDate(date: Date): Metric[] {
   ];
 }
 
-export default function ProposalProgress() {
+interface ProposalProgressProps {
+  highlight?: boolean;
+}
+
+const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ highlight }, ref) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date(2024, 3, 11)); // April 11, 2024
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
@@ -61,7 +65,10 @@ export default function ProposalProgress() {
   const currentMetrics = getRandomMetricsForDate(selectedDate);
 
   return (
-    <Card className="bg-white shadow-sm rounded-2xl flex flex-col h-80 hover:shadow-lg hover:bg-amber-200 hover:-translate-y-1 transition-all duration-200">
+    <Card
+      ref={ref}
+      className={`bg-white shadow-sm rounded-2xl flex flex-col h-80 hover:shadow-lg hover:bg-amber-200 hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+    >
       <CardHeader className="pb-2 sm:pb-8 px-6 pt-4 sm:pt-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base sm:text-lg font-bold text-gray-900">
@@ -135,4 +142,6 @@ export default function ProposalProgress() {
       </CardContent>
     </Card>
   );
-}
+});
+
+export default ProposalProgress;

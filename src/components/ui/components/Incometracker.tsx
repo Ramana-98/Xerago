@@ -10,6 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import React, { forwardRef } from "react";
 
 // Data for different time periods
 const weekData = [
@@ -46,7 +47,11 @@ const yearData = [
 
 type TimePeriod = 'week' | 'month' | 'year';
 
-export default function IncomeTracker() {
+interface IncomeTrackerProps {
+  highlight?: boolean;
+}
+
+const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highlight }, ref) => {
   const [selectedPeriod, setSelectedPeriod] = useState<TimePeriod>('week');
   const [selectedDay, setSelectedDay] = useState<number | null>(5); // Default to Tuesday (index 2)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -103,7 +108,10 @@ export default function IncomeTracker() {
   const currentData = getCurrentData();
 
   return (
-    <Card className="rounded-2xl bg-white p-3 sm:p-4 w-full h-100 hover:shadow-lg  hover:-translate-y-1 transition-all duration-200">
+    <Card
+      ref={ref}
+      className={`rounded-2xl bg-white p-3 sm:p-4 w-full h-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+    >
       <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-2 gap-1 sm:gap-0">
         <div className="w-full sm:w-auto">
           <CardTitle className="text-lg sm:text-xl font-bold flex items-center gap-2">
@@ -223,4 +231,6 @@ export default function IncomeTracker() {
       </CardContent>
     </Card>
   );
-}
+});
+
+export default IncomeTracker;

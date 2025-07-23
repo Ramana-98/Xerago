@@ -48,14 +48,15 @@ export function NotificationsDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative p-2 rounded-full">
-          <Bell className="w-5 h-5" />
+        <Button variant="ghost" className="relative px-3 py-5 rounded-full bg-white hover:bg-gray-300 transition">
+          <Bell className="w-5 h-5 text-gray-600" />
           {notifications.some((n) => n.unread) && (
-            <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full" />
+            <span className="absolute top-1 right-1 w-2 h-2  bg-blue-500 rounded-full" />
           )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-96 p-0 rounded-xl shadow-lg">
+        {/* Only notification content below, no bell icon */}
         <div className="p-4 border-b flex items-center justify-between">
           <span className="font-semibold text-lg">Notifications</span>
           <button

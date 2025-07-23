@@ -193,15 +193,15 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
                   <AccordionTrigger>More Details</AccordionTrigger>
                   <AccordionContent>
                     <div className="overflow-y-auto max-h-[120px] pr-2">
+                    <div>
+                      <div className="mb-2">
+                        <b>Description:</b> {project.description || "No description provided."}
+                      </div>
+                      <div className="mb-2">
+                        <b>Milestones:</b> <span className="text-gray-500">(Coming soon)</span>
+                      </div>
                       <div>
-                        <div className="mb-2">
-                          <b>Description:</b> {project.description || "No description provided."}
-                        </div>
-                        <div className="mb-2">
-                          <b>Milestones:</b> <span className="text-gray-500">(Coming soon)</span>
-                        </div>
-                        <div>
-                          <b>Comments:</b> <span className="text-gray-500">(Coming soon)</span>
+                        <b>Comments:</b> <span className="text-gray-500">(Coming soon)</span>
                         </div>
                       </div>
                     </div>

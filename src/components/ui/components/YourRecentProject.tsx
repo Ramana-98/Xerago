@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, forwardRef } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -96,7 +96,11 @@ const getIcon = (icon: string) => {
   }
 };
 
-export default function YourRecentProjects() {
+interface YourRecentProjectsProps {
+  highlight?: boolean;
+}
+
+const YourRecentProjects = forwardRef<HTMLDivElement, YourRecentProjectsProps>(({ highlight }, ref) => {
   const [expandedProjects, setExpandedProjects] = useState<Set<number>>(new Set([0])); // First project expanded by default
   const [showAllProjects, setShowAllProjects] = useState(false);
 
@@ -117,7 +121,10 @@ export default function YourRecentProjects() {
   const allProjects = showAllProjects ? [...initialProjects, ...additionalProjects] : initialProjects;
 
   return (
-    <Card className="bg-gray-200 shadow-sm h-[400px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-200">
+    <Card
+      ref={ref}
+      className={`bg-gray-200 shadow-sm h-[400px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+    >
       <CardHeader className="pb-2 px-3 sm:px-4 pt-3 sm:pt-4 flex-shrink-0">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm sm:text-base font-bold text-gray-800">
@@ -216,4 +223,6 @@ export default function YourRecentProjects() {
       </CardContent>
     </Card>
   );
-}
+});
+
+export default YourRecentProjects;

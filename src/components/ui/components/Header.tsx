@@ -1,28 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Search, Settings, Menu, X, Home, MessageCircle, Compass, Wallet as WalletIcon, Folder, User, LogOut, Check, Camera, Image, Bell } from "lucide-react";
-import { NotificationsDropdown } from "./Notification";
 import { Calendar } from "@/components/ui/calendar";
+import { NotificationsDropdown } from "./Notification";
+
 
 
 
 
 interface HeaderProps {
-  onOpenSettings?: () => void;
-  onOpenNotifications?: () => void;
-  onOpenMessages?: () => void;
-  onOpenDiscover?: () => void;
-  onOpenWallet?: () => void;
-  onOpenProjects?: () => void;
+  onOpenSettings: () => void;
+  onOpenNotifications: () => void;
+  onOpenMessages: () => void;
+  onOpenDiscover: () => void;
+  onOpenWallet: () => void;
+  onOpenProjects: () => void;
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  onSearchTrigger: () => void;
 }
 
-export default function Header({ onOpenSettings, onOpenNotifications, onOpenMessages, onOpenDiscover, onOpenWallet, onOpenProjects }: HeaderProps) {
+const sectionTitles = [
+  "Income Tracker",
+  "Your Recent Project",
+  "Let's Connect",
+  "Upgrade Premium",
+  "Proposal Progress"
+];
+
+export default function Header({ onOpenSettings, onOpenNotifications, onOpenMessages, onOpenDiscover, onOpenWallet, onOpenProjects, searchValue, setSearchValue, onSearchTrigger }: HeaderProps) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
-  const [searchValue, setSearchValue] = React.useState("");
   const [isEditing, setIsEditing] = React.useState(false);
   const [profileData, setProfileData] = React.useState({
     name: "User Name",
@@ -49,6 +60,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
   const [isResizing, setIsResizing] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     function handleMouseMove(e: MouseEvent) {
@@ -70,11 +82,24 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
   }, [isResizing]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+    const value = e.target.value;
+    setSearchValue(value);
+
+    if (
+      value &&
+      !sectionTitles.some((title) =>
+        title.toLowerCase().includes(value.toLowerCase())
+      )
+    ) {
+      setNotFound(true);
+    } else {
+      setNotFound(false);
+    }
   };
 
   const clearSearch = () => {
     setSearchValue("");
+    setNotFound(false);
   };
 
   const handleEditProfile = () => {
@@ -183,7 +208,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
   ];
 
   return (
-    <header className="w-full flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-gray-200 shadow-sm border-b">
+    <header className="w-full flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-gray-200  border-b ">
       {/* Left: Hamburger (mobile/tablet) + Logo */}
       <div className="flex items-center gap-3">
         {/* Hamburger Icon (only on md and below, left side) */}
@@ -240,13 +265,19 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
       <div className="flex items-center gap-4">
         
         {/* Search bar (only on small screens) */}
-        <div className="relative block sm:hidden">
+        <div className="relative block  sm:hidden">
           <Input
+            style={{backgroundColor: 'white'}}
             type="text"
             placeholder="Search..."
             value={searchValue}
             onChange={handleSearchChange}
-            className="w-24 pl-7 pr-7 py-1 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            onKeyDown={e => {
+              if (e.key === "Enter") {
+                onSearchTrigger();
+              }
+            }}
+            className="w-24 pl-7 pr-7 py-1 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
           />
           <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           {searchValue && (
@@ -258,6 +289,11 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
               <X className="w-4 h-4" />
             </button>
           )}
+          {notFound && (
+            <div className="absolute left-0 mt-2 w-full bg-white border border-red-300 text-red-500 rounded p-2 text-center shadow">
+              Not Found
+            </div>
+          )}
         </div>
         
         <div className="relative hidden sm:block">
@@ -266,7 +302,12 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             placeholder="Enter your search request..."
             value={searchValue}
             onChange={handleSearchChange}
-            className="w-64 pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            onKeyDown={e => {
+              if (e.key === "Enter") {
+                onSearchTrigger();
+              }
+            }}
+            className="w-64 pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
           />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
           {searchValue && (
@@ -278,14 +319,20 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
               <X className="w-4 h-4" />
             </button>
           )}
+          {notFound && (
+            <div className="absolute left-0 mt-2 w-full bg-white border border-red-300 text-red-500 rounded p-2 text-center shadow">
+              Not Found
+            </div>
+          )}
         </div>
         
         {/* Settings and Bell icons (hidden on small screens) */}
         <div className="hidden sm:flex items-center gap-4">
-          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors" onClick={onOpenSettings}>
+          <button className="rounded-full bg-white p-2.5 flex items-center justify-center hover:bg-gray-300 transition" onClick={onOpenSettings}>
             <Settings className="w-5 h-5 text-gray-600" />
           </button>
           <NotificationsDropdown />
+          
         </div>
         
         {/* Avatar with Popover Menu */}
