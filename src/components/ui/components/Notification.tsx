@@ -66,7 +66,7 @@ export function NotificationsDropdown() {
             Mark all as read
           </button>
         </div>
-        <div className="max-h-80 overflow-y-auto">
+        <div className="max-h-80 overflow-y-auto hide-scrollbar-mobile">
           {loading ? (
             <div className="p-4 text-center text-gray-400">Loading...</div>
           ) : notifications.length === 0 ? (

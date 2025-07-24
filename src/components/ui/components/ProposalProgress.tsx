@@ -67,11 +67,11 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
   return (
     <Card
       ref={ref}
-      className={`bg-white shadow-sm rounded-2xl flex flex-col h-80 hover:shadow-lg hover:bg-amber-200 hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-white shadow-sm rounded-2xl flex flex-col h-65 w-full hover:shadow-lg hover:bg-amber-200 hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
-      <CardHeader className="pb-2 sm:pb-8 px-6 pt-4 sm:pt-4">
+      <CardHeader className="pb-2 sm:pb-3 px-4 pt-6 sm:pt-1 -mt-4 ">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base sm:text-lg font-bold text-gray-900">
+          <CardTitle className="text-base sm:text-xl font-bold text-gray-900">
             Proposal Progress
           </CardTitle>
           <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
@@ -134,7 +134,10 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
               </div>
               {/* Vertical line at right edge for all but last column */}
               {idx < 2 && (
-                <div className="absolute top-0 right-0 h-full w-0.5" style={{ backgroundColor: idx === 0 ? '#cbd5e1' : '#f87171' }} />
+                <div className="absolute top-0 right-0 h-full  w-0.5" style={{ backgroundColor: idx === 0 ? '#cbd5e1' : '#f87171' }} />
+              )}
+              {idx === 0 && (
+                <div className="absolute top-0 left-0 h-full w-1 bg-blue-300 rounded" />
               )}
             </div>
           ))}

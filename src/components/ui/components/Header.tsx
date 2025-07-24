@@ -327,7 +327,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         </div>
         
         {/* Settings and Bell icons (hidden on small screens) */}
-        <div className="hidden sm:flex items-center gap-4">
+        <div className="hidden sm:flex items-center gap-4 overflow-y-auto">
           <button className="rounded-full bg-white p-2.5 flex items-center justify-center hover:bg-gray-300 transition" onClick={onOpenSettings}>
             <Settings className="w-5 h-5 text-gray-600" />
           </button>

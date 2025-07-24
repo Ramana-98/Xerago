@@ -207,14 +207,14 @@ export default function Messages() {
               )}
               
             </div>
-            <div className="flex gap-2 mb-2">
+            <div className="flex gap-2 mb-2 ">
               {filters.map((f) => (
                 <Button
                   key={f}
                   size="sm"
                   variant={activeFilter === f ? "default" : "outline"}
                   onClick={() => setActiveFilter(f)}
-                  className="text-xs hover:scale-105 hover:shadow-md transition-all duration-200"
+                  className="text-xs hover:scale-105 hover:shadow-md transition-all duration-200 "
                   style={{ backgroundColor: activeFilter === f ? "blue" : "white", }}
                 >
                   {f === "Starred" ? <Star className="w-3 h-3 mr-1" /> : null}
@@ -224,7 +224,7 @@ export default function Messages() {
               ))}
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto hide-scrollbar">
             {filteredContacts.map((c: typeof contacts[0]) => (
               <div
                 key={c.id}
@@ -234,13 +234,13 @@ export default function Messages() {
                   if (window.innerWidth < 640) setMobileChatOpen(true);
                 }}
               >
-                <User className="w-8 h-8 text-gray-400 bg-gray-100 rounded-full p-1" />
-                <div className="flex-1 min-w-0">
+                <User className="w-8 h-8 text-gray-400 bg-gray-300  justify-center rounded-full p-1" />
+                <div className="flex-1 min-w-0 ">
                   <div className="flex items-center gap-2">
                     <span className="font-medium truncate">{c.name}</span>
                     {unreadCounts[c.id] > 0 && <Badge className="bg-blue-500 text-white ml-1">{unreadCounts[c.id]}</Badge>}
                   </div>
-                  <div className="text-xs text-gray-500 truncate">{c.project}</div>
+                  <div className="text-xs text-gray-900 truncate">{c.project}</div>
                   <div className="text-xs text-gray-400 truncate">{c.lastMessage}</div>
                 </div>
               </div>

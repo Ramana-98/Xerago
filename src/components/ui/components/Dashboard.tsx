@@ -161,9 +161,9 @@ export default function Dashboard() {
             </div>
           </div>
           {/* Right Section - 1/3 width */}
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col h-full ">
             {/* Your Recent Projects - Scrollable container */}
-            <div className="flex-1 overflow-y-auto scrollbar-hide">
+            <div className="flex-1 overflow-y-auto h-full w-full scrollbar-hide">
               <YourRecentProjects
                 ref={yourRecentProjectsRef}
                 highlight={normalize(searchValue).includes(normalize("Your Recent Project"))}

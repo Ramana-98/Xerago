@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+
 
 interface Project {
   title: string
@@ -187,27 +187,6 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
               >
                 View Details <ArrowUpRight className="w-4 h-4" />
               </Button>
-              {/* Accordion for more details */}
-              <Accordion type="single" collapsible className="mt-2">
-                <AccordionItem value="item-1">
-                  <AccordionTrigger>More Details</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="overflow-y-auto max-h-[120px] pr-2">
-                    <div>
-                      <div className="mb-2">
-                        <b>Description:</b> {project.description || "No description provided."}
-                      </div>
-                      <div className="mb-2">
-                        <b>Milestones:</b> <span className="text-gray-500">(Coming soon)</span>
-                      </div>
-                      <div>
-                        <b>Comments:</b> <span className="text-gray-500">(Coming soon)</span>
-                        </div>
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
             </CardContent>
           </Card>
         ))}

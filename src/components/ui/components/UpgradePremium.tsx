@@ -18,7 +18,7 @@ const UpgradePremium = forwardRef<HTMLDivElement, UpgradePremiumProps>(({ highli
   return (
     <Card
       ref={ref}
-      className={`bg-gray-300 text-black hover:bg-sky-300 rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-gray-300 text-black hover:bg-sky-300 rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 h-65 w-full mx-auto ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
       {/* Dotted background pattern */}
       <div className="absolute inset-0 opacity-40 pointer-events-none">
@@ -30,9 +30,9 @@ const UpgradePremium = forwardRef<HTMLDivElement, UpgradePremiumProps>(({ highli
           }}
         ></div>
       </div>
-      <CardContent className="relative z-10 flex flex-col items-start p-6 space-y-4 h-full">
-        <h4 className="text-2xl font-bold text-gray-900 mb-1 text-left w-full">Unlock Premium Features</h4>
-        <p className="text-gray-700 text-base mb-2 text-left w-full">
+      <CardContent className="relative z-10 flex flex-col items-start p-6 space-y-4 h-full -mt-8">
+        <h4 className="text-xl font-bold text-gray-900 mb-3 text-left w-full">Unlock Premium Features</h4>
+        <p className="text-gray-700 text-base mb-6 text-left w-full">
           Get access to exclusive benefits and expand your freelancing opportunities
         </p>
         <div className="flex-grow" />

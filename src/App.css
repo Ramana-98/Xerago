@@ -116,4 +116,11 @@ button, [role="button"], .btn, .button {
     z-index: 2;
     box-shadow: 2px 0 2px -1px #eee;
   }
+  .hide-scrollbar-mobile {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+  }
+  .hide-scrollbar-mobile::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
 }

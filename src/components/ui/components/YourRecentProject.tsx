@@ -123,25 +123,23 @@ const YourRecentProjects = forwardRef<HTMLDivElement, YourRecentProjectsProps>((
   return (
     <Card
       ref={ref}
-      className={`bg-gray-200 shadow-sm h-[400px] flex flex-col hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-gray-200 shadow-sm flex flex-col w-full h-[440px] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
-      <CardHeader className="pb-2 px-3 sm:px-4 pt-3 sm:pt-4 flex-shrink-0">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-sm sm:text-base font-bold text-gray-800">
-            Your Recent Projects
-          </CardTitle>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="text-blue-600 hover:text-blue-700 text-xs"
-            onClick={toggleShowAllProjects}
-          >
-            <span className="hidden sm:inline">{showAllProjects ? "Show Less" : "See all Project"}</span>
-            <span className="sm:hidden">{showAllProjects ? "Less" : "All"}</span>
-            <ArrowUp className={`w-3 h-3 ml-1 transition-transform ${showAllProjects ? 'rotate-180' : ''}`} />
-          </Button>
-        </div>
-      </CardHeader>
+      {/* Move header to the very top of the card */}
+      <div className="flex items-center justify-between px-3 pt-0 pb-0 -mt-5">
+        <span className="sm:text-xl font-bold text-gray-800">Your Recent Projects</span>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-blue-600 hover:text-blue-700 text-xs"
+          onClick={toggleShowAllProjects}
+        >
+          <span className="hidden sm:inline">{showAllProjects ? "Show Less" : "See all Project"}</span>
+          <span className="sm:hidden">{showAllProjects ? "Less" : "All"}</span>
+          <ArrowUp className={`w-3 h-3 ml-1 transition-transform ${showAllProjects ? 'rotate-180' : ''}`} />
+        </Button>
+      </div>
+      <CardHeader className="sm:px-3 pt-2 flex-shrink-2 hidden" />
       <CardContent className="px-2 sm:px-3 pb-4 flex-1 overflow-y-auto scrollbar-hide">
         <div className="space-y-2 sm:space-y-3">
           {allProjects.map((proj, idx) => (

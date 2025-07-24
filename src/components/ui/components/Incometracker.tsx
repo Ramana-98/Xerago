@@ -110,7 +110,7 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
   return (
     <Card
       ref={ref}
-      className={`rounded-2xl bg-white p-3 sm:p-4 w-full h-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`rounded-2xl bg-white p-3 sm:p-4 max-w-4xl h-[440px] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
       <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-2 gap-1 sm:gap-0">
         <div className="w-full sm:w-auto">
@@ -127,18 +127,18 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
           <PopoverTrigger asChild>
             <Button
               variant="outline"
-              className="rounded-full px-3 sm:px-4 py-1 text-xs sm:text-sm w-full sm:w-auto"
+              className="rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm w-full sm:w-auto"
             >
               {selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)}
               <ChevronDown className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-32 sm:w-40 p-2">
+          <PopoverContent className="w-32 sm:w-40 p-2 ">
             <div className="space-y-1">
               <button
                 onClick={() => handlePeriodChange('week')}
                 className={cn(
-                  "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
+                  "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors ",
                   selectedPeriod === 'week' && "bg-blue-50 text-blue-600 font-medium"
                 )}
               >
@@ -169,11 +169,11 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
 
       <CardContent className="mt-0 sm:mt-0 pb-2 sm:pb-4">
         {/* Left Stat for mobile only */}
-        <div className="block sm:hidden mb-0 text-center">
+        <div className="block sm:hidden mb-4 text-center">
           <p className="text-base font-semibold">{getSummaryPercentage()}</p>
           <p className="text-xs text-muted-foreground">{getSummaryText()}</p>
         </div>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-2 sm:gap-4 min-h-48 sm:h-62 w-full">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-1  sm:gap-4 min-h-48 sm:h-62 w-full">
           {/* Left Stat for desktop only */}
           <div className="hidden sm:block text-center md:text-left mb-10 sm:mb-0">
             <p className="text-2xl lg:text-3xl font-semibold">{getSummaryPercentage()}</p>

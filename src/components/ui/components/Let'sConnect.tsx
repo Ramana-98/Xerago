@@ -84,11 +84,11 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
   return (
     <Card
       ref={ref}
-      className={`bg-gray-200 shadow-sm flex flex-col h-80 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-gray-200 shadow-sm flex flex-col h-65 w-full max-w-4xl mx-auto hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
-      <CardHeader className="pb-3 sm:pb-4 px-4 sm:px-6 pt-4 sm:pt-6">
+      <CardHeader className="-mt-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base sm:text-lg font-bold text-gray-800">
+          <CardTitle className="text-base sm:text-xl font-bold text-gray-800">
             Let's Connect
           </CardTitle>
           <Button
