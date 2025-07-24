@@ -12,6 +12,8 @@ import Discover from "./Discover";
 import WalletPage from "./WalletPage";
 import ProjectsPage from "./ProjectsPage";
 import { Toaster } from "sonner";
+import EarningBreakdown from "./Earning-Breakdown";
+
 
 const normalize = (str: string) => str.replace(/['’]/g, "").toLowerCase();
 
@@ -143,6 +145,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Section - 2/3 width */}
           <div className="lg:col-span-2 space-y-6 lg:space-y-8">
+            
             {/* Income Tracker - Top full width */}
             <IncomeTracker
               ref={incomeTrackerRef}
@@ -176,8 +179,13 @@ export default function Dashboard() {
                 highlight={normalize(searchValue).includes(normalize("Proposal Progress"))}
               />
             </div>
+            
           </div>
+          {/* Earnings Breakdown - Row 3, below Let's Connect */} 
+          <EarningBreakdown />
+          
         </div>
+        
       </main>
       <Toaster />
     </div>
