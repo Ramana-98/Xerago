@@ -13,7 +13,7 @@ import WalletPage from "./WalletPage";
 import ProjectsPage from "./ProjectsPage";
 import { Toaster } from "sonner";
 import EarningBreakdown from "./Earning-Breakdown";
-
+import ClientFeedback from "./Client-Feedback";
 
 const normalize = (str: string) => str.replace(/['’]/g, "").toLowerCase();
 
@@ -183,7 +183,8 @@ export default function Dashboard() {
           </div>
           {/* Earnings Breakdown - Row 3, below Let's Connect */} 
           <EarningBreakdown />
-          
+          {/* Client Feedback - Row 3, below Proposal Progress */}
+          <ClientFeedback />
         </div>
         
       </main>
