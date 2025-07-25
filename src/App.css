@@ -66,6 +66,16 @@ button, [role="button"], .btn, .button {
   /* Add hover/focus styles as needed */
 }
 
+.blurred-shadow-grow {
+  position: relative;
+  z-index: 1;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.blurred-shadow-grow:active {
+  box-shadow: 0 0 40px 10px #a78bfa, 0 0 80px 20px #f472b6;
+  transform: scale(1.04);
+}
+
 @media only screen 
   and (min-width: 1024px) 
   and (max-width: 1366px) 
