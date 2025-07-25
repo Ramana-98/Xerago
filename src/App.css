@@ -123,4 +123,13 @@ button, [role="button"], .btn, .button {
   .hide-scrollbar-mobile::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .client-feedback-ipad {
+    width: 795px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block;
+  }
+}
 }

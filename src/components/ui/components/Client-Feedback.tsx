@@ -11,7 +11,7 @@ const feedbacks = [
   {
     name: "James Carter",
     role: "Software Engineer",
-    message: "Great communication and excellent delivery. Highly recommend!",
+    message: "Great communication and excellent delivery.Prescribe!",
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
   },
   {
@@ -37,7 +37,7 @@ const feedbacks = [
 const CARD_WIDTH = 220; // px (card + gap)
 
 export default function ClientFeedback() {
-  const [centerIdx, setCenterIdx] = useState(2); // Start with Sophia Lee centered
+  const [centerIdx, setCenterIdx] = useState(0); // Start with first card centered
   const total = feedbacks.length;
 
   // Auto-scroll effect
@@ -48,86 +48,70 @@ export default function ClientFeedback() {
     return () => clearInterval(interval);
   }, [total]);
 
-  // Get visible cards: previous, center, next
-  const getVisibleCards = () => {
-    const prevIdx = (centerIdx - 1 + total) % total;
-    const nextIdx = (centerIdx + 1) % total;
-    return [feedbacks[prevIdx], feedbacks[centerIdx], feedbacks[nextIdx]];
+  // For transition: get previous, center, next
+  const getCardPosition = (idx: number) => {
+    if (idx === centerIdx) return 'center';
+    if ((idx + 1) % total === centerIdx) return 'left';
+    if ((idx - 1 + total) % total === centerIdx) return 'right';
+    return 'hidden';
   };
-  const visibleCards = getVisibleCards();
 
   return (
-    <section className="rounded-2xl w-full sm:w-[795px] mx-auto py-2 px-2 sm:px-6 bg-gradient-to-r from-pink-50 via-blue-50 to-purple-50 font-sans overflow-hidden">
-      <div className="max-w-5xl mx-auto overflow-hidden">
-        <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-gray-800 tracking-tight">Client Feedback</h2>
-        {/* Centered carousel: previous, center, next */}
-        <div className="flex justify-center items-center relative h-[240px]">
-          {/* Previous card (left, faded, slides out) */}
-          <div
-            className="absolute left-0 top-1/2 -translate-y-1/2 transition-all duration-500"
-            style={{ width: CARD_WIDTH, opacity: 0.3, zIndex: 1, transform: 'translateY(-50%) scale(0.92)' }}
-          >
-            <Card className="min-w-[200px] max-w-[200px] mx-auto bg-white rounded-2xl shadow border-0 px-3 py-4 flex flex-col items-center">
-              <CardHeader className="flex flex-col items-center p-0 mb-1">
-                <img
-                  src={visibleCards[0].avatar}
-                  alt={visibleCards[0].name}
-                  className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 shadow mb-1"
-                />
-                <CardTitle className="text-sm font-semibold text-gray-800 mb-0.5 text-center">
-                  {visibleCards[0].name}
-                </CardTitle>
-                <div className="text-xs text-gray-500 text-center leading-tight">{visibleCards[0].role}</div>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col justify-center items-center p-0">
-                <p className="italic text-gray-600 text-center text-xs">“{visibleCards[0].message}”</p>
-              </CardContent>
-            </Card>
-          </div>
-          {/* Center card (highlighted) */}
-          <div
-            className="relative z-10 transition-all duration-500"
-            style={{ width: CARD_WIDTH, transform: 'scale(1.08)' }}
-          >
-            <Card className="min-w-[200px] max-w-[200px] mx-auto bg-white rounded-2xl shadow-2xl border-0 px-3 py-4 flex flex-col items-center scale-100">
-              <CardHeader className="flex flex-col items-center p-0 mb-1">
-                <img
-                  src={visibleCards[1].avatar}
-                  alt={visibleCards[1].name}
-                  className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 shadow mb-1"
-                />
-                <CardTitle className="text-sm font-semibold text-gray-800 mb-0.5 text-center">
-                  {visibleCards[1].name}
-                </CardTitle>
-                <div className="text-xs text-gray-500 text-center leading-tight">{visibleCards[1].role}</div>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col justify-center items-center p-0">
-                <p className="italic text-gray-600 text-center text-xs">“{visibleCards[1].message}”</p>
-              </CardContent>
-            </Card>
-          </div>
-          {/* Next card (right, faded, slides in) */}
-          <div
-            className="absolute right-0 top-1/2 -translate-y-1/2 transition-all duration-500"
-            style={{ width: CARD_WIDTH, opacity: 0.3, zIndex: 1, transform: 'translateY(-50%) scale(0.92)' }}
-          >
-            <Card className="min-w-[200px] max-w-[200px] mx-auto bg-white rounded-2xl shadow border-0 px-3 py-4 flex flex-col items-center">
-              <CardHeader className="flex flex-col items-center p-0 mb-1">
-                <img
-                  src={visibleCards[2].avatar}
-                  alt={visibleCards[2].name}
-                  className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 shadow mb-1"
-                />
-                <CardTitle className="text-sm font-semibold text-gray-800 mb-0.5 text-center">
-                  {visibleCards[2].name}
-                </CardTitle>
-                <div className="text-xs text-gray-500 text-center leading-tight">{visibleCards[2].role}</div>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col justify-center items-center p-0">
-                <p className="italic text-gray-600 text-center text-xs">“{visibleCards[2].message}”</p>
-              </CardContent>
-            </Card>
-          </div>
+    <section
+      className="
+        rounded-2xl
+        w-full
+        h-[335px]
+        mx-auto
+        py-2 px-2 sm:px-6
+        bg-gray-300 hover:bg-gradient-to-r from-pink-50 via-blue-50 to-purple-50
+        font-sans overflow-hidden
+        transition-all duration-200 hover:-translate-y-2
+        md:w-[795px] md:max-w-[90vw] md:mx-auto
+        "
+    >
+      <div className="max-w-5xl mx-auto overflow-hidden -mt-1">
+        <h2 className="text-2xl sm:text-2xl font-bold mb-6 text-center text-gray-800 tracking-tight">Client Feedback</h2>
+        <div className="flex justify-center items-center relative h-[260px]">
+          {feedbacks.map((fb, idx: number) => {
+            const pos = getCardPosition(idx);
+            let style = { width: CARD_WIDTH };
+            let className =
+              "absolute top-1/2 left-1/2 transition-all duration-700 flex flex-col items-center";
+            if (pos === 'center') {
+              className +=
+                " z-20 -translate-x-1/2 -translate-y-[60%] scale-110 shadow-2xl bg-white opacity-100";
+            } else if (pos === 'left') {
+              className +=
+                " z-10 -translate-x-[170%] -translate-y-1/2 scale-95 opacity-60 bg-white";
+            } else if (pos === 'right') {
+              className +=
+                " z-10 translate-x-[70%] -translate-y-1/2 scale-95 opacity-60 bg-white";
+            } else {
+              className += " opacity-0 pointer-events-none";
+            }
+            return (
+              <div key={idx} className={className} style={style}>
+                <Card className="min-w-[220px] max-w-[200px] mx-auto rounded-1xl border-0 px-3 py-4 bg-gradient-to-r from-pink-50 via-blue-50 to-purple-50 flex flex-col items-center">
+                  <CardHeader className="flex flex-col items-center p-0 mb-1">
+                    <img
+                      src={fb.avatar || `/avatars/default.png`}
+                      alt={fb.name}
+                      className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 shadow mb-1"
+                      onError={e => { e.currentTarget.onerror = null; e.currentTarget.src = `/avatars/default.png`; }}
+                    />
+                    <CardTitle className="text-sm font-semibold text-gray-800 mb-0.5 text-center">
+                      {fb.name}
+                    </CardTitle>
+                    <div className="text-xs text-gray-500 text-center leading-tight">{fb.role}</div>
+                  </CardHeader>
+                  <CardContent className="flex-1 flex flex-col justify-center items-center p-0">
+                    <p className="italic text-gray-600 text-center text-xs">“{fb.message}”</p>
+                  </CardContent>
+                </Card>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

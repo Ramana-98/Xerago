@@ -84,7 +84,7 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
   return (
     <Card
       ref={ref}
-      className={`bg-gray-200 shadow-sm flex flex-col h-65 w-full max-w-4xl mx-auto hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-gray-200 shadow-sm flex flex-col h-65 w-full max-w-4xl mx-auto hover:shadow-lg hover:-translate-y-1 transition-all duration-200  ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
       <CardHeader className="-mt-4">
         <div className="flex items-center justify-between">
@@ -112,7 +112,7 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
           {(showAll ? users : users.slice(0, 2)).map((user, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-2 sm:p-3 border border-gray-100 rounded-lg hover:shadow-lg hover:-translate-y-1 transition-all duration-200 bg-gray-50/50"
+              className="flex items-center justify-between p-2 sm:p-3 rounded-full hover:shadow-lg hover:-translate-y-1 transition-all duration-200 bg-gray-100/50"
             >
               <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                 <Avatar className="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0">

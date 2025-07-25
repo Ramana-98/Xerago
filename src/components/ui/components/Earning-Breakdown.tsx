@@ -42,19 +42,27 @@ export default function EarningBreakdown() {
   };
 
   return (
-    <Card className="rounded-2xl shadow bg-white w-full max-w-md mx-auto p-3 transition-all duration-200 hover:-translate-y-2 hover:bg-red-300">
+    <Card
+      className={`rounded-2xl shadow w-full max-w-md mx-auto p-3 transition-all duration-200 hover:bg-gray-300 hover:-translate-y-2 ${
+        tab === "week"
+          ? "bg-cyan-100"
+          : tab === "month"
+          ? "bg-purple-200"
+          : "bg-white"
+      }`}
+    >
       <CardHeader className="pb-2">
         <CardTitle className="text-2xl font-bold">Earnings Breakdown</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent >
         <Tabs value={tab} onValueChange={setTab} className="mb-2">
-          <TabsList className="bg-gray-100 rounded-lg p-1 inline-flex mb-4">
+          <TabsList className="bg-gray-100 rounded-lg p-1 inline-flex mb-4 flex justify-center w-full">
             <TabsTrigger
               value="week"
               className={
                 tab === "week"
                   ? "bg-white shadow text-black font-semibold px-4 py-1 rounded-lg"
-                  : "text-gray-500 px-4 py-1"
+                  : "text-gray-500 px-4 py-1 "
               }
             >
               This week
