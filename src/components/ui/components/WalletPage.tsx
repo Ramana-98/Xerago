@@ -120,7 +120,7 @@ export default function WalletPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-start py-8 px-2">
+    <div className="min-h-screen bg-gray-200 flex justify-center items-start py-8 px-2">
       <div className="w-full max-w-3xl flex flex-col gap-6">
         {/* Account Balance */}
         <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 hover:bg-amber-50">
