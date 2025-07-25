@@ -208,7 +208,7 @@ export default function Discover({ onBack }: DiscoverProps) {
   };
 
   return (
-    <div className="p-2 sm:p-4 md:p-6 bg-gray-100 min-h-screen">
+    <div className="p-2 sm:p-4 md:p-6 bg-gray-200 min-h-screen">
       {/* Dialog Modal for Apply Now */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-w-md">
