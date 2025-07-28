@@ -67,9 +67,9 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
   return (
     <Card
       ref={ref}
-      className={`bg-white shadow-sm rounded-2xl flex flex-col h-65 w-full hover:shadow-lg hover:bg-amber-200 hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-white shadow-sm rounded-2xl  flex flex-col h-55 w-full hover:shadow-lg hover:bg-gradient-to-br from-[#fff3f2] to-[#fce8e7] hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
-      <CardHeader className="pb-2 sm:pb-3 px-4 pt-6 sm:pt-1 -mt-4 ">
+      <CardHeader className="pb-3  pt-6 sm:pt-3 -mt-6 ">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base sm:text-xl font-bold text-gray-900">
             Proposal Progress
@@ -104,7 +104,7 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
           </Popover>
         </div>
       </CardHeader>
-      <CardContent className="flex-1 min-h-0 px-4 sm:px-6 pb-4 sm:pb-6 flex flex-col">
+      <CardContent className="flex-1 min-h-0 px-4 pb-1 sm:px-6 pb-1 sm:pb-1 flex flex-col">
         <div className="relative flex flex-row h-full w-full">
           {currentMetrics.map((metric, idx) => (
             <div key={idx} className={`flex flex-col justify-between h-full flex-1 pl-2 pr-4 relative ${idx < 2 ? 'border-r-2' : ''}`} style={{ borderColor: idx === 0 ? '#cbd5e1' : idx === 1 ? '#f87171' : undefined }}>

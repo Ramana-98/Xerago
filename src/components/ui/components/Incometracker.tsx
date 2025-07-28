@@ -112,59 +112,58 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
       ref={ref}
       className={`rounded-2xl bg-white p-3 sm:p-4 max-w-4xl h-[440px] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
-      <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-2 gap-1 sm:gap-0">
-        <div className="w-full sm:w-auto">
-          <CardTitle className="text-lg sm:text-xl font-bold flex items-center gap-2">
+      <CardHeader className="pb-2">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
+          <CardTitle className="text-lg sm:text-3xl font-bold flex items-center gap-2">
             <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
             Income Tracker
           </CardTitle>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-1 text-left">
-            Track changes in income over time and access detailed data on each project and payments received.
-          </p>
+          <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className="rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm w-full sm:w-auto mt-2 sm:mt-0"
+              >
+                {selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)}
+                <ChevronDown className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-32 sm:w-40 p-2 ">
+              <div className="space-y-1">
+                <button
+                  onClick={() => handlePeriodChange('week')}
+                  className={cn(
+                    "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors ",
+                    selectedPeriod === 'week' && "bg-blue-50 text-blue-600 font-medium"
+                  )}
+                >
+                  Week
+                </button>
+                <button
+                  onClick={() => handlePeriodChange('month')}
+                  className={cn(
+                    "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
+                    selectedPeriod === 'month' && "bg-blue-50 text-blue-600 font-medium"
+                  )}
+                >
+                  Month
+                </button>
+                <button
+                  onClick={() => handlePeriodChange('year')}
+                  className={cn(
+                    "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
+                    selectedPeriod === 'year' && "bg-blue-50 text-blue-600 font-medium"
+                  )}
+                >
+                  Year
+                </button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
-
-        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className="rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm w-full sm:w-auto"
-            >
-              {selectedPeriod.charAt(0).toUpperCase() + selectedPeriod.slice(1)}
-              <ChevronDown className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-32 sm:w-40 p-2 ">
-            <div className="space-y-1">
-              <button
-                onClick={() => handlePeriodChange('week')}
-                className={cn(
-                  "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors ",
-                  selectedPeriod === 'week' && "bg-blue-50 text-blue-600 font-medium"
-                )}
-              >
-                Week
-              </button>
-              <button
-                onClick={() => handlePeriodChange('month')}
-                className={cn(
-                  "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
-                  selectedPeriod === 'month' && "bg-blue-50 text-blue-600 font-medium"
-                )}
-              >
-                Month
-              </button>
-              <button
-                onClick={() => handlePeriodChange('year')}
-                className={cn(
-                  "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
-                  selectedPeriod === 'year' && "bg-blue-50 text-blue-600 font-medium"
-                )}
-              >
-                Year
-              </button>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <p className="text-xs sm:text-sm text-muted-foreground mt-1 text-left">
+          Track changes in income over time and access detailed data on each project and payments received.
+        </p>
       </CardHeader>
 
       <CardContent className="mt-0 sm:mt-0 pb-2 sm:pb-4">

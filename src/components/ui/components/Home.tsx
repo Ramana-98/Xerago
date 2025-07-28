@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import IncomeTracker from "./Incometracker";
 import LetsConnect from "./Let'sConnect";
 import ProposalProgress from "./ProposalProgress";
@@ -6,17 +6,65 @@ import UpgradePremium from "./UpgradePremium";
 import YourRecentProjects from "./YourRecentProject";
 import EarningBreakdown from "./Earning-Breakdown";
 import ClientFeedback from "./Client-Feedback";
-import Header from "./Header";  
+import { EllipsisIcon } from "lucide-react";
+ 
 
-const normalize = (str: string) => str.replace(/['’]/g, "").toLowerCase();
+const normalize = (str: string) => str.replace(/['']/g, "").toLowerCase();
 
-export default function Home() {
+interface HomeProps {
+  searchValue: string;
+}
+
+export default function Home({ searchValue }: HomeProps) {
   const letsConnectRef = useRef<HTMLDivElement>(null);
   const upgradePremiumRef = useRef<HTMLDivElement>(null);
   const incomeTrackerRef = useRef<HTMLDivElement>(null);
   const yourRecentProjectsRef = useRef<HTMLDivElement>(null);
   const proposalProgressRef = useRef<HTMLDivElement>(null);
-  const [searchValue] = useState("");
+  const earningBreakdownRef = useRef<HTMLDivElement>(null);
+  const clientFeedbackRef = useRef<HTMLDivElement>(null);
+
+  // Function to scroll to highlighted card
+  const scrollToCard = (ref: React.RefObject<HTMLDivElement | null>) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      });
+      // Add a temporary highlight effect
+      ref.current.style.transition = 'all 0.3s ease';
+      ref.current.style.transform = 'scale(1.02)';
+      ref.current.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+      
+      setTimeout(() => {
+        if (ref.current) {
+          ref.current.style.transform = 'scale(1)';
+          ref.current.style.boxShadow = '';
+        }
+      }, 2000);
+    }
+  };
+
+  // Check if search matches any card and scroll to it
+  useEffect(() => {
+    const normalizedSearch = normalize(searchValue);
+    
+    if (normalizedSearch.includes(normalize("income tracker"))) {
+      scrollToCard(incomeTrackerRef);
+    } else if (normalizedSearch.includes(normalize("your recent project"))) {
+      scrollToCard(yourRecentProjectsRef);
+    } else if (normalizedSearch.includes(normalize("let's connect"))) {
+      scrollToCard(letsConnectRef);
+    } else if (normalizedSearch.includes(normalize("upgrade premium"))) {
+      scrollToCard(upgradePremiumRef);
+    } else if (normalizedSearch.includes(normalize("proposal progress"))) {
+      scrollToCard(proposalProgressRef);
+    } else if (normalizedSearch.includes(normalize("earning breakdown"))) {
+      scrollToCard(earningBreakdownRef);
+    } else if (normalizedSearch.includes(normalize("client feedback"))) {
+      scrollToCard(clientFeedbackRef);
+    } 
+  }, [searchValue]);
 
   return (
     <>
@@ -61,9 +109,15 @@ export default function Home() {
           </div>
         </div>
         {/* Earnings Breakdown - Row 3, below Let's Connect */}
-        <EarningBreakdown />
+        <EarningBreakdown 
+          ref={earningBreakdownRef}
+          highlight={normalize(searchValue).includes(normalize("Earning Breakdown"))}
+        />
         {/* Client Feedback - Row 3, below Proposal Progress */}
-        <ClientFeedback />
+        <ClientFeedback 
+          ref={clientFeedbackRef}
+          highlight={normalize(searchValue).includes(normalize("Client Feedback"))}
+        />
       </div>
     </main>
     </>

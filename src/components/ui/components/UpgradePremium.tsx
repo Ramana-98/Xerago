@@ -18,7 +18,7 @@ const UpgradePremium = forwardRef<HTMLDivElement, UpgradePremiumProps>(({ highli
   return (
     <Card
       ref={ref}
-      className={`bg-gray-300 text-black hover:bg-sky-300 rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 h-65 w-full mx-auto ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-gray-300 text-black hover:bg-gradient-to-br from-[#e9f1fe] to-[#d8e7fd] rounded-2xl shadow-md relative overflow-hidden border-0 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 h-55 w-full mx-auto ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
       {/* Dotted background pattern */}
       <div className="absolute inset-0 opacity-40 pointer-events-none">
@@ -40,11 +40,11 @@ const UpgradePremium = forwardRef<HTMLDivElement, UpgradePremiumProps>(({ highli
           <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
             <PopoverTrigger asChild>
               <Button
-                className="w-full bg-white text-blue-700 hover:bg-blue-50 rounded-full py-8 text-xl font-semibold shadow transition-all flex items-center justify-between"
+                className="w-full bg-gradient-to-r from-blue-500 to-green-400 hover:from-pink-500 hover:to-yellow-500 text-white hover:bg-blue hover:animate-pulse rounded-full py-6 text-xl font-semibold shadow transition-all flex items-center justify-between"
                 style={{ boxShadow: "0 2px 16px 0 rgba(16,30,54,0.08)" }}
                 onClick={handleUpgradeClick}
               >
-                <span className="pl-4 text-left flex-1">Upgrade now</span>
+                <span className="pl-2 text-left flex-1">Upgrade now</span>
                 <ArrowRight className="w-7 h-7 mr-4" />
               </Button>
             </PopoverTrigger>

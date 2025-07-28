@@ -123,6 +123,13 @@ const carouselItems = [
   },
 ];
 
+const gradients = [
+  "bg-gradient-to-r from-blue-100 to-blue-300",
+  "bg-gradient-to-r from-pink-100 to-pink-300",
+  "bg-gradient-to-r from-green-100 to-green-300",
+  // ...add as many as you have carousel items
+];
+
 export default function Discover({ onBack }: DiscoverProps) {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
@@ -269,7 +276,7 @@ export default function Discover({ onBack }: DiscoverProps) {
           <CarouselContent>
             {carouselItems.map((item, idx) => (
               <CarouselItem key={idx} >
-                <div className="bg-blue-50 rounded-lg shadow flex flex-col  text-center p-4 min-h-[80px]">
+                <div className={`rounded-xl p-4 shadow ${gradients[idx]}`}>
                   <h3 className="font-bold text-lg mb-1">{item.title}</h3>
                   <p className="text-sm text-gray-700">{item.description}</p>
                 </div>
@@ -335,7 +342,7 @@ export default function Discover({ onBack }: DiscoverProps) {
       </div>
 
       {/* Featured Projects */}
-      <div className="mb-8">
+      <div className="mb-8 ">
         <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
           <span role="img" aria-label="star">⭐</span> Featured Projects
         </h2>
@@ -402,7 +409,7 @@ function ProjectCard({ project, onApply, isSaved, onToggleSave }: {
   onToggleSave?: (project: Project) => void;
 }) {
   return (
-    <div className="bg-white rounded-lg shadow p-4 flex flex-col gap-2 border hover:shadow-lg transition">
+    <div className="bg-gradient-to-br from-white via-[#f7f9fc] to-[#eaf1fb] rounded-lg shadow p-4 flex flex-col gap-2 border hover:shadow-lg transition">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-base">{project.title}</h3>
         {project.featured && <Badge className="bg-yellow-400 text-black">Featured</Badge>}
@@ -430,6 +437,7 @@ function ProjectCard({ project, onApply, isSaved, onToggleSave }: {
           variant="outline"
           onClick={() => onToggleSave && onToggleSave(project)}
           aria-pressed={isSaved}
+          className="bg-gradient-to-r from-blue-500 to-green-400 hover:from-pink-500 hover:to-yellow-500 text-white"
         >
           {isSaved ? (
             <Heart className="w-4 h-4 fill-red-500 text-red-500" />

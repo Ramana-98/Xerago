@@ -112,92 +112,120 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
     (currentPage - 1) * projectsPerPage,
     currentPage * projectsPerPage
   );
+
+  // Function to get gradient class based on project status and mode
+  const getGradientClass = (isPaid: boolean, mode: string) => {
+    if (isPaid) {
+      return "bg-gradient-to-br from-[#f0fdf4] to-[#e1faea] hover:from-[#dcfce7] hover:to-[#bbf7d0]";
+    } else {
+      if (mode === "Contract" || mode === "Freelance") {
+        return "bg-gradient-to-br from-[#f3f7fd] to-[#e0ecfb] hover:from-[#dbeafe] hover:to-[#bfdbfe]";
+      } else {
+        return "bg-gradient-to-br from-[#fdf4f5] to-[#f3eaea] hover:from-[#fce7f3] hover:to-[#fbcfe8]";
+      }
+    }
+  };
+
   return (
-    <div className="px-4 md:px-8 py-6 space-y-4 ">
-      <div className="flex items-center gap-4 mb-4">
+    <div className="min-h-screen bg-gray-100 px-4 md:px-8 py-6 space-y-6">
+      <div className="flex items-center gap-4 mb-6">
         <button
           onClick={onBack}
-          className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400 text-sm font-medium"
+          className="px-4 py-2 bg-white rounded-lg hover:bg-gray-50 text-sm font-medium shadow-sm border border-gray-200 transition-colors"
         >
           ← Back
         </button>
-        <h1 className="text-2xl font-bold m-0">Your Projects</h1>
+        <h1 className="text-3xl font-bold m-0 text-gray-800">Your Projects</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-        {paginatedProjects.map((project, i) => (
-          <Card key={i} className="rounded-2xl shadow-sm hover:shadow-md transition">
-            <CardHeader>
-              <CardTitle className="flex justify-between items-start">
-                <span>{project.title}</span>
-                <Badge
-                  variant={projectStatus[i] ? "default" : "secondary"}
-                  className={projectStatus[i] ? "bg-green-500" : "bg-gray-300 text-black"}
-                >
-                  {projectStatus[i] ? "Paid" : "Not Paid"}
-                </Badge>
-              </CardTitle>
-              <div className="flex items-center gap-2 mt-2">
-                <Switch
-                  checked={projectStatus[i]}
-                  onCheckedChange={(checked) => {
-                    setProjectStatus((prev) =>
-                      prev.map((val, idx) => (idx === i ? checked : val))
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {paginatedProjects.map((project, i) => {
+          const isPaid = projectStatus[i];
+          const gradientClass = getGradientClass(isPaid, project.mode);
+          
+          return (
+            <Card 
+              key={i} 
+              className={`rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 ${gradientClass}`}
+            >
+              <CardHeader className="pb-3">
+                <CardTitle className="flex justify-between items-start text-lg font-semibold text-gray-800">
+                  <span className="line-clamp-2">{project.title}</span>
+                  <Badge
+                    variant={isPaid ? "default" : "secondary"}
+                    className={`${
+                      isPaid 
+                        ? "bg-green-500 text-white shadow-sm" 
+                        : "bg-gray-300 text-gray-700 shadow-sm"
+                    } font-medium`}
+                  >
+                    {isPaid ? "Paid" : "Not Paid"}
+                  </Badge>
+                </CardTitle>
+                <div className="flex items-center gap-2 mt-3">
+                  <Switch
+                    checked={isPaid}
+                    onCheckedChange={(checked) => {
+                      setProjectStatus((prev) =>
+                        prev.map((val, idx) => (idx === i ? checked : val))
+                      );
+                    }}
+                    id={`switch-${i}`}
+                  />
+                  <label htmlFor={`switch-${i}`} className="text-xs text-gray-600 font-medium">
+                    {isPaid ? "Paid" : "Not Paid"}
+                  </label>
+                </div>
+                <p className="text-lg font-bold text-gray-700 mt-2">{project.rate}</p>
+              </CardHeader>
+              <CardContent className="text-sm text-gray-600 space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  {(() => {
+                    let typeClass = "border-gray-200 text-gray-600 bg-gray-50";
+                    if (project.type === "Remote") typeClass = "border-red-200 text-red-700 bg-red-50";
+                    else if (project.type === "Contract") typeClass = "border-teal-200 text-teal-700 bg-teal-50";
+                    return (
+                      <Badge variant="outline" className={`${typeClass} font-medium`}>
+                        {project.type}
+                      </Badge>
                     );
-                  }}
-                  id={`switch-${i}`}
-                />
-                <label htmlFor={`switch-${i}`} className="text-xs text-gray-600">
-                  {projectStatus[i] ? "Paid" : "Not Paid"}
-                </label>
-              </div>
-              <p className="text-sm text-muted-foreground">{project.rate}</p>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground space-y-2">
-              <div className="flex flex-wrap gap-2">
-                {(() => {
-                  let typeClass = "border-gray-200 text-gray-600 bg-gray-50";
-                  if (project.type === "Remote") typeClass = "border-red-200 text-red-700 bg-red-50";
-                  else if (project.type === "Contract") typeClass = "border-teal-200 text-teal-700 bg-teal-50";
-                  return (
-                    <Badge variant="outline" className={typeClass}>
-                      {project.type}
-                    </Badge>
-                  );
-                })()}
-                {(() => {
-                  let modeClass = "border-gray-200 text-gray-600 bg-gray-50";
-                  if (project.mode === "Part-time") modeClass = "border-blue-200 text-blue-700 bg-blue-50";
-                  else if (project.mode === "Freelance") modeClass = "border-yellow-200 text-yellow-700 bg-yellow-50";
-                  else if (project.mode === "Contract") modeClass = "border-teal-200 text-teal-700 bg-teal-50";
-                  return (
-                    <Badge variant="outline" className={modeClass}>
-                      {project.mode}
-                    </Badge>
-                  );
-                })()}
-              </div>
-              <p className="text-xs text-gray-500">
-                {project.country} · {project.timeAgo}
-              </p>
-              <Button
-                variant="ghost"
-                className="mt-2 p-0 text-sm text-blue-600 hover:underline flex items-center gap-1"
-                onClick={() => setSelectedProject(project)}
-              >
-                View Details <ArrowUpRight className="w-4 h-4" />
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
+                  })()}
+                  {(() => {
+                    let modeClass = "border-gray-200 text-gray-600 bg-gray-50";
+                    if (project.mode === "Part-time") modeClass = "border-blue-200 text-blue-700 bg-blue-50";
+                    else if (project.mode === "Freelance") modeClass = "border-yellow-200 text-yellow-700 bg-yellow-50";
+                    else if (project.mode === "Contract") modeClass = "border-teal-200 text-teal-700 bg-teal-50";
+                    return (
+                      <Badge variant="outline" className={`${modeClass} font-medium`}>
+                        {project.mode}
+                      </Badge>
+                    );
+                  })()}
+                </div>
+                <p className="text-xs text-gray-500 font-medium">
+                  {project.country} · {project.timeAgo}
+                </p>
+                <Button
+                  variant="ghost"
+                  className="mt-3 p-0 text-sm text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 font-medium"
+                  onClick={() => setSelectedProject(project)}
+                >
+                  View Details <ArrowUpRight className="w-4 h-4" />
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
+      
       {/* Pagination Controls */}
-      <div className="flex justify-center items-center gap-2 mt-6">
+      <div className="flex justify-center items-center gap-2 mt-8">
         <Button
           variant="outline"
           size="sm"
           onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
           disabled={currentPage === 1}
+          className="px-4 py-2 rounded-lg border-gray-200 hover:bg-gray-50"
         >
           Previous
         </Button>
@@ -207,6 +235,11 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
             variant={currentPage === idx + 1 ? "default" : "outline"}
             size="sm"
             onClick={() => setCurrentPage(idx + 1)}
+            className={`px-4 py-2 rounded-lg ${
+              currentPage === idx + 1 
+                ? "bg-blue-600 text-white hover:bg-blue-700" 
+                : "border-gray-200 hover:bg-gray-50"
+            }`}
           >
             {idx + 1}
           </Button>
@@ -216,38 +249,42 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
           size="sm"
           onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
           disabled={currentPage === totalPages}
+          className="px-4 py-2 rounded-lg border-gray-200 hover:bg-gray-50"
         >
           Next
         </Button>
       </div>
+      
       {selectedProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+          <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md relative mx-4">
             <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl font-bold"
               onClick={() => setSelectedProject(null)}
             >
               ×
             </button>
-            <h2 className="text-xl font-bold mb-2">{selectedProject.title}</h2>
-            <p className="mb-2"><b>Rate:</b> {selectedProject.rate}</p>
-            <p className="mb-2"><b>Status:</b> {selectedProject.status}</p>
-            <p className="mb-2"><b>Type:</b> {selectedProject.type}</p>
-            <p className="mb-2"><b>Mode:</b> {selectedProject.mode}</p>
-            <p className="mb-2"><b>Country:</b> {selectedProject.country}</p>
-            <p className="mb-2"><b>Posted:</b> {selectedProject.timeAgo}</p>
+            <h2 className="text-xl font-bold mb-4 text-gray-800">{selectedProject.title}</h2>
+            <div className="space-y-2 text-sm">
+              <p className="flex justify-between"><b>Rate:</b> <span className="font-semibold text-gray-700">{selectedProject.rate}</span></p>
+              <p className="flex justify-between"><b>Status:</b> <span className="font-semibold text-gray-700">{selectedProject.status}</span></p>
+              <p className="flex justify-between"><b>Type:</b> <span className="font-semibold text-gray-700">{selectedProject.type}</span></p>
+              <p className="flex justify-between"><b>Mode:</b> <span className="font-semibold text-gray-700">{selectedProject.mode}</span></p>
+              <p className="flex justify-between"><b>Country:</b> <span className="font-semibold text-gray-700">{selectedProject.country}</span></p>
+              <p className="flex justify-between"><b>Posted:</b> <span className="font-semibold text-gray-700">{selectedProject.timeAgo}</span></p>
+            </div>
             {/* Feedback/Notes Textarea */}
-            <div className="mt-4">
-              <label htmlFor="project-note" className="block text-sm font-medium text-gray-700 mb-1">Notes / Feedback</label>
+            <div className="mt-6">
+              <label htmlFor="project-note" className="block text-sm font-medium text-gray-700 mb-2">Notes / Feedback</label>
               <Textarea
                 id="project-note"
                 placeholder="Add notes, feedback, or comments about this project..."
                 value={projectNote}
                 onChange={e => setProjectNote(e.target.value)}
-                className="w-full min-h-[80px]"
+                className="w-full min-h-[80px] rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500"
               />
               <Button
-                className="mt-3 w-full bg-blue-600 hover:bg-blue-700"
+                className="mt-3 w-full bg-blue-600 hover:bg-blue-700 rounded-lg font-medium"
                 onClick={() => {
                   toast("Note saved!");
                   setProjectNote("");

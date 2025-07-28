@@ -123,7 +123,7 @@ const YourRecentProjects = forwardRef<HTMLDivElement, YourRecentProjectsProps>((
   return (
     <Card
       ref={ref}
-      className={`bg-gray-200 shadow-sm flex flex-col w-full h-[440px] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-gray-200 shadow-xs flex flex-col w-full h-[440px] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
       {/* Move header to the very top of the card */}
       <div className="flex items-center justify-between px-3 pt-0 pb-0 -mt-5">

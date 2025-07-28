@@ -84,7 +84,7 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
   return (
     <Card
       ref={ref}
-      className={`bg-gray-200 shadow-xs flex flex-col h-65 w-full max-w-4xl mx-auto hover:shadow-lg hover:-translate-y-1 transition-all duration-200  ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`p-2 bg-gray-200 shadow-xs flex flex-col h-55 w-full max-w-4xl mx-auto hover:shadow-lg hover:-translate-y-1 transition-all duration-200  ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
     >
       <CardHeader className="-mt-4">
         <div className="flex items-center justify-between">
@@ -103,7 +103,7 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="flex-1 min-h-0 px-4 sm:px-6 pb-4 sm:pb-6 flex flex-col">
+      <CardContent className="flex-1 min-h-0 px-4 sm:px-6 pb-4 sm:pb-3 flex flex-col">
         <div className={
           showAll
             ? "flex-1 min-h-0 overflow-y-auto pr-1 space-y-3 sm:space-y-4 hide-scrollbar"
@@ -114,7 +114,7 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
               key={idx}
               className="flex items-center justify-between p-2 sm:p-3 rounded-full hover:shadow-lg hover:-translate-y-1 transition-all duration-200 bg-gray-100/50"
             >
-              <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+              <div className="flex items-left text-left gap-2 sm:gap-3 min-w-0 flex-1">
                 <Avatar className="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0">
                   <AvatarImage 
                     src={user.avatarUrl} 

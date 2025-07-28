@@ -2,24 +2,156 @@ import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { User, Star, Archive, Plus, CheckCircle } from "lucide-react";
+import { User, Star, Archive, Plus, CheckCircle, Phone, Mail, MapPin, Clock, MessageCircle, ExternalLink } from "lucide-react";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 
 // Mock data
 const contacts = [
-  { id: 1, name: "John Doe", lastMessage: "See you soon!", unread: 2, project: "UI Design" },
-  { id: 2, name: "Jane Smith", lastMessage: "Thanks for the update.", unread: 0, project: "Web Dashboard" },
-  { id: 3, name: "Alex Lee", lastMessage: "Let's connect tomorrow.", unread: 1, project: "API Integration" },
-  { id: 4, name: "Team Alpha", lastMessage: "Meeting at 3pm.", unread: 0, project: "SaaS App" },
+  { 
+    id: 1, 
+    name: "John Doe", 
+    lastMessage: "See you soon!", 
+    unread: 2, 
+    project: "UI Design", 
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    role: "UI Designer",
+    status: "Available",
+    email: "john.doe@example.com",
+    location: "San Francisco, CA",
+    timezone: "PST (UTC-8)",
+    phone: "+1 (555) 123-4567"
+  },
+  { 
+    id: 2, 
+    name: "Jane Smith", 
+    lastMessage: "Thanks for the update.", 
+    unread: 0, 
+    project: "Web Dashboard", 
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    role: "Frontend Developer",
+    status: "Busy",
+    email: "jane.smith@example.com",
+    location: "New York, NY",
+    timezone: "EST (UTC-5)",
+    phone: "+1 (555) 234-5678"
+  },
+  { 
+    id: 3, 
+    name: "Alex Lee", 
+    lastMessage: "Let's connect tomorrow.", 
+    unread: 1, 
+    project: "API Integration", 
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    role: "Backend Developer",
+    status: "Available",
+    email: "alex.lee@example.com",
+    location: "Austin, TX",
+    timezone: "CST (UTC-6)",
+    phone: "+1 (555) 345-6789"
+  },
+  { 
+    id: 4, 
+    name: "Team Alpha", 
+    lastMessage: "Meeting at 3pm.", 
+    unread: 0, 
+    project: "SaaS App", 
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    role: "Project Manager",
+    status: "In Meeting",
+    email: "team.alpha@example.com",
+    location: "Seattle, WA",
+    timezone: "PST (UTC-8)",
+    phone: "+1 (555) 456-7890"
+  },
   // New contacts
-  { id: 5, name: "Priya Kumar", lastMessage: "I'll send the files soon.", unread: 3, project: "Mobile App" },
-  { id: 6, name: "Carlos Rivera", lastMessage: "Can we reschedule?", unread: 0, project: "E-commerce" },
-  { id: 7, name: "Emily Chen", lastMessage: "Great job on the demo!", unread: 1, project: "AI Research" },
-  { id: 8, name: "Liam O'Brien", lastMessage: "See you at the meeting.", unread: 0, project: "HR Portal" },
-  { id: 9, name: "Sophia Rossi", lastMessage: "Invoice sent.", unread: 2, project: "Finance" },
-  { id: 10, name: "Mia Müller", lastMessage: "Danke!", unread: 0, project: "Localization" },
+  { 
+    id: 5, 
+    name: "Priya Kumar", 
+    lastMessage: "I'll send the files soon.", 
+    unread: 3, 
+    project: "Mobile App", 
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    role: "Mobile Developer",
+    status: "Available",
+    email: "priya.kumar@example.com",
+    location: "Mumbai, India",
+    timezone: "IST (UTC+5:30)",
+    phone: "+91 98765 43210"
+  },
+  { 
+    id: 6, 
+    name: "Carlos Rivera", 
+    lastMessage: "Can we reschedule?", 
+    unread: 0, 
+    project: "E-commerce", 
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+    role: "UX Designer",
+    status: "Away",
+    email: "carlos.rivera@example.com",
+    location: "Barcelona, Spain",
+    timezone: "CET (UTC+1)",
+    phone: "+34 612 345 678"
+  },
+  { 
+    id: 7, 
+    name: "Emily Chen", 
+    lastMessage: "Great job on the demo!", 
+    unread: 1, 
+    project: "AI Research", 
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    role: "Data Scientist",
+    status: "Available",
+    email: "emily.chen@example.com",
+    location: "Toronto, Canada",
+    timezone: "EST (UTC-5)",
+    phone: "+1 (555) 567-8901"
+  },
+  { 
+    id: 8, 
+    name: "Liam O'Brien", 
+    lastMessage: "See you at the meeting.", 
+    unread: 0, 
+    project: "HR Portal", 
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face",
+    role: "Product Manager",
+    status: "Busy",
+    email: "liam.obrien@example.com",
+    location: "Dublin, Ireland",
+    timezone: "GMT (UTC+0)",
+    phone: "+353 87 123 4567"
+  },
+  { 
+    id: 9, 
+    name: "Sophia Rossi", 
+    lastMessage: "Invoice sent.", 
+    unread: 2, 
+    project: "Finance", 
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+    role: "Financial Analyst",
+    status: "Available",
+    email: "sophia.rossi@example.com",
+    location: "Milan, Italy",
+    timezone: "CET (UTC+1)",
+    phone: "+39 333 123 4567"
+  },
+  { 
+    id: 10, 
+    name: "Mia Müller", 
+    lastMessage: "Danke!", 
+    unread: 0, 
+    project: "Localization", 
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+    role: "Translator",
+    status: "Available",
+    email: "mia.mueller@example.com",
+    location: "Berlin, Germany",
+    timezone: "CET (UTC+1)",
+    phone: "+49 30 123 45678"
+  },
 ];
 
 const mockMessages: { [key: number]: { fromMe: boolean; text: string; time: string }[] } = {
@@ -116,6 +248,17 @@ export default function Messages() {
   const handleEmojiSelect = (emoji: { native: string }) => {
     setInput(prev => prev + emoji.native);
     setShowEmojiPicker(false);
+  };
+
+  // Get status color
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "Available": return "bg-green-500";
+      case "Busy": return "bg-yellow-500";
+      case "Away": return "bg-gray-500";
+      case "In Meeting": return "bg-red-500";
+      default: return "bg-gray-500";
+    }
   };
 
   return (
@@ -234,7 +377,75 @@ export default function Messages() {
                   if (window.innerWidth < 640) setMobileChatOpen(true);
                 }}
               >
-                <User className="w-8 h-8 text-gray-400 bg-gray-300  justify-center rounded-full p-1" />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div className="cursor-pointer">
+                      <Avatar className="w-8 h-8 hover:scale-105 transition-transform duration-200">
+                        <AvatarImage src={c.avatar} alt={c.name} />
+                        <AvatarFallback className="bg-gray-300 text-gray-600 text-xs">
+                          {c.name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80 p-0 bg-white/95 backdrop-blur-md border-0 shadow-xl rounded-2xl">
+                    <div className="p-6 space-y-4">
+                      {/* Profile Header */}
+                      <div className="flex items-center gap-4">
+                        <Avatar className="w-16 h-16">
+                          <AvatarImage src={c.avatar} alt={c.name} />
+                          <AvatarFallback className="bg-gray-300 text-gray-600 text-lg">
+                            {c.name.split(' ').map(n => n[0]).join('')}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-bold text-gray-800">{c.name}</h3>
+                          <p className="text-gray-600">{c.role}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <div className={`w-2 h-2 rounded-full ${getStatusColor(c.status)}`}></div>
+                            <span className="text-sm text-gray-500">{c.status}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Contact Details */}
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-3 text-sm">
+                          <Mail className="w-4 h-4 text-gray-400" />
+                          <span className="text-gray-700">{c.email}</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm">
+                          <Phone className="w-4 h-4 text-gray-400" />
+                          <span className="text-gray-700">{c.phone}</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm">
+                          <MapPin className="w-4 h-4 text-gray-400" />
+                          <span className="text-gray-700">{c.location}</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-sm">
+                          <Clock className="w-4 h-4 text-gray-400" />
+                          <span className="text-gray-700">{c.timezone}</span>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 pt-2">
+                        <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white">
+                          <MessageCircle className="w-4 h-4 mr-2" />
+                          Message
+                        </Button>
+                        <Button variant="outline" className="flex-1">
+                          <Phone className="w-4 h-4 mr-2" />
+                          Call
+                        </Button>
+                      </div>
+                      <Button variant="ghost" className="w-full text-gray-600 hover:text-gray-800">
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        View Full Profile
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
                 <div className="flex-1 min-w-0 ">
                   <div className="flex items-center gap-2">
                     <span className="font-medium truncate">{c.name}</span>
@@ -260,9 +471,17 @@ export default function Messages() {
               </Button>
             </div>
           )}
-          <div className="p-4 border-b flex items-center gap-2">
-            <span className="font-bold text-lg flex-1">{selectedContact.name}</span>
-            <span className="text-xs text-gray-500">{selectedContact.project}</span>
+          <div className="p-4 border-b flex items-center gap-3 bg-white">
+            <Avatar className="w-10 h-10">
+              <AvatarImage src={selectedContact.avatar} alt={selectedContact.name} />
+              <AvatarFallback className="bg-gray-300 text-gray-600">
+                {selectedContact.name.split(' ').map(n => n[0]).join('')}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1">
+              <span className="font-bold text-lg">{selectedContact.name}</span>
+              <div className="text-xs text-gray-500">{selectedContact.project}</div>
+            </div>
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50">
             {messages.map((m: { fromMe: boolean; text: string; time: string }, idx: number) => (
