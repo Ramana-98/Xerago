@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from "@/components/ui/dropdown-menu";
 import { Bell, MessageCircle, Briefcase, Eye, UserPlus, CreditCard, Rocket, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNotifications } from "@/context/NotificationContext";
+import { useNavigate, Link } from "react-router-dom";
 
 const notificationIcons = {
   message: <MessageCircle className="w-5 h-5 text-blue-500" />,
@@ -13,46 +15,17 @@ const notificationIcons = {
   upgrade: <Rocket className="w-5 h-5 text-orange-500" />,
 };
 
-type Notification = {
-  id: number;
-  type: "message" | "job" | "proposal" | "connection" | "payment" | "upgrade";
-  text: string;
-  meta?: string;
-  time: string;
-  unread: boolean;
-};
-
 export function NotificationsDropdown() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch notifications (mocked for demo)
-  useEffect(() => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setNotifications([
-        { id: 1, type: "message", text: "You have a new message from John", meta: "UI Design", time: "2 mins ago", unread: true },
-        { id: 2, type: "job" as const, text: "New job posted: Web Dashboard", time: "1 hour ago", unread: true },
-        { id: 3, type: "proposal" as const, text: "Your proposal was viewed by the client", time: "3 hours ago", unread: false },
-        { id: 4, type: "payment" as const, text: "₹1,200 INR received for 'SaaS App Project'", time: "1 day ago", unread: false },
-        { id: 5, type: "upgrade" as const, text: "Upgrade to premium for unlimited proposals", time: "2 days ago", unread: false },
-      ]);
-      setLoading(false);
-    }, 800);
-  }, []);
-
-  const markAllAsRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
-  };
+  const { notifications, loading, markAllAsRead, hasUnreadNotifications } = useNotifications();
+  const navigate = useNavigate();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative px-3 py-5 rounded-full bg-white hover:bg-gray-300 transition">
           <Bell className="w-5 h-5 text-gray-600" />
-          {notifications.some((n) => n.unread) && (
-            <span className="absolute top-1 right-1 w-2 h-2  bg-blue-500 rounded-full" />
+          {hasUnreadNotifications && (
+            <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full" />
           )}
         </Button>
       </DropdownMenuTrigger>
@@ -96,9 +69,14 @@ export function NotificationsDropdown() {
           )}
         </div>
         <div className="p-3 border-t text-center">
-          <Button variant="ghost" className="w-full text-blue-600 hover:underline">
-            View all notifications
-          </Button>
+          <Link to="/notifications" className="block">
+            <Button 
+              variant="ghost" 
+              className="w-full text-blue-600 hover:underline"
+            >
+              View all notifications
+            </Button>
+          </Link>
         </div>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -107,37 +85,7 @@ export function NotificationsDropdown() {
 
 // Dedicated Notification Page for small screens
 export function NotificationPage() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch notifications (mocked for demo)
-  useEffect(() => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setNotifications([
-        { id: 1, type: "message", text: "You have a new message from John", meta: "UI Design", time: "2 mins ago", unread: true },
-        { id: 2, type: "job" as const, text: "New job posted: Web Dashboard", time: "1 hour ago", unread: true },
-        { id: 3, type: "proposal" as const, text: "Your proposal was viewed by the client", time: "3 hours ago", unread: false },
-        { id: 4, type: "payment" as const, text: "₹1,200 INR received for 'SaaS App Project'", time: "1 day ago", unread: false },
-        { id: 5, type: "upgrade" as const, text: "Upgrade to premium for unlimited proposals", time: "2 days ago", unread: false },
-        { id: 6, type: "connection" as const, text: "New connection request from Sarah", time: "3 days ago", unread: false },
-        { id: 7, type: "message", text: "Project update from Team Alpha", meta: "SaaS App", time: "4 days ago", unread: false },
-        { id: 8, type: "payment" as const, text: "₹800 INR received for 'Mobile App'", time: "5 days ago", unread: false },
-      ]);
-      setLoading(false);
-    }, 800);
-  }, []);
-
-  const markAllAsRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })));
-  };
-
-  const markAsRead = (id: number) => {
-    setNotifications((prev) => 
-      prev.map((n) => n.id === id ? { ...n, unread: false } : n)
-    );
-  };
+  const { notifications, loading, markAllAsRead, markAsRead } = useNotifications();
 
   return (
     <div className="min-h-screen bg-gray-100">

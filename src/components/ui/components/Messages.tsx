@@ -218,6 +218,8 @@ export default function Messages() {
   const [subject, setSubject] = useState("");
   const [messageBody, setMessageBody] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [contactDetailOpen, setContactDetailOpen] = useState(false);
+  const [selectedContactForDetail, setSelectedContactForDetail] = useState<typeof contacts[0] | null>(null);
 
   // Scroll to bottom on new message
   useEffect(() => {
@@ -262,21 +264,11 @@ export default function Messages() {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row h-screen bg-gray-200">
+    <div className="flex flex-col sm:flex-row h-screen bg-gray-200 overflow-hidden">
       {/* Sidebar/Contacts */}
       {( !mobileChatOpen || window.innerWidth >= 640 ) && (
-        <div className="w-full sm:w-80 bg-gray-200 border-r flex-shrink-0 flex flex-col">
+        <div className="w-full sm:w-80 bg-gray-200 border-r flex-shrink-0 flex flex-col h-full overflow-hidden">
           <div className="p-4 border-b flex flex-col gap-2">
-            <button
-              className="back-btn self-start mb-2"
-              aria-label="Back to Dashboard"
-              onClick={() => {
-                // Replace with your navigation logic, e.g., navigate("/dashboard")
-                window.location.href = "/"; // or use your router
-              }}
-            >
-              ←
-            </button>
             <div className="flex items-center gap-2">
               <span className="font-bold text-lg flex-1">Messages</span>
               <Dialog open={newMessageOpen} onOpenChange={setNewMessageOpen}>
@@ -367,7 +359,7 @@ export default function Messages() {
               ))}
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto hide-scrollbar">
+          <div className="flex-1 overflow-y-auto hide-scrollbar scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             {filteredContacts.map((c: typeof contacts[0]) => (
               <div
                 key={c.id}
@@ -377,75 +369,97 @@ export default function Messages() {
                   if (window.innerWidth < 640) setMobileChatOpen(true);
                 }}
               >
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <div className="cursor-pointer">
-                      <Avatar className="w-8 h-8 hover:scale-105 transition-transform duration-200">
-                        <AvatarImage src={c.avatar} alt={c.name} />
-                        <AvatarFallback className="bg-gray-300 text-gray-600 text-xs">
-                          {c.name.split(' ').map(n => n[0]).join('')}
-                        </AvatarFallback>
-                      </Avatar>
-                    </div>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-80 p-0 bg-white/95 backdrop-blur-md border-0 shadow-xl rounded-2xl">
-                    <div className="p-6 space-y-4">
-                      {/* Profile Header */}
-                      <div className="flex items-center gap-4">
-                        <Avatar className="w-16 h-16">
+                {/* Desktop Popover */}
+                <div className="hidden sm:block">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <div className="cursor-pointer">
+                        <Avatar className="w-8 h-8 hover:scale-105 transition-transform duration-200">
                           <AvatarImage src={c.avatar} alt={c.name} />
-                          <AvatarFallback className="bg-gray-300 text-gray-600 text-lg">
+                          <AvatarFallback className="bg-gray-300 text-gray-600 text-xs">
                             {c.name.split(' ').map(n => n[0]).join('')}
                           </AvatarFallback>
                         </Avatar>
-                        <div className="flex-1">
-                          <h3 className="text-xl font-bold text-gray-800">{c.name}</h3>
-                          <p className="text-gray-600">{c.role}</p>
-                          <div className="flex items-center gap-2 mt-1">
-                            <div className={`w-2 h-2 rounded-full ${getStatusColor(c.status)}`}></div>
-                            <span className="text-sm text-gray-500">{c.status}</span>
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80 p-0 bg-white/95 backdrop-blur-md border-0 shadow-xl rounded-2xl" side="right" align="start">
+                      <div className="p-6 space-y-4">
+                        {/* Profile Header */}
+                        <div className="flex items-center gap-4">
+                          <Avatar className="w-16 h-16">
+                            <AvatarImage src={c.avatar} alt={c.name} />
+                            <AvatarFallback className="bg-gray-300 text-gray-600 text-lg">
+                              {c.name.split(' ').map(n => n[0]).join('')}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <h3 className="text-xl font-bold text-gray-800">{c.name}</h3>
+                            <p className="text-gray-600">{c.role}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                              <div className={`w-2 h-2 rounded-full ${getStatusColor(c.status)}`}></div>
+                              <span className="text-sm text-gray-500">{c.status}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Contact Details */}
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3 text-sm">
-                          <Mail className="w-4 h-4 text-gray-400" />
-                          <span className="text-gray-700">{c.email}</span>
+                        {/* Contact Details */}
+                        <div className="space-y-3">
+                          <div className="flex items-center gap-3 text-sm">
+                            <Mail className="w-4 h-4 text-gray-400" />
+                            <span className="text-gray-700">{c.email}</span>
+                          </div>
+                          <div className="flex items-center gap-3 text-sm">
+                            <Phone className="w-4 h-4 text-gray-400" />
+                            <span className="text-gray-700">{c.phone}</span>
+                          </div>
+                          <div className="flex items-center gap-3 text-sm">
+                            <MapPin className="w-4 h-4 text-gray-400" />
+                            <span className="text-gray-700">{c.location}</span>
+                          </div>
+                          <div className="flex items-center gap-3 text-sm">
+                            <Clock className="w-4 h-4 text-gray-400" />
+                            <span className="text-gray-700">{c.timezone}</span>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-3 text-sm">
-                          <Phone className="w-4 h-4 text-gray-400" />
-                          <span className="text-gray-700">{c.phone}</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-sm">
-                          <MapPin className="w-4 h-4 text-gray-400" />
-                          <span className="text-gray-700">{c.location}</span>
-                        </div>
-                        <div className="flex items-center gap-3 text-sm">
-                          <Clock className="w-4 h-4 text-gray-400" />
-                          <span className="text-gray-700">{c.timezone}</span>
-                        </div>
-                      </div>
 
-                      {/* Action Buttons */}
-                      <div className="flex gap-2 pt-2">
-                        <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white">
-                          <MessageCircle className="w-4 h-4 mr-2" />
-                          Message
-                        </Button>
-                        <Button variant="outline" className="flex-1">
-                          <Phone className="w-4 h-4 mr-2" />
-                          Call
+                        {/* Action Buttons */}
+                        <div className="flex gap-2 pt-2">
+                          <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white">
+                            <MessageCircle className="w-4 h-4 mr-2" />
+                            Message
+                          </Button>
+                          <Button variant="outline" className="flex-1">
+                            <Phone className="w-4 h-4 mr-2" />
+                            Call
+                          </Button>
+                        </div>
+                        <Button variant="ghost" className="w-full text-gray-600 hover:text-gray-800">
+                          <ExternalLink className="w-4 h-4 mr-2" />
+                          View Full Profile
                         </Button>
                       </div>
-                      <Button variant="ghost" className="w-full text-gray-600 hover:text-gray-800">
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        View Full Profile
-                      </Button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                {/* Mobile Avatar Click */}
+                <div className="sm:hidden">
+                  <div 
+                    className="cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedContactForDetail(c);
+                      setContactDetailOpen(true);
+                    }}
+                  >
+                    <Avatar className="w-8 h-8 hover:scale-105 transition-transform duration-200">
+                      <AvatarImage src={c.avatar} alt={c.name} />
+                      <AvatarFallback className="bg-gray-300 text-gray-600 text-xs">
+                        {c.name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                  </div>
+                </div>
                 <div className="flex-1 min-w-0 ">
                   <div className="flex items-center gap-2">
                     <span className="font-medium truncate">{c.name}</span>
@@ -462,16 +476,16 @@ export default function Messages() {
 
       {/* Chat Area */}
       {( mobileChatOpen || window.innerWidth >= 640 ) && (
-        <div className="flex-1 flex flex-col h-full">
+        <div className="flex-1 flex flex-col h-full overflow-hidden">
           {/* Mobile back button */}
           {window.innerWidth < 640 && (
-            <div className="p-2 border-b">
+            <div className="p-2 border-b flex-shrink-0">
               <Button variant="ghost" size="sm" onClick={() => setMobileChatOpen(false)} className="hover:scale-105 hover:shadow-md transition-all duration-200">
                 ← Back
               </Button>
             </div>
           )}
-          <div className="p-4 border-b flex items-center gap-3 bg-white">
+          <div className="p-4 border-b flex items-center gap-3 bg-white flex-shrink-0">
             <Avatar className="w-10 h-10">
               <AvatarImage src={selectedContact.avatar} alt={selectedContact.name} />
               <AvatarFallback className="bg-gray-300 text-gray-600">
@@ -483,7 +497,7 @@ export default function Messages() {
               <div className="text-xs text-gray-500">{selectedContact.project}</div>
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50">
+          <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             {messages.map((m: { fromMe: boolean; text: string; time: string }, idx: number) => (
               <div
                 key={idx}
@@ -498,7 +512,7 @@ export default function Messages() {
             <div ref={messagesEndRef} />
           </div>
           <form
-            className="flex gap-2 p-4 border-t bg-white"
+            className="flex gap-2 p-4 border-t bg-white flex-shrink-0"
             onSubmit={e => {
               e.preventDefault();
               sendMessage();
@@ -514,6 +528,79 @@ export default function Messages() {
           </form>
         </div>
       )}
+
+      {/* Mobile Contact Detail Dialog */}
+      <Dialog open={contactDetailOpen} onOpenChange={setContactDetailOpen}>
+        <DialogContent className="max-w-sm mx-4">
+          <DialogHeader>
+            <DialogTitle>Contact Details</DialogTitle>
+          </DialogHeader>
+          {selectedContactForDetail && (
+            <div className="space-y-4">
+              {/* Profile Header */}
+              <div className="flex items-center gap-4">
+                <Avatar className="w-16 h-16">
+                  <AvatarImage src={selectedContactForDetail.avatar} alt={selectedContactForDetail.name} />
+                  <AvatarFallback className="bg-gray-300 text-gray-600 text-lg">
+                    {selectedContactForDetail.name.split(' ').map(n => n[0]).join('')}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-800">{selectedContactForDetail.name}</h3>
+                  <p className="text-gray-600">{selectedContactForDetail.role}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <div className={`w-2 h-2 rounded-full ${getStatusColor(selectedContactForDetail.status)}`}></div>
+                    <span className="text-sm text-gray-500">{selectedContactForDetail.status}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Details */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 text-sm">
+                  <Mail className="w-4 h-4 text-gray-400" />
+                  <span className="text-gray-700">{selectedContactForDetail.email}</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <Phone className="w-4 h-4 text-gray-400" />
+                  <span className="text-gray-700">{selectedContactForDetail.phone}</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <MapPin className="w-4 h-4 text-gray-400" />
+                  <span className="text-gray-700">{selectedContactForDetail.location}</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <Clock className="w-4 h-4 text-gray-400" />
+                  <span className="text-gray-700">{selectedContactForDetail.timezone}</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-2 pt-2">
+                <Button 
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                  onClick={() => {
+                    setContactDetailOpen(false);
+                    setSelectedContact(selectedContactForDetail);
+                    if (window.innerWidth < 640) setMobileChatOpen(true);
+                  }}
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Message
+                </Button>
+                <Button variant="outline" className="flex-1">
+                  <Phone className="w-4 h-4 mr-2" />
+                  Call
+                </Button>
+              </div>
+              <Button variant="ghost" className="w-full text-gray-600 hover:text-gray-800">
+                <ExternalLink className="w-4 h-4 mr-2" />
+                View Full Profile
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

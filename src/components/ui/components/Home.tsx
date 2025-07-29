@@ -69,7 +69,7 @@ export default function Home({ searchValue }: HomeProps) {
   return (
     <>
     
-    <main className="w-full px-4 sm:px-6 py-6 lg:py-8 max-w-[1400px] mx-auto">
+    <main className="w-full bg-gray-200 px-4 sm:px-6 py-6 lg:py-8 max-w-[1400px] mx-auto">
       {/* Main Grid Layout: Left (2/3) + Right (1/3) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Left Section - 2/3 width */}

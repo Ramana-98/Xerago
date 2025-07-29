@@ -127,7 +127,7 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 px-4 md:px-8 py-6 space-y-6">
+    <div className="min-h-screen bg-gray-200 px-4 md:px-8 py-6 space-y-6">
       <div className="flex items-center gap-4 mb-6">
         <button
           onClick={onBack}

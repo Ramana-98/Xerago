@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Search, Settings, Menu, X, Home, MessageCircle, Compass, Wallet as WalletIcon, Folder, User, LogOut, Check, Camera, Image, Bell } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { NotificationsDropdown } from "./Notification";
+import { useNotifications } from "@/context/NotificationContext";
 
 
 
@@ -38,6 +39,7 @@ const sectionTitles = [
 
 export default function Header({ onOpenSettings, onOpenNotifications, onOpenMessages, onOpenDiscover, onOpenWallet, onOpenProjects, searchValue, setSearchValue, onSearchTrigger, onOpenHome }: HeaderProps) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  const { hasUnreadNotifications } = useNotifications();
   const [isEditing, setIsEditing] = React.useState(false);
   const [profileData, setProfileData] = React.useState({
     name: "User Name",
@@ -346,8 +348,9 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             onClick={onOpenNotifications}
           >
             <Bell className="w-5 h-5 text-gray-600" />
-            {/* Notification dot - you can add logic to show this based on unread notifications */}
-            <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+            {hasUnreadNotifications && (
+              <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
+            )}
           </button>
         </div>
         
@@ -664,7 +667,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                       type="text"
                       value={loginData.fullName}
                       onChange={(e) => handleLoginInputChange('fullName', e.target.value)}
-                      className="w-full"
+                      className="w-full text-center"
                       placeholder="Enter your full name"
                       required
                     />
@@ -679,7 +682,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                       type="email"
                       value={loginData.email}
                       onChange={(e) => handleLoginInputChange('email', e.target.value)}
-                      className="w-full"
+                      className="w-full text-center"
                       placeholder="Enter your email"
                       required
                     />
@@ -694,7 +697,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                       type="password"
                       value={loginData.password}
                       onChange={(e) => handleLoginInputChange('password', e.target.value)}
-                      className="w-full"
+                      className="w-full text-center"
                       placeholder="Enter your password"
                       required
                     />

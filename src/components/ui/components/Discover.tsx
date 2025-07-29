@@ -270,13 +270,13 @@ export default function Discover({ onBack }: DiscoverProps) {
           </form>
         </DialogContent>
       </Dialog>
-      <Carousel className="w-full max-w-2xl mx-auto mb-6 relative">
+      <Carousel className="w-full max-w-2xl mx-auto mb-8 relative">
         {/* Add extra horizontal padding to make space for arrows */}
-        <div className="relative px-8">
+        <div className="relative px-10">
           <CarouselContent>
             {carouselItems.map((item, idx) => (
               <CarouselItem key={idx} >
-                <div className={`rounded-xl p-4 shadow ${gradients[idx]}`}>
+                <div className={`rounded-xl p-4 shadow-xs ${gradients[idx]}`}>
                   <h3 className="font-bold text-lg mb-1">{item.title}</h3>
                   <p className="text-sm text-gray-700">{item.description}</p>
                 </div>
@@ -313,7 +313,7 @@ export default function Discover({ onBack }: DiscoverProps) {
               placeholder="Search projects..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full"
+              className="w-full bg-white"
             />
             {search && (
               <button
