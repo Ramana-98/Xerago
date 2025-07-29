@@ -253,64 +253,28 @@ export default function NotificationPage() {
               ) : (
                 <div className="divide-y divide-gray-100">
                   {filteredNotifications.map((notification) => (
-                                         <div
-                       key={notification.id}
-                       className={`p-4 sm:p-6 hover:bg-gray-50 transition-colors duration-200 ${
-                         notification.unread ? "bg-blue-50" : "bg-white"
-                       }`}
-                     >
-                       <div className="flex items-start gap-3 sm:gap-4">
-                         {/* Icon */}
-                         <div className="flex-shrink-0 mt-1">
-                           {notificationIcons[notification.type]}
-                         </div>
-
-                         {/* Content */}
-                         <div className="flex-1 min-w-0">
-                           <div className="flex items-start justify-between gap-2 sm:gap-4">
-                             <div className="flex-1">
-                               <h3 className={`text-xs sm:text-sm font-medium ${
-                                 notification.unread ? "text-gray-900" : "text-gray-700"
-                               }`}>
-                                 {notification.text}
-                               </h3>
-                               {notification.meta && (
-                                 <Badge variant="outline" className="mt-1 sm:mt-2 text-xs">
-                                   {notification.meta}
-                                 </Badge>
-                               )}
-                               <p className="text-xs text-gray-500 mt-1 sm:mt-2">
-                                 {notification.time}
-                               </p>
-                             </div>
-
-                             {/* Status Badge */}
-                             <div className="flex items-center gap-1 sm:gap-2">
-                               {notification.unread && (
-                                 <Badge variant="default" className="bg-blue-500 text-white text-xs">
-                                   New
-                                 </Badge>
-                               )}
-                               <Badge variant="outline" className="text-xs">
-                                 {getNotificationType(notification.type)}
-                               </Badge>
-                             </div>
-                           </div>
-                         </div>
-
-                         {/* Action Button */}
-                         {notification.unread && (
-                           <Button
-                             variant="ghost"
-                             size="sm"
-                             onClick={() => markAsRead(notification.id)}
-                             className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 p-1 sm:p-2"
-                           >
-                             <Check className="w-3 h-3 sm:w-4 sm:h-4" />
-                           </Button>
-                         )}
-                       </div>
-                     </div>
+                    <div
+                      key={notification.id}
+                      className={`py-3 px-3 sm:px-4 hover:bg-gray-50 transition-colors duration-200 flex items-center gap-2 sm:gap-3 ${notification.unread ? "bg-blue-50" : "bg-white"}`}
+                    >
+                      {/* Icon */}
+                      <div className="flex-shrink-0 flex items-center justify-center">{notificationIcons[notification.type]}</div>
+                      {/* Content and time in a single line */}
+                      <div className="flex-1 min-w-0 flex items-center gap-2">
+                        <span className={`text-xs sm:text-sm font-medium truncate ${notification.unread ? "text-gray-900" : "text-gray-700"}`}>{notification.text}</span>
+                        {notification.meta && (
+                          <Badge variant="outline" className="text-xs ml-2 whitespace-nowrap">{notification.meta}</Badge>
+                        )}
+                      </div>
+                      {/* Time and badges at the end */}
+                      <div className="flex items-center gap-2 flex-shrink-0 ml-auto">
+                        <span className="text-xs text-gray-400 whitespace-nowrap">{notification.time}</span>
+                        {notification.unread && (
+                          <Badge variant="default" className="bg-blue-500 text-white text-xs">New</Badge>
+                        )}
+                        <Badge variant="outline" className="text-xs">{getNotificationType(notification.type)}</Badge>
+                      </div>
+                    </div>
                   ))}
                 </div>
               )}

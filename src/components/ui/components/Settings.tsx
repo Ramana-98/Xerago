@@ -7,7 +7,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
-import { Trash2, LogOut,  Eye, EyeOff, CreditCard, Bell, Globe, Moon, Sun, User, Lock, FileText, AlertTriangle, MoreVertical } from "lucide-react";
+import { Trash2, LogOut,  Eye, EyeOff, CreditCard, Bell, Globe, Moon, Sun, User, Lock, FileText, AlertTriangle, MoreVertical, Upload, Check } from "lucide-react";
 
 function showToast(message: string) {
   alert(message); // Replace with a real toast in your app
@@ -55,19 +55,37 @@ export default function Settings() {
               </Avatar>
               <div>
                 <Label htmlFor="photo-upload" className="block mb-1 text-left">Profile Photo</Label>
-                <input
-                  id="photo-upload"
-                  type="file"
-                  accept="image/*"
-                  className="block text-xs cursor-pointer hover:underline file:hidden"
-                  onChange={e => {
-                    const files = e.target?.files;
-                    if (files && files[0]) {
-                      setProfile(p => ({ ...p, photo: URL.createObjectURL(files[0]) }));
-                      showToast("Profile photo updated!");
-                    }
-                  }}
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    id="photo-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={e => {
+                      const files = e.target?.files;
+                      if (files && files[0]) {
+                        setProfile(p => ({ ...p, photo: URL.createObjectURL(files[0]) }));
+                        showToast("Profile photo updated!");
+                      }
+                    }}
+                  />
+                                        <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => document.getElementById('photo-upload')?.click()}
+                        className="flex items-center gap-1 text-xs px-1 py-0.5 h-6"
+                      >
+                        <Upload className="w-3 h-3" />
+                        Upload Photo
+                      </Button>
+                  {profile.photo && profile.photo !== "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" && (
+                    <div className="flex items-center gap-1 text-green-600">
+                      <Check className="w-4 h-4" />
+                      <span className="text-xs">Uploaded</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -96,19 +114,36 @@ export default function Settings() {
             </div>
             <div>
               <Label htmlFor="resume" className="text-left">Resume/Portfolio</Label>
-              <input
-                id="resume"
-                type="file"
-                accept="application/pdf,.doc,.docx,.ppt,.pptx,.jpg,.png"
-                className="block text-xs cursor-pointer hover:underline file:hidden"
-                onChange={e => {
-                  if (e.target.files && e.target.files[0]) {
-                    setProfile(p => ({ ...p, resume: e.target.files![0].name }));
-                    showToast("Resume/portfolio uploaded!");
-                  }
-                }}
-              />
-              {profile.resume && <div className="text-xs mt-1 text-green-600 flex items-center gap-1"><FileText className="w-3 h-3" />{profile.resume}</div>}
+              <div className="flex items-center gap-2">
+                <input
+                  id="resume"
+                  type="file"
+                  accept="application/pdf,.doc,.docx,.ppt,.pptx,.jpg,.png"
+                  className="hidden"
+                  onChange={e => {
+                    if (e.target.files && e.target.files[0]) {
+                      setProfile(p => ({ ...p, resume: e.target.files![0].name }));
+                      showToast("Resume/portfolio uploaded!");
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => document.getElementById('resume')?.click()}
+                  className="flex items-center gap-2"
+                >
+                  <Upload className="w-4 h-4" />
+                  Upload Resume
+                </Button>
+                {profile.resume && (
+                  <div className="flex items-center gap-1 text-green-600">
+                    <Check className="w-4 h-4" />
+                    <span className="text-xs">{profile.resume}</span>
+                  </div>
+                )}
+              </div>
             </div>
             <Button onClick={() => showToast("Profile updated!")} className="mt-2">Save Changes</Button>
           </div>
@@ -295,19 +330,37 @@ export default function Settings() {
                   </Avatar>
                   <div>
                     <Label htmlFor="photo-upload" className="block mb-1 text-left">Profile Photo</Label>
-                    <input
-                      id="photo-upload"
-                      type="file"
-                      accept="image/*"
-                      className="block text-xs cursor-pointer hover:underline file:hidden"
-                      onChange={e => {
-                        const files = e.target?.files;
-                        if (files && files[0]) {
-                          setProfile(p => ({ ...p, photo: URL.createObjectURL(files[0]) }));
-                          showToast("Profile photo updated!");
-                        }
-                      }}
-                    />
+                    <div className="flex items-center gap-2">
+                      <input
+                        id="photo-upload"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={e => {
+                          const files = e.target?.files;
+                          if (files && files[0]) {
+                            setProfile(p => ({ ...p, photo: URL.createObjectURL(files[0]) }));
+                            showToast("Profile photo updated!");
+                          }
+                        }}
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => document.getElementById('photo-upload')?.click()}
+                        className="flex items-center gap-1 text-xs px-1 py-0.5 h-6"
+                      >
+                        <Upload className="w-3 h-3" />
+                        Upload Photo
+                      </Button>
+                      {profile.photo && profile.photo !== "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" && (
+                        <div className="flex items-center gap-1 text-green-600">
+                          <Check className="w-4 h-4" />
+                          <span className="text-xs">Uploaded</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -336,19 +389,36 @@ export default function Settings() {
                 </div>
                 <div>
                   <Label htmlFor="resume" className="text-left">Resume/Portfolio</Label>
-                  <input
-                    id="resume"
-                    type="file"
-                    accept="application/pdf,.doc,.docx,.ppt,.pptx,.jpg,.png"
-                    className="block text-xs cursor-pointer hover:underline file:hidden"
-                    onChange={e => {
-                      if (e.target.files && e.target.files[0]) {
-                        setProfile(p => ({ ...p, resume: e.target.files![0].name }));
-                        showToast("Resume/portfolio uploaded!");
-                      }
-                    }}
-                  />
-                  {profile.resume && <div className="text-xs mt-1 text-green-600 flex items-center gap-1"><FileText className="w-3 h-3" />{profile.resume}</div>}
+                  <div className="flex items-center gap-2">
+                    <input
+                      id="resume"
+                      type="file"
+                      accept="application/pdf,.doc,.docx,.ppt,.pptx,.jpg,.png"
+                      className="hidden"
+                      onChange={e => {
+                        if (e.target.files && e.target.files[0]) {
+                          setProfile(p => ({ ...p, resume: e.target.files![0].name }));
+                          showToast("Resume/portfolio uploaded!");
+                        }
+                      }}
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => document.getElementById('resume')?.click()}
+                      className="flex items-center gap-2"
+                    >
+                      <Upload className="w-4 h-4" />
+                      Upload Resume
+                    </Button>
+                    {profile.resume && (
+                      <div className="flex items-center gap-1 text-green-600">
+                        <Check className="w-4 h-4" />
+                        <span className="text-xs">{profile.resume}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <Button onClick={() => showToast("Profile updated!")} className="mt-2">Save Changes</Button>
               </div>
