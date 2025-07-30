@@ -91,25 +91,25 @@ export default function Settings() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="name" className="text-left">Name</Label>
-                <Input id="name" value={profile.name} onChange={e => setProfile(p => ({ ...p, name: e.target.value }))} className="mt-1 bg-white text-center" placeholder="Name" />
+                <Input id="name" value={profile.name} onChange={e => setProfile(p => ({ ...p, name: e.target.value }))} className="mt-1 bg-white text-left" placeholder="Name" />
               </div>
               <div>
                 <Label htmlFor="email" className="text-left">Email</Label>
-                <Input id="email" value={profile.email} onChange={e => setProfile(p => ({ ...p, email: e.target.value }))} className="mt-1 bg-white text-center" placeholder="Email" />
+                <Input id="email" value={profile.email} onChange={e => setProfile(p => ({ ...p, email: e.target.value }))} className="mt-1 bg-white text-left" placeholder="Email" />
               </div>
             </div>
             <div>
               <Label htmlFor="bio" className="text-left">Bio</Label>
-              <Input id="bio" value={profile.bio} onChange={e => setProfile(p => ({ ...p, bio: e.target.value }))} className="mt-1 bg-white text-center" placeholder="Tell us about yourself..." />
+              <Input id="bio" value={profile.bio} onChange={e => setProfile(p => ({ ...p, bio: e.target.value }))} className="mt-1 bg-white text-left" placeholder="Tell us about yourself..." />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="skills" className="text-left">Skills</Label>
-                <Input id="skills" value={profile.skills} onChange={e => setProfile(p => ({ ...p, skills: e.target.value }))} className="mt-1 bg-white text-center" placeholder="e.g. React, Node.js" />
+                <Input id="skills" value={profile.skills} onChange={e => setProfile(p => ({ ...p, skills: e.target.value }))} className="mt-1 bg-white text-left" placeholder="e.g. React, Node.js" />
               </div>
               <div>
                 <Label htmlFor="availability" className="text-left">Availability</Label>
-                <Input id="availability" value={profile.availability} onChange={e => setProfile(p => ({ ...p, availability: e.target.value }))} className="mt-1 bg-white text-center" placeholder="Full-time, Part-time..." />
+                <Input id="availability" value={profile.availability} onChange={e => setProfile(p => ({ ...p, availability: e.target.value }))} className="mt-1 bg-white text-left" placeholder="Full-time, Part-time..." />
               </div>
             </div>
             <div>
@@ -154,7 +154,7 @@ export default function Settings() {
             <div>
               <Label htmlFor="password" className="text-left">Change Password</Label>
               <div className="flex gap-2 mt-1">
-                <Input id="password" type={showPassword ? "text" : "password"} placeholder="New password" className="flex-1 bg-white text-center" />
+                <Input id="password" type={showPassword ? "text" : "password"} placeholder="New password" className="flex-1 bg-white text-left" />
                 <Button type="button" variant="outline" onClick={() => setShowPassword(v => !v)}>
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </Button>
@@ -213,7 +213,7 @@ export default function Settings() {
             </div>
             <div>
               <Label className="text-left">Payment Method</Label>
-              <Input placeholder="Card ending in 1234" className="mt-1 bg-white text-center" />
+              <Input placeholder="Card ending in 1234" className="mt-1 bg-white text-left" />
               <Button onClick={() => showToast("Payment method updated!")} className="mt-2">Update Payment</Button>
             </div>
             <div>
@@ -228,15 +228,15 @@ export default function Settings() {
           <div className="space-y-6">
             <div>
               <Label className="text-left">Language</Label>
-              <Input value={language} onChange={e => setLanguage(e.target.value)} className="mt-1 bg-white text-center" placeholder="Language" />
+              <Input value={language} onChange={e => setLanguage(e.target.value)} className="mt-1 bg-white text-left" placeholder="Language" />
             </div>
             <div>
               <Label className="text-left">Timezone</Label>
-              <Input value={timezone} onChange={e => setTimezone(e.target.value)} className="mt-1 bg-white text-center" placeholder="Timezone" />
+              <Input value={timezone} onChange={e => setTimezone(e.target.value)} className="mt-1 bg-white text-left" placeholder="Timezone" />
             </div>
             <div>
               <Label className="text-left">Currency</Label>
-              <Input value={currency} onChange={e => setCurrency(e.target.value)} className="mt-1 bg-white text-center" placeholder="Currency" />
+              <Input value={currency} onChange={e => setCurrency(e.target.value)} className="mt-1 bg-white text-left" placeholder="Currency" />
             </div>
             <div className="flex items-center gap-2 mt-2">
               <span>Theme</span>
@@ -366,25 +366,25 @@ export default function Settings() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="name" className="text-left">Name</Label>
-                    <Input id="name" value={profile.name} onChange={e => setProfile(p => ({ ...p, name: e.target.value }))} className="mt-1 bg-white text-center" placeholder="Name" />
+                    <Input id="name" value={profile.name} onChange={e => setProfile(p => ({ ...p, name: e.target.value }))} className="mt-1 bg-white text-left" placeholder="Name" />
                   </div>
                   <div>
                     <Label htmlFor="email" className="text-left">Email</Label>
-                    <Input id="email" value={profile.email} onChange={e => setProfile(p => ({ ...p, email: e.target.value }))} className="mt-1 bg-white text-center" placeholder="Email" />
+                    <Input id="email" value={profile.email} onChange={e => setProfile(p => ({ ...p, email: e.target.value }))} className="mt-1 bg-white text-left" placeholder="Email" />
                   </div>
                 </div>
                 <div>
                   <Label htmlFor="bio" className="text-left">Bio</Label>
-                  <Input id="bio" value={profile.bio} onChange={e => setProfile(p => ({ ...p, bio: e.target.value }))} className="mt-1 bg-white text-center" placeholder="Tell us about yourself..." />
+                  <Input id="bio" value={profile.bio} onChange={e => setProfile(p => ({ ...p, bio: e.target.value }))} className="mt-1 bg-white text-left" placeholder="Tell us about yourself..." />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="skills" className="text-left">Skills</Label>
-                    <Input id="skills" value={profile.skills} onChange={e => setProfile(p => ({ ...p, skills: e.target.value }))} className="mt-1 bg-white text-center" placeholder="e.g. React, Node.js" />
+                    <Input id="skills" value={profile.skills} onChange={e => setProfile(p => ({ ...p, skills: e.target.value }))} className="mt-1 bg-white text-left" placeholder="e.g. React, Node.js" />
                   </div>
                   <div>
                     <Label htmlFor="availability" className="text-left">Availability</Label>
-                    <Input id="availability" value={profile.availability} onChange={e => setProfile(p => ({ ...p, availability: e.target.value }))} className="mt-1 bg-white text-center" placeholder="Full-time, Part-time..." />
+                    <Input id="availability" value={profile.availability} onChange={e => setProfile(p => ({ ...p, availability: e.target.value }))} className="mt-1 bg-white text-left" placeholder="Full-time, Part-time..." />
                   </div>
                 </div>
                 <div>
@@ -430,7 +430,7 @@ export default function Settings() {
                 <div>
                   <Label htmlFor="password" className="text-left">Change Password</Label>
                   <div className="flex gap-2 mt-1">
-                    <Input id="password" type={showPassword ? "text" : "password"} placeholder="New password" className="flex-1 bg-white text-center" />
+                    <Input id="password" type={showPassword ? "text" : "password"} placeholder="New password" className="flex-1 bg-white text-left" />
                     <Button type="button" variant="outline" onClick={() => setShowPassword(v => !v)}>
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </Button>
@@ -491,7 +491,7 @@ export default function Settings() {
                 </div>
                 <div>
                   <Label className="text-left">Payment Method</Label>
-                  <Input placeholder="Card ending in 1234" className="mt-1 bg-white text-center" />
+                  <Input placeholder="Card ending in 1234" className="mt-1 bg-white text-left" />
                   <Button onClick={() => showToast("Payment method updated!")} className="mt-2">Update Payment</Button>
                 </div>
                 <div>
@@ -507,15 +507,15 @@ export default function Settings() {
               <div className="space-y-6">
                 <div>
                   <Label className="text-left">Language</Label>
-                  <Input value={language} onChange={e => setLanguage(e.target.value)} className="mt-1 bg-white text-center" placeholder="Language" />
+                  <Input value={language} onChange={e => setLanguage(e.target.value)} className="mt-1 bg-white text-left" placeholder="Language" />
                 </div>
                 <div>
                   <Label className="text-left">Timezone</Label>
-                  <Input value={timezone} onChange={e => setTimezone(e.target.value)} className="mt-1 bg-white text-center" placeholder="Timezone" />
+                  <Input value={timezone} onChange={e => setTimezone(e.target.value)} className="mt-1 bg-white text-left" placeholder="Timezone" />
                 </div>
                 <div>
                   <Label className="text-left">Currency</Label>
-                  <Input value={currency} onChange={e => setCurrency(e.target.value)} className="mt-1 bg-white text-center" placeholder="Currency" />
+                  <Input value={currency} onChange={e => setCurrency(e.target.value)} className="mt-1 bg-white text-left" placeholder="Currency" />
                 </div>
                 <div className="flex items-center gap-2 mt-2">
                   <span>Theme</span>

@@ -335,7 +335,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         {/* Settings and Bell icons (hidden on small screens) */}
         <div className="hidden sm:flex items-center gap-4 overflow-y-auto">
           <button className="rounded-full bg-white p-2.5 flex items-center justify-center hover:bg-gray-300 transition" onClick={onOpenSettings}>
-            <Settings className="w-5 h-5 text-gray-600" />
+            <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
           </button>
           <NotificationsDropdown />
           
@@ -347,7 +347,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             className="rounded-full bg-white p-2.5 flex items-center justify-center hover:bg-gray-300 transition relative" 
             onClick={onOpenNotifications}
           >
-            <Bell className="w-5 h-5 text-gray-600" />
+            <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
             {hasUnreadNotifications && (
               <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
             )}
@@ -755,7 +755,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
           style={{ touchAction: "none" }}
         >
           <div
-            className="bg-white h-full shadow-lg p-6 flex flex-col items-start relative"
+            className="bg-gray-100 h-full shadow-lg p-6 flex flex-col items-start relative"
             style={{ width: sidebarWidth, minWidth: 180, maxWidth: 400 }}
           >
             {/* Sidebar content here */}
@@ -766,16 +766,16 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             >
               <X className="w-6 h-6" />
             </button>
-            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={() => setSidebarOpen(false)}><Home className="w-5 h-5" /> Home</a>
-            <button className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={onOpenMessages}><MessageCircle className="w-5 h-5" /> Messages</button>
-            <button className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={() => { onOpenDiscover?.(); setSidebarOpen(false); }}><Compass className="w-5 h-5" /> Discover</button>
+            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={() => setSidebarOpen(false)}><Home className="w-4 h-4 sm:w-5 sm:h-5" /> Home</a>
+            <button className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={onOpenMessages}><MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" /> Messages</button>
+            <button className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={() => { onOpenDiscover?.(); setSidebarOpen(false); }}><Compass className="w-4 h-4 sm:w-5 sm:h-5" /> Discover</button>
             <button
               className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50"
               onClick={() => { onOpenWallet?.(); setSidebarOpen(false); }}
             >
-              <WalletIcon className="w-5 h-5" /> Wallet
+              <WalletIcon className="w-4 h-4 sm:w-5 sm:h-5" /> Wallet
             </button>
-            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={() => { onOpenProjects?.(); setSidebarOpen(false); }}><Folder className="w-5 h-5" /> Projects</a>
+            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={() => { onOpenProjects?.(); setSidebarOpen(false); }}><Folder className="w-4 h-4 sm:w-5 sm:h-5" /> Projects</a>
             {/* Settings and Bell icons (only on small screens) */}
             <div className="sm:hidden mt-4 pt-4 border-t border-gray-200">
               <button
@@ -785,7 +785,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                   setSidebarOpen(false);
                 }}
               >
-                <Settings className="w-5 h-5" />
+                <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
                 Settings
               </button>
               <button
@@ -795,7 +795,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                   setSidebarOpen(false);
                 }}
               >
-                <Bell className="w-5 h-5" />
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
                 Notifications
               </button>
             </div>

@@ -148,8 +148,8 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
               key={i} 
               className={`rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 ${gradientClass}`}
             >
-              <CardHeader className="pb-3">
-                <CardTitle className="flex justify-between items-start text-lg font-semibold text-gray-800">
+              <CardHeader className="pb-1">
+                <CardTitle className="flex justify-between items-start text-sm font-semibold text-gray-800">
                   <span className="line-clamp-2">{project.title}</span>
                   <Badge
                     variant={isPaid ? "default" : "secondary"}
@@ -157,12 +157,12 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
                       isPaid 
                         ? "bg-green-500 text-white shadow-sm" 
                         : "bg-gray-300 text-gray-700 shadow-sm"
-                    } font-medium`}
+                    } font-medium text-xs`}
                   >
                     {isPaid ? "Paid" : "Not Paid"}
                   </Badge>
                 </CardTitle>
-                <div className="flex items-center gap-2 mt-3">
+                <div className="flex items-center gap-2 mt-1">
                   <Switch
                     checked={isPaid}
                     onCheckedChange={(checked) => {
@@ -176,16 +176,16 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
                     {isPaid ? "Paid" : "Not Paid"}
                   </label>
                 </div>
-                <p className="text-lg font-bold text-gray-700 mt-2">{project.rate}</p>
+                <p className="text-sm font-bold text-gray-700 mt-1">{project.rate}</p>
               </CardHeader>
-              <CardContent className="text-sm text-gray-600 space-y-3">
-                <div className="flex flex-wrap gap-2">
+              <CardContent className="text-xs text-gray-600 space-y-1 pt-0">
+                <div className="flex flex-wrap gap-1">
                   {(() => {
                     let typeClass = "border-gray-200 text-gray-600 bg-gray-50";
                     if (project.type === "Remote") typeClass = "border-red-200 text-red-700 bg-red-50";
                     else if (project.type === "Contract") typeClass = "border-teal-200 text-teal-700 bg-teal-50";
                     return (
-                      <Badge variant="outline" className={`${typeClass} font-medium`}>
+                      <Badge variant="outline" className={`${typeClass} font-medium text-xs`}>
                         {project.type}
                       </Badge>
                     );
@@ -196,7 +196,7 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
                     else if (project.mode === "Freelance") modeClass = "border-yellow-200 text-yellow-700 bg-yellow-50";
                     else if (project.mode === "Contract") modeClass = "border-teal-200 text-teal-700 bg-teal-50";
                     return (
-                      <Badge variant="outline" className={`${modeClass} font-medium`}>
+                      <Badge variant="outline" className={`${modeClass} font-medium text-xs`}>
                         {project.mode}
                       </Badge>
                     );
@@ -207,10 +207,10 @@ export default function ProjectsPage({ onBack }: ProjectsPageProps) {
                 </p>
                 <Button
                   variant="ghost"
-                  className="mt-3 p-0 text-sm text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 font-medium"
+                  className="mt-1 p-0 text-xs text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 font-medium"
                   onClick={() => setSelectedProject(project)}
                 >
-                  View Details <ArrowUpRight className="w-4 h-4" />
+                  View Details <ArrowUpRight className="w-3 h-3" />
                 </Button>
               </CardContent>
             </Card>

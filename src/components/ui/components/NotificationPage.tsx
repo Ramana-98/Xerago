@@ -79,24 +79,24 @@ export default function NotificationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-200">
       {/* Header */}
-      <div className="bg-white border-b px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-3 sm:gap-4">
+      <div className="bg-gray-200 border-b px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-3 sm:gap-4">
         <Button
           variant="ghost"
           size="sm"
           onClick={handleBack}
-          className="hover:bg-gray-100"
+          className="hover:bg-gray-100 flex-shrink-0"
         >
           <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
         </Button>
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col items-center  text-center">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Notifications</h1>
           <p className="text-xs sm:text-sm text-gray-500 mt-1">
             {notifications.length} total notifications
           </p>
         </div>
-        <div className="flex gap-1 sm:gap-2">
+        <div className="flex gap-1 sm:gap-2 flex-shrink-0">
           <Button
             variant="outline"
             size="sm"
@@ -255,24 +255,24 @@ export default function NotificationPage() {
                   {filteredNotifications.map((notification) => (
                     <div
                       key={notification.id}
-                      className={`py-3 px-3 sm:px-4 hover:bg-gray-50 transition-colors duration-200 flex items-center gap-2 sm:gap-3 ${notification.unread ? "bg-blue-50" : "bg-white"}`}
+                      className={`py-3 px-3 sm:px-4 hover:bg-gray-50 transition-colors duration-200 flex items-start gap-2 sm:gap-3 ${notification.unread ? "bg-blue-50" : "bg-white"}`}
                     >
                       {/* Icon */}
-                      <div className="flex-shrink-0 flex items-center justify-center">{notificationIcons[notification.type]}</div>
-                      {/* Content and time in a single line */}
-                      <div className="flex-1 min-w-0 flex items-center gap-2">
-                        <span className={`text-xs sm:text-sm font-medium truncate ${notification.unread ? "text-gray-900" : "text-gray-700"}`}>{notification.text}</span>
-                        {notification.meta && (
-                          <Badge variant="outline" className="text-xs ml-2 whitespace-nowrap">{notification.meta}</Badge>
-                        )}
+                      <div className="flex-shrink-0 flex items-center justify-center mt-0.5">{notificationIcons[notification.type]}</div>
+                      
+                      {/* Content */}
+                      <div className="flex-1 min-w-0">
+                        <div className="text-left flex items-center gap-2">
+                          <span className={`text-xs sm:text-sm font-medium ${notification.unread ? "text-gray-900" : "text-gray-700"}`}>{notification.text}</span>
+                          {notification.meta && (
+                            <Badge variant="outline" className="text-xs flex-shrink-0">{notification.meta}</Badge>
+                          )}
+                        </div>
                       </div>
-                      {/* Time and badges at the end */}
-                      <div className="flex items-center gap-2 flex-shrink-0 ml-auto">
+                      
+                      {/* Time aligned to the right */}
+                      <div className="flex-shrink-0 ml-auto">
                         <span className="text-xs text-gray-400 whitespace-nowrap">{notification.time}</span>
-                        {notification.unread && (
-                          <Badge variant="default" className="bg-blue-500 text-white text-xs">New</Badge>
-                        )}
-                        <Badge variant="outline" className="text-xs">{getNotificationType(notification.type)}</Badge>
                       </div>
                     </div>
                   ))}

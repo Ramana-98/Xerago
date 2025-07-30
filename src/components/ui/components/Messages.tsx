@@ -267,7 +267,7 @@ export default function Messages() {
     <div className="flex flex-col sm:flex-row h-screen bg-gray-200 overflow-hidden">
       {/* Sidebar/Contacts */}
       {( !mobileChatOpen || window.innerWidth >= 640 ) && (
-        <div className="w-full sm:w-80 bg-gray-200 border-r flex-shrink-0 flex flex-col h-full overflow-hidden">
+        <div className="w-full sm:w-80 bg-gray-100 border-r flex-shrink-0 flex flex-col h-full overflow-hidden">
           <div className="p-4 border-b flex flex-col gap-2">
             <div className="flex items-center gap-2">
               <span className="font-bold text-lg flex-1">Messages</span>
