@@ -84,17 +84,17 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
   return (
     <Card
       ref={ref}
-      className={`p-2 bg-gray-200 shadow-xs flex flex-col h-55 w-full max-w-4xl mx-auto hover:shadow-lg hover:-translate-y-1 transition-all duration-200  ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`p-2 bg-gray-200 dark:bg-gray-800 shadow-xs flex flex-col h-55 w-full max-w-4xl mx-auto hover:shadow-lg hover:-translate-y-1 transition-all duration-200  ${highlight ? "ring-2 ring-blue-500 bg-yellow-50 dark:bg-yellow-900/20" : ""}`}
     >
       <CardHeader className="-mt-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base sm:text-xl font-bold text-gray-800">
+          <CardTitle className="text-base sm:text-xl font-bold text-gray-800 dark:text-gray-100">
             Let's Connect
           </CardTitle>
           <Button
             variant="ghost"
             size="sm"
-            className="text-blue-600 hover:text-blue-700 text-xs sm:text-sm"
+            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-xs sm:text-sm"
             onClick={() => setShowAll((prev) => !prev)}
           >
             <span className="hidden sm:inline">{showAll ? 'Show less' : 'See all'}</span>
@@ -112,7 +112,7 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
           {(showAll ? users : users.slice(0, 2)).map((user, idx) => (
             <div
               key={idx}
-              className="flex items-center justify-between p-2 sm:p-3 rounded-full hover:shadow-lg hover:-translate-y-1 transition-all duration-200 bg-gray-100/50"
+              className="flex items-center justify-between p-2 sm:p-3 rounded-full hover:shadow-lg hover:-translate-y-1 transition-all duration-200 bg-gray-100/50 dark:bg-gray-700/50"
             >
               <div className="flex items-left text-left gap-2 sm:gap-3 min-w-0 flex-1">
                 <Avatar className="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0">
@@ -121,13 +121,13 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
                     alt={`${user.name} avatar`}
                     className="object-cover"
                   />
-                  <AvatarFallback className="bg-gray-200 text-gray-700 font-medium text-xs sm:text-sm">
+                  <AvatarFallback className="bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium text-xs sm:text-sm">
                     {user.avatar}
                   </AvatarFallback>
                 </Avatar>
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-xs sm:text-sm text-gray-800 truncate">{user.name}</p>
-                  <p className="text-xs text-gray-500 truncate">{user.role}</p>
+                  <p className="font-medium text-xs sm:text-sm text-gray-800 dark:text-gray-100 truncate">{user.name}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.role}</p>
                 </div>
               </div>
               <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
@@ -135,8 +135,8 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
                   variant="outline" 
                   className={`text-xs ${
                     user.level === "Senior" 
-                      ? "border-orange-200 text-orange-700 bg-orange-50" 
-                      : "border-blue-200 text-blue-700 bg-blue-50"
+                      ? "border-orange-200 dark:border-orange-700 text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20" 
+                      : "border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20"
                   }`}
                 >
                   {user.level}
@@ -151,13 +151,13 @@ const LetsConnect = forwardRef<HTMLDivElement, LetsConnectProps>(({ highlight },
                       disabled={connected[idx]}
                     >
                       {connected[idx] ? (
-                        <CheckIcon className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
+                        <CheckIcon className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 dark:text-green-400" />
                       ) : (
-                        <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-gray-600 dark:text-gray-400" />
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent side="top" align="center" className="text-green-700 text-xs font-medium">
+                  <PopoverContent side="top" align="center" className="text-green-700 dark:text-green-400 text-xs font-medium bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                     Connect successfully
                   </PopoverContent>
                 </Popover>

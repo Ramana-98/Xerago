@@ -4,10 +4,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Search, Settings, Menu, X, Home, MessageCircle, Compass, Wallet as WalletIcon, Folder, User, LogOut, Check, Camera, Image, Bell } from "lucide-react";
+import { Search, Settings, Menu, X, Home, MessageCircle, Compass, Wallet as WalletIcon, Folder, User, LogOut, Check, Camera, Image, Bell, Moon, Sun } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { NotificationsDropdown } from "./Notification";
 import { useNotifications } from "@/context/NotificationContext";
+import { useDarkMode } from "@/context/DarkModeContext";
 
 
 
@@ -40,6 +41,7 @@ const sectionTitles = [
 export default function Header({ onOpenSettings, onOpenNotifications, onOpenMessages, onOpenDiscover, onOpenWallet, onOpenProjects, searchValue, setSearchValue, onSearchTrigger, onOpenHome }: HeaderProps) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const { hasUnreadNotifications } = useNotifications();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const [isEditing, setIsEditing] = React.useState(false);
   const [profileData, setProfileData] = React.useState({
     name: "User Name",
@@ -64,7 +66,6 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
   const [dob, setDob] = useState<Date | undefined>();
   const [sidebarWidth, setSidebarWidth] = useState(260); // default width in px
   const [isResizing, setIsResizing] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [notFound, setNotFound] = useState(false);
 
@@ -214,7 +215,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
   ];
 
   return (
-    <header className="w-full flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-gray-200  border-b ">
+    <header className="w-full flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-gray-200 dark:bg-gray-800 border-b dark:border-gray-700 transition-colors duration-200">
       {/* Left: Hamburger (mobile/tablet) + Logo */}
       <div className="flex items-center gap-3">
         {/* Hamburger Icon (only on md and below, left side) */}
@@ -226,7 +227,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
           <Menu className="w-7 h-7" />
         </button>
         {/* Logo */}
-        <div className="font-bold text-xl text-orange-600 flex items-center">
+        <div className="font-bold text-xl text-orange-600 dark:text-orange-400 flex items-center">
           {/* Letter logo */}
           <span
             style={{
@@ -251,17 +252,17 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
       </div>
       {/* Nav Items (hidden on md and below, visible on lg and up) */}
       <div className="hidden lg:flex gap-3">
-        <button className="hover:text-blue-600 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={onOpenHome} >Home</button>
-        <button className="hover:text-blue-600 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={onOpenMessages}>Messages</button>
-        <button className="hover:text-blue-600 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={onOpenDiscover}>Discover</button>
+        <button className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={onOpenHome} >Home</button>
+        <button className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={onOpenMessages}>Messages</button>
+        <button className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={onOpenDiscover}>Discover</button>
         <button
-          className="hover:text-blue-600 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50"
+          className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
           onClick={onOpenWallet}
         >
           Wallet
         </button>
         <button
-          className="hover:text-blue-600 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50"
+          className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
           onClick={onOpenProjects}
         >
           Projects
@@ -273,7 +274,6 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         {/* Search bar (only on small screens) */}
         <div className="relative block  sm:hidden">
           <Input
-            style={{backgroundColor: 'white'}}
             type="text"
             placeholder="Search..."
             value={searchValue}
@@ -283,20 +283,20 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                 onSearchTrigger();
               }
             }}
-            className="w-24 pl-7 pr-7 py-1 text-xs border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+            className="w-24 pl-7 pr-7 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
           />
-          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
           {searchValue && (
             <button
               onClick={clearSearch}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
               aria-label="Clear search"
             >
               <X className="w-4 h-4" />
             </button>
           )}
           {notFound && (
-            <div className="absolute left-0 mt-2 w-full bg-white border border-red-300 text-red-500 rounded p-2 text-center shadow">
+            <div className="absolute left-0 mt-2 w-full bg-white dark:bg-gray-700 border border-red-300 dark:border-red-600 text-red-500 dark:text-red-400 rounded p-2 text-center shadow">
               Not Found
             </div>
           )}
@@ -313,29 +313,42 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                 onSearchTrigger();
               }
             }}
-            className="w-64 pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+            className="w-64 pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
           />
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
           {searchValue && (
             <button
               onClick={clearSearch}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               aria-label="Clear search"
             >
               <X className="w-4 h-4" />
             </button>
           )}
           {notFound && (
-            <div className="absolute left-0 mt-2 w-full bg-white border border-red-300 text-red-500 rounded p-2 text-center shadow">
+            <div className="absolute left-0 mt-2 w-full bg-white dark:bg-gray-700 border border-red-300 dark:border-red-600 text-red-500 dark:text-red-400 rounded p-2 text-center shadow">
               Not Found
             </div>
           )}
         </div>
         
+        {/* Dark Mode Toggle */}
+        <button 
+          onClick={toggleDarkMode}
+          className="rounded-full bg-white dark:bg-gray-700 p-2.5 flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200 transform hover:scale-105"
+          aria-label="Toggle dark mode"
+        >
+          {isDarkMode ? (
+            <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" />
+          ) : (
+            <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
+          )}
+        </button>
+        
         {/* Settings and Bell icons (hidden on small screens) */}
         <div className="hidden sm:flex items-center gap-4 overflow-y-auto">
-          <button className="rounded-full bg-white p-2.5 flex items-center justify-center hover:bg-gray-300 transition" onClick={onOpenSettings}>
-            <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+          <button className="rounded-full bg-white dark:bg-gray-700 p-2.5 flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 transition" onClick={onOpenSettings}>
+            <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
           </button>
           <NotificationsDropdown />
           
@@ -344,10 +357,10 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         {/* Notification button for small screens */}
         <div className="sm:hidden">
           <button 
-            className="rounded-full bg-white p-2.5 flex items-center justify-center hover:bg-gray-300 transition relative" 
+            className="rounded-full bg-white dark:bg-gray-700 p-2.5 flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 transition relative" 
             onClick={onOpenNotifications}
           >
-            <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" />
+            <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" />
             {hasUnreadNotifications && (
               <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
             )}
@@ -369,17 +382,17 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
               </Avatar>
             </button>
           </PopoverTrigger>
-          <PopoverContent className="w-64 p-3" align="end">
+          <PopoverContent className="w-64 p-3 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700" align="end">
             <div className="space-y-3">
               {!isAuthenticated ? (
                 <>
-                  <div className="px-2 py-2 border-b border-gray-100">
-                    <p className="text-sm font-medium text-gray-900">Guest User</p>
-                    <p className="text-xs text-gray-500">Please sign in to continue</p>
+                  <div className="px-2 py-2 border-b border-gray-100 dark:border-gray-700">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Guest User</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Please sign in to continue</p>
                   </div>
                   <button 
                     onClick={handleSignInOut}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors"
                   >
                     <User className="w-4 h-4" />
                     Sign In
@@ -387,22 +400,22 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                 </>
               ) : !isEditing ? (
                 <>
-                  <div className="px-2 py-2 border-b border-gray-100">
-                    <p className="text-sm font-medium text-gray-900">{profileData.name}</p>
-                    <p className="text-xs text-gray-500">{profileData.email}</p>
+                  <div className="px-2 py-2 border-b border-gray-100 dark:border-gray-700">
+                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{profileData.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{profileData.email}</p>
                   </div>
                   <button 
                     onClick={handleEditProfile}
-                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+                    className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
                   >
                     <User className="w-4 h-4" />
                     Edit Profile
                   </button>
                   
-                  <div className="border-t border-gray-100 pt-2">
+                  <div className="border-t border-gray-100 dark:border-gray-700 pt-2">
                     <button 
                       onClick={handleSignInOut}
-                      className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                      className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
                     >
                       <LogOut className="w-4 h-4" />
                       Sign Out
@@ -413,10 +426,10 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                 <>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-semibold text-gray-900">Edit Profile</h3>
+                      <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Edit Profile</h3>
                       <button
                         onClick={handleCancelEdit}
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
+                        className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -425,7 +438,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                     <div className="space-y-3">
                       {/* Profile Image Section */}
                       <div className="space-y-2">
-                        <Label className="text-xs font-medium text-gray-700">
+                        <Label className="text-xs font-medium text-gray-700 dark:text-gray-300">
                           Profile Image
                         </Label>
                         <div className="space-y-3">
@@ -438,7 +451,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                             </Avatar>
                           </div>
                           <div className="flex flex-col gap-2">
-                            <label className="flex items-center justify-center gap-2 px-3 py-2 text-xs bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-md transition-colors cursor-pointer">
+                            <label className="flex items-center justify-center gap-2 px-3 py-2 text-xs bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-md transition-colors cursor-pointer">
                               <Image className="w-3 h-3" />
                               Gallery
                               <input
@@ -451,14 +464,14 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                             <button
                               type="button"
                               onClick={() => setShowImageGallery(true)}
-                              className="flex items-center justify-center gap-2 px-3 py-2 text-xs bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+                              className="flex items-center justify-center gap-2 px-3 py-2 text-xs bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
                             >
                               <Image className="w-3 h-3" />
                               Sample
                             </button>
                             <button
                               type="button"
-                              className="flex items-center justify-center gap-2 px-3 py-2 text-xs bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-md transition-colors"
+                              className="flex items-center justify-center gap-2 px-3 py-2 text-xs bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md transition-colors"
                             >
                               <Camera className="w-3 h-3" />
                               Camera
@@ -468,7 +481,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                       </div>
 
                       <div className="space-y-1">
-                        <Label htmlFor="edit-name" className="text-xs font-medium text-gray-700">
+                        <Label htmlFor="edit-name" className="text-xs font-medium text-gray-700 dark:text-gray-300">
                           Name
                         </Label>
                         <Input
@@ -476,13 +489,13 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                           type="text"
                           value={tempData.name}
                           onChange={(e) => handleInputChange('name', e.target.value)}
-                          className="w-full h-8 text-sm"
+                          className="w-full h-8 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                           placeholder="Enter your name"
                         />
                       </div>
                       
                       <div className="space-y-1">
-                        <Label htmlFor="edit-email" className="text-xs font-medium text-gray-700">
+                        <Label htmlFor="edit-email" className="text-xs font-medium text-gray-700 dark:text-gray-300">
                           Email
                         </Label>
                         <Input
@@ -490,7 +503,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                           type="email"
                           value={tempData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="w-full h-8 text-sm"
+                          className="w-full h-8 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                           placeholder="Enter your email"
                         />
                       </div>
@@ -501,7 +514,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                         type="button"
                         variant="outline"
                         onClick={handleCancelEdit}
-                        className="flex-1 h-8 text-xs"
+                        className="flex-1 h-8 text-xs border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                         size="sm"
                       >
                         Cancel
@@ -509,7 +522,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                       <Button
                         type="button"
                         onClick={handleConfirmEdit}
-                        className="flex-1 h-8 text-xs bg-blue-600 hover:bg-blue-700"
+                        className="flex-1 h-8 text-xs bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                         size="sm"
                       >
                         <Check className="w-3 h-3 mr-1" />
@@ -534,12 +547,12 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         {/* Image Gallery Popover */}
         {showImageGallery && (
           <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-              <div className="flex items-center justify-between p-4 border-b border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900">Choose Profile Image</h3>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md">
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Choose Profile Image</h3>
                 <button
                   onClick={() => setShowImageGallery(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -571,13 +584,13 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                   ))}
                 </div>
                 
-                <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex gap-2">
                     <Button
                       type="button"
                       variant="outline"
                       onClick={() => setShowImageGallery(false)}
-                      className="flex-1"
+                      className="flex-1 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                       size="sm"
                     >
                       Cancel
@@ -585,7 +598,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                     <Button
                       type="button"
                       onClick={() => setShowImageGallery(false)}
-                      className="flex-1 bg-blue-600 hover:bg-blue-700"
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                       size="sm"
                     >
                       Done
@@ -600,19 +613,19 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         {/* Logout Confirmation Alert */}
         {showLogoutAlert && (
           <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-sm">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-sm">
               <div className="p-6">
                 <div className="flex items-center justify-center mb-4">
-                  <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                    <LogOut className="w-6 h-6 text-red-600" />
+                  <div className="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
+                    <LogOut className="w-6 h-6 text-red-600 dark:text-red-400" />
                   </div>
                 </div>
                 
-                <h3 className="text-lg font-semibold text-gray-900 text-center mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 text-center mb-2">
                   Are you sure logout?
                 </h3>
                 
-                <p className="text-sm text-gray-500 text-center mb-6">
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-6">
                   You will be logged out and your profile will be reset to default.
                 </p>
                 
@@ -621,14 +634,14 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                     type="button"
                     variant="outline"
                     onClick={() => setShowLogoutAlert(false)}
-                    className="flex-1"
+                    className="flex-1 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
                     No
                   </Button>
                   <Button
                     type="button"
                     onClick={handleLogoutConfirm}
-                    className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                    className="flex-1 bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 text-white"
                   >
                     Yes
                   </Button>
@@ -641,25 +654,25 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
         {/* Login Page Modal */}
         {showLoginPage && (
           <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
-              <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                <h2 className="text-2xl font-bold text-gray-900">RAMZZ</h2>
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md">
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">RAMZZ</h2>
                 <button
                   onClick={() => setShowLoginPage(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
                 >
                   <X className="w-6 h-6" />
                 </button>
               </div>
               
               <div className="p-6">
-                <h3 className="text-lg font-semibold text-gray-900 text-center mb-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 text-center mb-6">
                   Create an Account
                 </h3>
                 
                 <form onSubmit={handleLoginSubmit} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="fullName" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="fullName" className="text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
                       Full Name
                     </Label>
                     <Input
@@ -667,14 +680,14 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                       type="text"
                       value={loginData.fullName}
                       onChange={(e) => handleLoginInputChange('fullName', e.target.value)}
-                      className="w-full text-center"
+                      className="w-full text-left bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                       placeholder="Enter your full name"
                       required
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="loginEmail" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="loginEmail" className="text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
                       Email
                     </Label>
                     <Input
@@ -682,14 +695,14 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                       type="email"
                       value={loginData.email}
                       onChange={(e) => handleLoginInputChange('email', e.target.value)}
-                      className="w-full text-center"
+                      className="w-full text-left bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                       placeholder="Enter your email"
                       required
                     />
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
                       Password
                     </Label>
                     <Input
@@ -697,26 +710,26 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                       type="password"
                       value={loginData.password}
                       onChange={(e) => handleLoginInputChange('password', e.target.value)}
-                      className="w-full text-center"
+                      className="w-full text-left bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                       placeholder="Enter your password"
                       required
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="dob" className="text-sm font-medium text-gray-700">
+                    <Label htmlFor="dob" className="text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
                       Date of Birth
                     </Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
                           variant="outline"
-                          className={"w-full justify-start text-left font-normal" + (!dob ? " text-muted-foreground" : "")}
+                          className={"w-full justify-start text-left font-normal border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700" + (!dob ? " text-muted-foreground" : "")}
                         >
                           {dob ? dob.toLocaleDateString() : "Pick a date"}
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
+                      <PopoverContent className="w-auto p-0 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                         <Calendar
                           mode="single"
                           selected={dob}
@@ -729,7 +742,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                   
                   <Button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 mt-6"
+                    className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 mt-6"
                   >
                     Submit
                   </Button>
@@ -741,7 +754,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
 
         {/* Success Alert */}
         {showSuccessAlert && (
-          <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2">
+          <div className="fixed top-4 right-4 z-50 bg-green-500 dark:bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2">
             <Check className="w-5 h-5" />
             <span className="font-medium">Login successfully</span>
           </div>
@@ -755,7 +768,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
           style={{ touchAction: "none" }}
         >
           <div
-            className="bg-gray-100 h-full shadow-lg p-6 flex flex-col items-start relative"
+            className="bg-gray-100 dark:bg-gray-800 h-full shadow-lg p-6 flex flex-col items-start relative transition-colors duration-200"
             style={{ width: sidebarWidth, minWidth: 180, maxWidth: 400 }}
           >
             {/* Sidebar content here */}
@@ -766,20 +779,20 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             >
               <X className="w-6 h-6" />
             </button>
-            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={() => setSidebarOpen(false)}><Home className="w-4 h-4 sm:w-5 sm:h-5" /> Home</a>
-            <button className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={onOpenMessages}><MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" /> Messages</button>
-            <button className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={() => { onOpenDiscover?.(); setSidebarOpen(false); }}><Compass className="w-4 h-4 sm:w-5 sm:h-5" /> Discover</button>
+            <a href="#" className="mb-4 font-medium text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={() => setSidebarOpen(false)}><Home className="w-4 h-4 sm:w-5 sm:h-5" /> Home</a>
+            <button className="mb-4 font-medium text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={onOpenMessages}><MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" /> Messages</button>
+            <button className="mb-4 font-medium text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={() => { onOpenDiscover?.(); setSidebarOpen(false); }}><Compass className="w-4 h-4 sm:w-5 sm:h-5" /> Discover</button>
             <button
-              className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50"
+              className="mb-4 font-medium text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50"
               onClick={() => { onOpenWallet?.(); setSidebarOpen(false); }}
             >
               <WalletIcon className="w-4 h-4 sm:w-5 sm:h-5" /> Wallet
             </button>
-            <a href="#" className="mb-4 font-medium text-lg hover:text-blue-600 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50" onClick={() => { onOpenProjects?.(); setSidebarOpen(false); }}><Folder className="w-4 h-4 sm:w-5 sm:h-5" /> Projects</a>
+            <a href="#" className="mb-4 font-medium text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={() => { onOpenProjects?.(); setSidebarOpen(false); }}><Folder className="w-4 h-4 sm:w-5 sm:h-5" /> Projects</a>
             {/* Settings and Bell icons (only on small screens) */}
-            <div className="sm:hidden mt-4 pt-4 border-t border-gray-200">
+            <div className="sm:hidden mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
               <button
-                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left hover:text-blue-600 font-semibold text-lg hover:animate-pulse transition-all duration-200"
+                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-lg hover:animate-pulse transition-all duration-200"
                 onClick={() => {
                   onOpenSettings?.();
                   setSidebarOpen(false);
@@ -789,7 +802,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
                 Settings
               </button>
               <button
-                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left hover:text-blue-600 font-semibold text-lg hover:animate-pulse transition-all duration-200"
+                className="flex items-center gap-3 px-4 py-2 w-full justify-start text-left text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-semibold text-lg hover:animate-pulse transition-all duration-200"
                 onClick={() => {
                   onOpenNotifications?.();
                   setSidebarOpen(false);
@@ -801,7 +814,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             </div>
             {/* Drag handle */}
             <div
-              className="absolute top-0 right-0 h-full w-3 cursor-ew-resize bg-gray-200 opacity-50 hover:opacity-100"
+              className="absolute top-0 right-0 h-full w-3 cursor-ew-resize bg-gray-200 dark:bg-gray-600 opacity-50 hover:opacity-100"
               onMouseDown={() => setIsResizing(true)}
               style={{ zIndex: 10 }}
             />

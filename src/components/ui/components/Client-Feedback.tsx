@@ -70,15 +70,15 @@ const ClientFeedback = forwardRef<HTMLDivElement, ClientFeedbackProps>(
           h-[335px]
           mx-auto
           py-5 px-2 sm:px-6
-          bg-gradient-to-br from-[#f3f3ff] to-[#e1e4fb] backdrop-blur-md
+          bg-gradient-to-br from-[#f3f3ff] to-[#e1e4fb] dark:from-[#1e1b4b] dark:to-[#312e81] backdrop-blur-md
           font-sans overflow-hidden
           transition-all duration-200 hover:-translate-y-2
           md:w-[795px] md:max-w-[90vw] md:mx-auto
-          ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}
+          ${highlight ? "ring-2 ring-blue-500 bg-yellow-50 dark:bg-yellow-900/20" : ""}
         `}
       >
         <div className="max-w-5xl mx-auto overflow-hidden -mt-1">
-          <h2 className="text-2xl sm:text-2xl font-bold mb-6 text-center text-gray-800 tracking-tight">Client Feedback</h2>
+          <h2 className="text-2xl sm:text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-100 tracking-tight">Client Feedback</h2>
           <div className="flex justify-center items-center relative h-[260px]">
             {feedbacks.map((fb, idx: number) => {
               const pos = getCardPosition(idx);
@@ -87,13 +87,13 @@ const ClientFeedback = forwardRef<HTMLDivElement, ClientFeedbackProps>(
                 "absolute top-1/2 left-1/2 transition-all duration-700 flex flex-col items-center";
               if (pos === 'center') {
                 className +=
-                  " z-20 -translate-x-1/2 -translate-y-[60%] scale-110 shadow-2xl bg-white opacity-100";
+                  " z-20 -translate-x-1/2 -translate-y-[60%] scale-110 shadow-2xl bg-white dark:bg-gray-800 opacity-100";
               } else if (pos === 'left') {
                 className +=
-                  " z-10 -translate-x-[170%] -translate-y-1/2 scale-95 opacity-60 bg-white";
+                  " z-10 -translate-x-[170%] -translate-y-1/2 scale-95 opacity-60 bg-white dark:bg-gray-800";
               } else if (pos === 'right') {
                 className +=
-                  " z-10 translate-x-[70%] -translate-y-1/2 scale-95 opacity-60 bg-white";
+                  " z-10 translate-x-[70%] -translate-y-1/2 scale-95 opacity-60 bg-white dark:bg-gray-800";
               } else {
                 className += " opacity-0 pointer-events-none";
               }
@@ -104,15 +104,15 @@ const ClientFeedback = forwardRef<HTMLDivElement, ClientFeedbackProps>(
                       <img
                         src={fb.avatar || `/avatars/default.png`}
                         alt={fb.name}
-                        className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 shadow mb-1"
+                        className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 dark:border-blue-700 shadow mb-1"
                       />
-                      <CardTitle className="text-sm font-semibold text-gray-800 text-center">
+                      <CardTitle className="text-sm font-semibold text-gray-800 dark:text-gray-100 text-center">
                         {fb.name}
                       </CardTitle>
-                      <p className="text-xs text-gray-500 text-center">{fb.role}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 text-center">{fb.role}</p>
                     </CardHeader>
                     <CardContent className="p-0 text-center">
-                      <p className="text-xs text-gray-600 leading-relaxed">
+                      <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
                         "{fb.message}"
                       </p>
                     </CardContent>

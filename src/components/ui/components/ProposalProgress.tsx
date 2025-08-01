@@ -67,11 +67,11 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
   return (
     <Card
       ref={ref}
-      className={`bg-white shadow-sm rounded-2xl  flex flex-col h-55 w-full hover:shadow-lg hover:bg-gradient-to-br from-[#fff3f2] to-[#fce8e7] hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-white dark:bg-gray-800 shadow-sm rounded-2xl  flex flex-col h-55 w-full hover:shadow-lg hover:bg-gradient-to-br from-[#fff3f2] to-[#fce8e7] dark:hover:from-[#1f2937] dark:hover:to-[#374151] hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50 dark:bg-yellow-900/20" : ""}`}
     >
       <CardHeader className="pb-3  pt-6 sm:pt-3 -mt-6 ">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base sm:text-xl font-bold text-gray-900">
+          <CardTitle className="text-base sm:text-xl font-bold text-gray-900 dark:text-gray-100">
             Proposal Progress
           </CardTitle>
           <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
@@ -79,7 +79,7 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="text-gray-600 hover:text-gray-800 text-xs sm:text-sm"
+                className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 text-xs sm:text-sm"
               >
                 <CalendarIcon className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 <span className="hidden sm:inline">{formatDate(selectedDate)}</span>
@@ -88,7 +88,7 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
               </Button>
             </PopoverTrigger>
             <PopoverContent
-              className="w-auto p-0"
+              className="w-auto p-0 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
               side="top"
               align="center"
               avoidCollisions={false}
@@ -98,7 +98,7 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
                 selected={selectedDate}
                 onSelect={handleDateSelect}
                 initialFocus
-                className="rounded-md border"
+                className="rounded-md border border-gray-200 dark:border-gray-700"
               />
             </PopoverContent>
           </Popover>
@@ -109,11 +109,11 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
           {currentMetrics.map((metric, idx) => (
             <div key={idx} className={`flex flex-col justify-between h-full flex-1 pl-2 pr-4 relative ${idx < 2 ? 'border-r-2' : ''}`} style={{ borderColor: idx === 0 ? '#cbd5e1' : idx === 1 ? '#f87171' : undefined }}>
               {/* Label */}
-              <div className="text-xs sm:text-sm text-gray-500 font-semibold text-left mb-1 mt-2">
+              <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-semibold text-left mb-1 mt-2">
                 {metric.label}
               </div>
               {/* Value */}
-              <div className={`text-2xl sm:text-4xl font-extrabold ${metric.color} text-left mb-2`}>
+              <div className={`text-2xl sm:text-4xl font-extrabold ${metric.color} dark:text-gray-100 text-left mb-2`}>
                 {metric.value}
               </div>
               {/* Bar chart */}

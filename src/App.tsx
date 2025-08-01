@@ -19,18 +19,19 @@ function App() {
 
   return (
     <Router>
-      <Header
-        onOpenSettings={() => { window.location.href = "/settings"; }}
-        onOpenNotifications={() => { window.location.href = "/notifications"; }}
-        onOpenMessages={() => { window.location.href = "/messages"; }}
-        onOpenDiscover={() => { window.location.href = "/discover"; }}
-        onOpenWallet={() => { window.location.href = "/wallet"; }}
-        onOpenProjects={() => { window.location.href = "/projects"; }}
-        onOpenHome={() => { window.location.href = "/Home"; }}
-        searchValue={searchValue}
-        setSearchValue={setSearchValue}
-        onSearchTrigger={() => {}}
-      />
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+        <Header
+          onOpenSettings={() => { window.location.href = "/settings"; }}
+          onOpenNotifications={() => { window.location.href = "/notifications"; }}
+          onOpenMessages={() => { window.location.href = "/messages"; }}
+          onOpenDiscover={() => { window.location.href = "/discover"; }}
+          onOpenWallet={() => { window.location.href = "/wallet"; }}
+          onOpenProjects={() => { window.location.href = "/projects"; }}
+          onOpenHome={() => { window.location.href = "/Home"; }}
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          onSearchTrigger={() => {}}
+        />
       {/* Modals */}
       {showNotifications && <NotificationsDropdown />}
       {/* Main Routes */}
@@ -45,7 +46,8 @@ function App() {
         <Route path="/notifications" element={<NotificationPage />} />
         {/* Add more routes as needed */}
       </Routes>
-      <Toaster />
+        <Toaster />
+      </div>
     </Router>
   );
 }

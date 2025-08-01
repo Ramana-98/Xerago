@@ -152,29 +152,29 @@ export default function WalletPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-200 flex justify-center items-start py-8 px-2">
+    <div className="min-h-screen bg-gray-200 dark:bg-gray-900 flex justify-center items-start py-8 px-2 transition-colors duration-200">
       <div className="w-full max-w-3xl flex flex-col gap-6 ">
       {/* Account Balance */}
-        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-[#ffffff] via-[#f1f5ff] to-[#ffffff] hover:bg-amber-50">
+        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-[#ffffff] via-[#f1f5ff] to-[#ffffff] hover:bg-amber-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 dark:hover:bg-gray-700">
           <CardHeader>
-            <CardTitle className="text-xl sm:text-2xl font-bold">Account Balance</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">Account Balance</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col sm:flex-row gap-6 sm:gap-12 items-center sm:items-start">
           <div>
-              <div className="text-3xl font-extrabold">₹{balance.available.toLocaleString()}</div>
-              <div className="text-sm text-gray-500 font-medium">Available</div>
+              <div className="text-3xl font-extrabold text-gray-900 dark:text-gray-100">₹{balance.available.toLocaleString()}</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 font-medium">Available</div>
           </div>
           <div>
-              <div className="text-xl font-bold">₹{balance.pending.toLocaleString()}</div>
-              <div className="text-sm text-gray-500 font-medium">Pending</div>
+              <div className="text-xl font-bold text-gray-900 dark:text-gray-100">₹{balance.pending.toLocaleString()}</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 font-medium">Pending</div>
           </div>
         </CardContent>
       </Card>
 
         {/* Withdraw Funds */}
-        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-[#f7f8fa] via-[#e2e8f0] to-[#ffffff] hover:bg-blue-500">
+        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-[#f7f8fa] via-[#e2e8f0] to-[#ffffff] hover:bg-blue-500 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 dark:hover:bg-gray-700">
           <CardHeader>
-            <CardTitle className="text-xl sm:text-2xl font-bold">Withdraw Funds</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">Withdraw Funds</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
@@ -185,12 +185,12 @@ export default function WalletPage() {
             placeholder="Enter amount"
             value={withdrawAmount}
             onChange={e => setWithdrawAmount(e.target.value)}
-                  className="mb-2"
+                  className="mb-2 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                   min={500}
                 />
                 <Button
                   variant="default"
-                  className="bg-black text-white w-full mb-2"
+                  className="bg-black text-white w-full mb-2 dark:bg-gray-800 dark:hover:bg-gray-700"
                   onClick={handleWithdraw}
                   disabled={isLoading}
                 >
@@ -199,12 +199,12 @@ export default function WalletPage() {
                 {/* Link New Account Dialog Trigger */}
                 <Button
                   variant="outline"
-                  className="w-full mb-2"
+                  className="w-full mb-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
                   onClick={() => setOpenDialog(true)}
                 >
                   Link New Account
                 </Button>
-                <div className="text-xs text-gray-500 mt-1">Minimum withdrawal: ₹500</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">Minimum withdrawal: ₹500</div>
               </div>
               {/* Right: Image */}
               <div className="flex-1 flex justify-center items-center">
@@ -220,9 +220,9 @@ export default function WalletPage() {
 
         {/* Link New Account Dialog */}
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-          <DialogContent>
+          <DialogContent className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
             <DialogHeader>
-              <DialogTitle>Link New Account</DialogTitle>
+              <DialogTitle className="text-gray-900 dark:text-gray-100">Link New Account</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 mt-2">
               <Input
@@ -230,21 +230,24 @@ export default function WalletPage() {
                 value={bankName}
                 onChange={e => setBankName(e.target.value)}
                 disabled={isSaving}
+                className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
               />
               <Input
                 placeholder="UPI ID (e.g., yourname@bank)"
                 value={upiId}
                 onChange={e => setUpiId(e.target.value)}
                 disabled={isSaving}
+                className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
               />
               <Input
                 placeholder="Preferred Currency (default: INR)"
                 value={currency}
                 onChange={e => setCurrency(e.target.value)}
                 disabled={isSaving}
+                className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
               />
               <Button
-                className="w-full bg-black text-white"
+                className="w-full bg-black text-white dark:bg-gray-800 dark:hover:bg-gray-700"
                 onClick={handleSaveAccount}
                 disabled={isSaving}
               >
@@ -255,27 +258,27 @@ export default function WalletPage() {
         </Dialog>
 
       {/* Transaction History */}
-        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-[#ffffff] via-[#fff7f1] to-[#ffffff] hover:bg-amber-50">
+        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-[#ffffff] via-[#fff7f1] to-[#ffffff] hover:bg-amber-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 dark:hover:bg-gray-700">
           <CardHeader>
-            <CardTitle className="text-xl sm:text-2xl font-bold">Transaction History</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">Transaction History</CardTitle>
           </CardHeader>
           <CardContent className="overflow-x-auto">
-            <table className="min-w-full text-center border rounded-lg overflow-hidden bg-white">
+            <table className="min-w-full text-center border rounded-lg overflow-hidden bg-white dark:bg-gray-800">
               <thead>
-                <tr className="bg-gray-100">
-                  <th className="px-4 py-2 border-b font-semibold text-gray-700">Date</th>
-                  <th className="px-4 py-2 border-b font-semibold text-gray-700">Type</th>
-                  <th className="px-4 py-2 border-b font-semibold text-gray-700">Amount</th>
-                  <th className="px-4 py-2 border-b font-semibold text-gray-700">Status</th>
+                <tr className="bg-gray-100 dark:bg-gray-700">
+                  <th className="px-4 py-2 border-b font-semibold text-gray-700 dark:text-gray-300">Date</th>
+                  <th className="px-4 py-2 border-b font-semibold text-gray-700 dark:text-gray-300">Type</th>
+                  <th className="px-4 py-2 border-b font-semibold text-gray-700 dark:text-gray-300">Amount</th>
+                  <th className="px-4 py-2 border-b font-semibold text-gray-700 dark:text-gray-300">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {transactions.map((txn, idx) => (
-                  <tr key={idx} className="hover:bg-gray-50">
-                    <td className="px-4 py-2 border-b text-center">{txn.date}</td>
-                    <td className="px-4 py-2 border-b">{txn.type}</td>
-                    <td className={`px-4 py-2 border-b font-semibold ${txn.amount.startsWith('+') ? 'text-green-600' : 'text-gray-800'}`}>{txn.amount}</td>
-                    <td className="px-4 py-2 border-b">{txn.status}</td>
+                  <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
+                    <td className="px-4 py-2 border-b text-center text-gray-900 dark:text-gray-100">{txn.date}</td>
+                    <td className="px-4 py-2 border-b text-gray-900 dark:text-gray-100">{txn.type}</td>
+                    <td className={`px-4 py-2 border-b font-semibold ${txn.amount.startsWith('+') ? 'text-green-600 dark:text-green-400' : 'text-gray-800 dark:text-gray-200'}`}>{txn.amount}</td>
+                    <td className="px-4 py-2 border-b text-gray-900 dark:text-gray-100">{txn.status}</td>
                   </tr>
                 ))}
               </tbody>
@@ -286,9 +289,9 @@ export default function WalletPage() {
       {/* Row 4: Payment Schedule and Payment Settings side by side */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {/* Payment Schedule */}
-        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-white/80 via-gray-100/60 to-white/80 backdrop-blur-md hover:bg-amber-50">
+        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-white/80 via-gray-100/60 to-white/80 backdrop-blur-md hover:bg-amber-50 dark:from-gray-800/80 dark:via-gray-700/60 dark:to-gray-800/80 dark:hover:bg-gray-700">
           <CardHeader>
-            <CardTitle className="text-xl sm:text-2xl font-bold">Payment Schedule</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">Payment Schedule</CardTitle>
           </CardHeader>
         <CardContent>
             <ul className="space-y-2 text-center">
@@ -297,9 +300,9 @@ export default function WalletPage() {
                   key={i}
                   className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-1 sm:gap-2 text-center"
                 >
-                  <span className="font-medium">{p.project}:</span>
-                  <a href="#" className="text-blue-600 hover:underline font-medium">{p.nextRelease}</a>
-                  <span className="text-gray-500">({p.status})</span>
+                  <span className="font-medium text-gray-900 dark:text-gray-100">{p.project}:</span>
+                  <a href="#" className="text-blue-600 hover:underline font-medium dark:text-blue-400 dark:hover:text-blue-300">{p.nextRelease}</a>
+                  <span className="text-gray-500 dark:text-gray-400">({p.status})</span>
               </li>
             ))}
           </ul>
@@ -307,17 +310,17 @@ export default function WalletPage() {
       </Card>
 
       {/* Payment Settings */}
-        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-white/80 via-gray-100/60 to-white/80 backdrop-blur-md  hover:bg-amber-50">
+        <Card className="rounded-xl transition-all duration-200 hover:-translate-y-2 bg-gradient-to-br from-white/80 via-gray-100/60 to-white/80 backdrop-blur-md  hover:bg-amber-50 dark:from-gray-800/80 dark:via-gray-700/60 dark:to-gray-800/80 dark:hover:bg-gray-700">
           <CardHeader>
-            <CardTitle className="text-xl sm:text-2xl font-bold">Payment Settings</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">Payment Settings</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-          <div>Bank: <span className="font-medium">{currentBankName}</span></div>
-          <div>UPI: <span className="font-medium">{currentUpiId}</span></div>
-          <div>Preferred Currency: <span className="font-medium">{currentPreferredCurrency}</span></div>
+          <div className="text-gray-900 dark:text-gray-100">Bank: <span className="font-medium">{currentBankName}</span></div>
+          <div className="text-gray-900 dark:text-gray-100">UPI: <span className="font-medium">{currentUpiId}</span></div>
+          <div className="text-gray-900 dark:text-gray-100">Preferred Currency: <span className="font-medium">{currentPreferredCurrency}</span></div>
           <Button 
             variant="outline" 
-            className="mt-2 w-full"
+            className="mt-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
             onClick={() => setPaymentSettingsOpen(true)}
           >
             Edit Payment Settings
@@ -328,42 +331,44 @@ export default function WalletPage() {
 
       {/* Payment Settings Modal */}
       <Dialog open={paymentSettingsOpen} onOpenChange={setPaymentSettingsOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Edit Payment Settings</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-gray-900 dark:text-gray-100">Edit Payment Settings</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="bank-name">Bank Name</Label>
+              <Label htmlFor="bank-name" className="text-gray-900 dark:text-gray-100">Bank Name</Label>
               <Input
                 id="bank-name"
                 placeholder="Enter bank name"
                 value={currentBankName}
                 onChange={(e) => setCurrentBankName(e.target.value)}
                 disabled={isUpdatingSettings}
+                className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="upi-id">UPI ID</Label>
+              <Label htmlFor="upi-id" className="text-gray-900 dark:text-gray-100">UPI ID</Label>
               <Input
                 id="upi-id"
                 placeholder="yourname@bank"
                 value={currentUpiId}
                 onChange={(e) => setCurrentUpiId(e.target.value)}
                 disabled={isUpdatingSettings}
+                className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="currency">Preferred Currency</Label>
+              <Label htmlFor="currency" className="text-gray-900 dark:text-gray-100">Preferred Currency</Label>
               <Select 
                 value={currentPreferredCurrency} 
                 onValueChange={setCurrentPreferredCurrency}
                 disabled={isUpdatingSettings}
               >
-                <SelectTrigger>
+                <SelectTrigger className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">
                   <SelectValue placeholder="Select currency" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                   <SelectItem value="INR">INR (₹)</SelectItem>
                   <SelectItem value="USD">USD ($)</SelectItem>
                   <SelectItem value="EUR">EUR (€)</SelectItem>
@@ -377,13 +382,14 @@ export default function WalletPage() {
               variant="outline"
               onClick={() => setPaymentSettingsOpen(false)}
               disabled={isUpdatingSettings}
+              className="bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
             >
               Cancel
             </Button>
             <Button
               onClick={handleUpdatePaymentSettings}
               disabled={isUpdatingSettings}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
             >
               {isUpdatingSettings ? "Updating..." : "Submit"}
             </Button>

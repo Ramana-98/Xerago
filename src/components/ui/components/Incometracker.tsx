@@ -110,12 +110,12 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
   return (
     <Card
       ref={ref}
-      className={`rounded-2xl bg-white p-3 sm:p-4 max-w-4xl h-[440px] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`rounded-2xl bg-white dark:bg-gray-800 p-3 sm:p-4 max-w-4xl h-[440px] hover:shadow-lg hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50 dark:bg-yellow-900/20" : ""}`}
     >
       <CardHeader className="pb-2">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full">
-          <CardTitle className="text-lg sm:text-3xl font-bold flex items-center gap-2">
-            <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
+          <CardTitle className="text-lg sm:text-3xl font-bold flex items-center gap-2 text-gray-900 dark:text-gray-100">
+            <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 dark:text-gray-400" />
             Income Tracker
           </CardTitle>
           <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -128,13 +128,13 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
                 <ChevronDown className="ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-32 sm:w-40 p-2 ">
+            <PopoverContent className="w-32 sm:w-40 p-2 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
               <div className="space-y-1">
                 <button
                   onClick={() => handlePeriodChange('week')}
                   className={cn(
-                    "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors ",
-                    selectedPeriod === 'week' && "bg-blue-50 text-blue-600 font-medium"
+                    "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300",
+                    selectedPeriod === 'week' && "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium"
                   )}
                 >
                   Week
@@ -142,8 +142,8 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
                 <button
                   onClick={() => handlePeriodChange('month')}
                   className={cn(
-                    "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
-                    selectedPeriod === 'month' && "bg-blue-50 text-blue-600 font-medium"
+                    "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300",
+                    selectedPeriod === 'month' && "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium"
                   )}
                 >
                   Month
@@ -151,8 +151,8 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
                 <button
                   onClick={() => handlePeriodChange('year')}
                   className={cn(
-                    "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 transition-colors",
-                    selectedPeriod === 'year' && "bg-blue-50 text-blue-600 font-medium"
+                    "w-full text-left px-2 py-1 text-xs sm:text-sm rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300",
+                    selectedPeriod === 'year' && "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium"
                   )}
                 >
                   Year
@@ -161,7 +161,7 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
             </PopoverContent>
           </Popover>
         </div>
-        <p className="text-xs sm:text-sm text-muted-foreground mt-1 text-left">
+        <p className="text-xs sm:text-sm text-muted-foreground dark:text-gray-400 mt-1 text-left">
           Track changes in income over time and access detailed data on each project and payments received.
         </p>
       </CardHeader>
@@ -169,14 +169,14 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
       <CardContent className="mt-0 sm:mt-0 pb-2 sm:pb-4">
         {/* Left Stat for mobile only */}
         <div className="block sm:hidden mb-4 text-center">
-          <p className="text-base font-semibold">{getSummaryPercentage()}</p>
-          <p className="text-xs text-muted-foreground">{getSummaryText()}</p>
+          <p className="text-base font-semibold text-gray-900 dark:text-gray-100">{getSummaryPercentage()}</p>
+          <p className="text-xs text-muted-foreground dark:text-gray-400">{getSummaryText()}</p>
         </div>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-1  sm:gap-4 min-h-48 sm:h-62 w-full">
           {/* Left Stat for desktop only */}
           <div className="hidden sm:block text-center md:text-left mb-10 sm:mb-0">
-            <p className="text-2xl lg:text-3xl font-semibold">{getSummaryPercentage()}</p>
-            <p className="text-sm text-muted-foreground">{getSummaryText()}</p>
+            <p className="text-2xl lg:text-3xl font-semibold text-gray-900 dark:text-gray-100">{getSummaryPercentage()}</p>
+            <p className="text-sm text-muted-foreground dark:text-gray-400">{getSummaryText()}</p>
           </div>
 
           {/* Vertical Bar Chart */}
@@ -196,30 +196,30 @@ const IncomeTracker = forwardRef<HTMLDivElement, IncomeTrackerProps>(({ highligh
                         onClick={() => handleBarClick(i)}
                       >
                         {isSelected && (
-                          <div className="text-xs font-medium bg-black text-white rounded-full px-2 py-0.5 mb-1">
+                          <div className="text-xs font-medium bg-black dark:bg-white text-white dark:text-black rounded-full px-2 py-0.5 mb-1">
                             ${d.amount.toLocaleString()}
                           </div>
                         )}
                         <div
                           className={cn(
-                            "w-1.5 sm:w-2 rounded-full bg-gradient-to-b from-[#d4d8db] to-[#f0f1f2] hover:opacity-80 transition-opacity",
-                            isSelected && "bg-black ring-2 ring-blue-500"
+                            "w-1.5 sm:w-2 rounded-full bg-gradient-to-b from-[#d4d8db] to-[#f0f1f2] dark:from-gray-600 dark:to-gray-500 hover:opacity-80 transition-opacity",
+                            isSelected && "bg-blue-500 dark:bg-blue-400 ring-2 ring-blue-500 dark:ring-blue-400"
                           )}
                           style={{ height: `${height}px`, minHeight: "20px", maxHeight: "140px" }}
                         />
                         <div
                           className={cn(
-                            "text-xs sm:text-sm text-muted-foreground w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#d7d8da] flex items-center justify-center mt-1",
-                            isSelected && "bg-black text-white"
+                            "text-xs sm:text-sm text-muted-foreground dark:text-gray-400 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#d7d8da] dark:bg-gray-600 flex items-center justify-center mt-1",
+                            isSelected && "bg-blue-500 dark:bg-blue-400 text-white"
                           )}
                         >
                           {d.day}
                         </div>
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent>
-                      <p className="font-medium">${d.amount.toLocaleString()}</p>
-                      <p className="text-xs text-muted-foreground">Click to select {d.day}day's data</p>
+                    <TooltipContent className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+                      <p className="font-medium text-gray-900 dark:text-gray-100">${d.amount.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground dark:text-gray-400">Click to select {d.day}day's data</p>
                     </TooltipContent>
                   </Tooltip>
                 );

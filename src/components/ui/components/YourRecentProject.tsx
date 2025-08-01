@@ -80,17 +80,17 @@ const additionalProjects: Project[] = [
 const getIcon = (icon: string) => {
   switch (icon) {
     case "settings":
-      return <Settings className="w-3 h-3 text-gray-600" />;
+      return <Settings className="w-3 h-3 text-gray-600 dark:text-gray-400" />;
     case "file":
-      return <FileText className="w-3 h-3 text-gray-600" />;
+      return <FileText className="w-3 h-3 text-gray-600 dark:text-gray-400" />;
     case "moon":
-      return <Moon className="w-3 h-3 text-gray-600" />;
+      return <Moon className="w-3 h-3 text-gray-600 dark:text-gray-400" />;
     case "code":
-      return <Code className="w-3 h-3 text-gray-600" />;
+      return <Code className="w-3 h-3 text-gray-600 dark:text-gray-400" />;
     case "palette":
-      return <Palette className="w-3 h-3 text-gray-600" />;
+      return <Palette className="w-3 h-3 text-gray-600 dark:text-gray-400" />;
     case "database":
-      return <Database className="w-3 h-3 text-gray-600" />;
+      return <Database className="w-3 h-3 text-gray-600 dark:text-gray-400" />;
     default:
       return <Settings className="w-3 h-3" />;
   }
@@ -123,15 +123,15 @@ const YourRecentProjects = forwardRef<HTMLDivElement, YourRecentProjectsProps>((
   return (
     <Card
       ref={ref}
-      className={`bg-gray-200 shadow-xs flex flex-col w-full h-[440px] hover:shadow-xs hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50" : ""}`}
+      className={`bg-gray-200 dark:bg-gray-800 shadow-xs flex flex-col w-full h-[440px] hover:shadow-xs hover:-translate-y-1 transition-all duration-200 ${highlight ? "ring-2 ring-blue-500 bg-yellow-50 dark:bg-yellow-900/20" : ""}`}
     >
       {/* Move header to the very top of the card */}
       <div className="flex items-center justify-between px-3 pt-0 pb-0 -mt-5">
-        <span className="sm:text-xl font-bold text-gray-800">Your Recent Projects</span>
+        <span className="sm:text-xl font-bold text-gray-800 dark:text-gray-100">Your Recent Projects</span>
         <Button 
           variant="ghost" 
           size="sm" 
-          className="text-blue-600 hover:text-blue-700 text-xs"
+          className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 text-xs"
           onClick={toggleShowAllProjects}
         >
           <span className="hidden sm:inline">{showAllProjects ? "Show Less" : "See all Project"}</span>
@@ -145,24 +145,24 @@ const YourRecentProjects = forwardRef<HTMLDivElement, YourRecentProjectsProps>((
           {allProjects.map((proj, idx) => (
             <div
               key={idx}
-              className="border border-gray-100 rounded-lg p-2 sm:p-3 space-y-2 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 bg-gray-50/30"
+              className="border border-gray-100 dark:border-gray-700 rounded-lg p-2 sm:p-3 space-y-2 hover:shadow-lg hover:-translate-y-1 transition-all duration-200 bg-gray-50/30 dark:bg-gray-700/30"
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-2">
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 rounded-lg flex items-center justify-center mt-1">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-100 dark:bg-gray-600 rounded-lg flex items-center justify-center mt-1">
                     {getIcon(proj.icon)}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1 sm:gap-2 mb-1">
-                      <p className="font-medium text-xs text-gray-800 truncate">{proj.title}</p>
-                      <span className="text-xs text-gray-500 flex-shrink-0">{proj.rate}</span>
+                      <p className="font-medium text-xs text-gray-800 dark:text-gray-100 truncate">{proj.title}</p>
+                      <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">{proj.rate}</span>
                     </div>
                     <Badge
                       variant={proj.status === "Paid" ? "default" : "outline"}
                       className={`text-xs ${
                         proj.status === "Paid" 
-                          ? "bg-gray-800 text-white" 
-                          : "border-gray-300 text-gray-600 bg-gray-50"
+                          ? "bg-gray-800 dark:bg-gray-700 text-white dark:text-gray-100" 
+                          : "border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-600"
                       }`}
                     >
                       {proj.status}
@@ -176,16 +176,16 @@ const YourRecentProjects = forwardRef<HTMLDivElement, YourRecentProjectsProps>((
                   onClick={() => toggleProject(idx)}
                 >
                   {expandedProjects.has(idx) ? (
-                    <ArrowUp className="w-3 h-3 text-gray-600" />
+                    <ArrowUp className="w-3 h-3 text-gray-600 dark:text-gray-400" />
                   ) : (
-                    <ArrowDown className="w-3 h-3 text-gray-600" />
+                    <ArrowDown className="w-3 h-3 text-gray-600 dark:text-gray-400" />
                   )}
                 </Button>
               </div>
               
               {/* Expandable content */}
               {expandedProjects.has(idx) && proj.description && (
-                <p className="text-xs text-gray-500 ml-11 text-left">
+                <p className="text-xs text-gray-500 dark:text-gray-400 ml-11 text-left">
                   {proj.description}
                 </p>
               )}
@@ -198,10 +198,10 @@ const YourRecentProjects = forwardRef<HTMLDivElement, YourRecentProjectsProps>((
                       variant="outline" 
                       className={`text-xs ${
                         tag === "Remote" 
-                          ? "border-red-200 text-red-700 bg-red-50" 
+                          ? "border-red-200 dark:border-red-700 text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/20" 
                           : tag === "Part-time"
-                          ? "border-blue-200 text-blue-700 bg-blue-50"
-                          : "border-gray-200 text-gray-600 bg-gray-50"
+                          ? "border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20"
+                          : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-600"
                       }`}
                     >
                       {tag}
@@ -211,7 +211,7 @@ const YourRecentProjects = forwardRef<HTMLDivElement, YourRecentProjectsProps>((
               )}
               
               {expandedProjects.has(idx) && proj.country && (
-                <p className="text-xs text-gray-500 ml-11 text-left">
+                <p className="text-xs text-gray-500 dark:text-gray-400 ml-11 text-left">
                   {proj.country} • {proj.time}
                 </p>
               )}

@@ -264,37 +264,39 @@ export default function Messages() {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row h-screen bg-gray-200 overflow-hidden">
+    <div className="flex flex-col sm:flex-row h-screen bg-gray-200 dark:bg-gray-900 overflow-hidden">
       {/* Sidebar/Contacts */}
       {( !mobileChatOpen || window.innerWidth >= 640 ) && (
-        <div className="w-full sm:w-80 bg-gray-100 border-r flex-shrink-0 flex flex-col h-full overflow-hidden">
-          <div className="p-4 border-b flex flex-col gap-2">
+        <div className="w-full sm:w-80 bg-gray-100 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex-shrink-0 flex flex-col h-full overflow-hidden">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-lg flex-1">Messages</span>
+              <span className="font-bold text-lg flex-1 text-gray-900 dark:text-gray-100">Messages</span>
               <Dialog open={newMessageOpen} onOpenChange={setNewMessageOpen}>
                 <DialogTrigger asChild>
                   <Button variant="ghost" size="icon" className="hover:scale-105 hover:shadow-md transition-all duration-200"><Plus className="w-5 h-5" /></Button>
                 </DialogTrigger>
-                <DialogContent className="max-w-md">
+                <DialogContent className="max-w-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
                   <DialogHeader>
-                    <DialogTitle>New Message</DialogTitle>
+                    <DialogTitle className="text-gray-900 dark:text-gray-100">New Message</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-3">
                     <Input
                       placeholder="Recipient name"
                       value={recipient}
                       onChange={e => setRecipient(e.target.value)}
+                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                     />
                     <Input
                       placeholder="Subject or Project (optional)"
                       value={subject}
                       onChange={e => setSubject(e.target.value)}
+                      className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                     />
                     <Textarea
                       placeholder="Type your message..."
                       value={messageBody}
                       onChange={e => setMessageBody(e.target.value)}
-                      className="min-h-[80px]"
+                      className="min-h-[80px] bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                     />
                   </div>
                   <DialogFooter className="mt-4 flex gap-2">
@@ -327,8 +329,7 @@ export default function Messages() {
                 placeholder="Search messages..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}
-                className="mb-2"
-                style={{ backgroundColor: "white", }}
+                className="mb-2 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
               />
               {search && (
                 <button
@@ -349,8 +350,11 @@ export default function Messages() {
                   size="sm"
                   variant={activeFilter === f ? "default" : "outline"}
                   onClick={() => setActiveFilter(f)}
-                  className="text-xs hover:scale-105 hover:shadow-md transition-all duration-200 "
-                  style={{ backgroundColor: activeFilter === f ? "blue" : "white", }}
+                  className={`text-xs hover:scale-105 hover:shadow-md transition-all duration-200 ${
+                    activeFilter === f 
+                      ? "bg-blue-600 dark:bg-blue-500 text-white" 
+                      : "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
+                  }`}
                 >
                   {f === "Starred" ? <Star className="w-3 h-3 mr-1" /> : null}
                   {f === "Archived" ? <Archive className="w-3 h-3 mr-1" /> : null}
@@ -359,11 +363,11 @@ export default function Messages() {
               ))}
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto hide-scrollbar scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <div className="flex-1 overflow-y-auto hide-scrollbar scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
             {filteredContacts.map((c: typeof contacts[0]) => (
               <div
                 key={c.id}
-                className={`flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-300 border-b ${selectedContact.id === c.id ? "bg-blue-50" : ""}`}
+                className={`flex items-center gap-3 px-4 py-3 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 ${selectedContact.id === c.id ? "bg-blue-50 dark:bg-blue-900/20" : ""}`}
                 onClick={() => {
                   setSelectedContact(c);
                   if (window.innerWidth < 640) setMobileChatOpen(true);
@@ -376,28 +380,28 @@ export default function Messages() {
                       <div className="cursor-pointer">
                         <Avatar className="w-8 h-8 hover:scale-105 transition-transform duration-200">
                           <AvatarImage src={c.avatar} alt={c.name} />
-                          <AvatarFallback className="bg-gray-300 text-gray-600 text-xs">
+                          <AvatarFallback className="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-xs">
                             {c.name.split(' ').map(n => n[0]).join('')}
                           </AvatarFallback>
                         </Avatar>
                       </div>
                     </PopoverTrigger>
-                    <PopoverContent className="w-80 p-0 bg-white/95 backdrop-blur-md border-0 shadow-xl rounded-2xl" side="right" align="start">
+                    <PopoverContent className="w-80 p-0 bg-white/95 dark:bg-gray-800/95 backdrop-blur-md border-0 shadow-xl rounded-2xl" side="right" align="start">
                       <div className="p-6 space-y-4">
                         {/* Profile Header */}
                         <div className="flex items-center gap-4">
                           <Avatar className="w-16 h-16">
                             <AvatarImage src={c.avatar} alt={c.name} />
-                            <AvatarFallback className="bg-gray-300 text-gray-600 text-lg">
+                            <AvatarFallback className="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-lg">
                               {c.name.split(' ').map(n => n[0]).join('')}
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex-1">
-                            <h3 className="text-xl font-bold text-gray-800">{c.name}</h3>
-                            <p className="text-gray-600">{c.role}</p>
+                            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">{c.name}</h3>
+                            <p className="text-gray-600 dark:text-gray-400">{c.role}</p>
                             <div className="flex items-center gap-2 mt-1">
                               <div className={`w-2 h-2 rounded-full ${getStatusColor(c.status)}`}></div>
-                              <span className="text-sm text-gray-500">{c.status}</span>
+                              <span className="text-sm text-gray-500 dark:text-gray-400">{c.status}</span>
                             </div>
                           </div>
                         </div>
@@ -405,20 +409,20 @@ export default function Messages() {
                         {/* Contact Details */}
                         <div className="space-y-3">
                           <div className="flex items-center gap-3 text-sm">
-                            <Mail className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-700">{c.email}</span>
+                            <Mail className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                            <span className="text-gray-700 dark:text-gray-300">{c.email}</span>
                           </div>
                           <div className="flex items-center gap-3 text-sm">
-                            <Phone className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-700">{c.phone}</span>
+                            <Phone className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                            <span className="text-gray-700 dark:text-gray-300">{c.phone}</span>
                           </div>
                           <div className="flex items-center gap-3 text-sm">
-                            <MapPin className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-700">{c.location}</span>
+                            <MapPin className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                            <span className="text-gray-700 dark:text-gray-300">{c.location}</span>
                           </div>
                           <div className="flex items-center gap-3 text-sm">
-                            <Clock className="w-4 h-4 text-gray-400" />
-                            <span className="text-gray-700">{c.timezone}</span>
+                            <Clock className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                            <span className="text-gray-700 dark:text-gray-300">{c.timezone}</span>
                           </div>
                         </div>
 
@@ -433,7 +437,7 @@ export default function Messages() {
                             Call
                           </Button>
                         </div>
-                        <Button variant="ghost" className="w-full text-gray-600 hover:text-gray-800">
+                        <Button variant="ghost" className="w-full text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
                           <ExternalLink className="w-4 h-4 mr-2" />
                           View Full Profile
                         </Button>
@@ -454,7 +458,7 @@ export default function Messages() {
                   >
                     <Avatar className="w-8 h-8 hover:scale-105 transition-transform duration-200">
                       <AvatarImage src={c.avatar} alt={c.name} />
-                      <AvatarFallback className="bg-gray-300 text-gray-600 text-xs">
+                      <AvatarFallback className="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-xs">
                         {c.name.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
@@ -462,11 +466,11 @@ export default function Messages() {
                 </div>
                 <div className="flex-1 min-w-0 ">
                   <div className="flex items-center gap-2">
-                    <span className="font-medium truncate">{c.name}</span>
+                    <span className="font-medium truncate text-gray-900 dark:text-gray-100">{c.name}</span>
                     {unreadCounts[c.id] > 0 && <Badge className="bg-blue-500 text-white ml-1">{unreadCounts[c.id]}</Badge>}
                   </div>
-                  <div className="text-xs text-gray-900 truncate">{c.project}</div>
-                  <div className="text-xs text-gray-400 truncate">{c.lastMessage}</div>
+                  <div className="text-xs text-gray-900 dark:text-gray-100 truncate">{c.project}</div>
+                  <div className="text-xs text-gray-400 dark:text-gray-500 truncate">{c.lastMessage}</div>
                 </div>
               </div>
             ))}
@@ -485,25 +489,25 @@ export default function Messages() {
               </Button>
             </div>
           )}
-          <div className="p-4 border-b flex items-center gap-3 bg-white flex-shrink-0">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center gap-3 bg-white dark:bg-gray-800 flex-shrink-0">
             <Avatar className="w-10 h-10">
               <AvatarImage src={selectedContact.avatar} alt={selectedContact.name} />
-              <AvatarFallback className="bg-gray-300 text-gray-600">
+              <AvatarFallback className="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300">
                 {selectedContact.name.split(' ').map(n => n[0]).join('')}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
-              <span className="font-bold text-lg">{selectedContact.name}</span>
-              <div className="text-xs text-gray-500">{selectedContact.project}</div>
+              <span className="font-bold text-lg text-gray-900 dark:text-gray-100">{selectedContact.name}</span>
+                             <div className="text-xs text-gray-500 dark:text-gray-500">{selectedContact.project}</div>
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-gray-50 dark:bg-gray-900 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-gray-100 dark:scrollbar-track-gray-800">
             {messages.map((m: { fromMe: boolean; text: string; time: string }, idx: number) => (
               <div
                 key={idx}
                 className={`flex ${m.fromMe ? "justify-end" : "justify-start"}`}
               >
-                <div className={`rounded-lg px-3 py-2 max-w-xs ${m.fromMe ? "bg-blue-500 text-white" : "bg-white border"}`}>
+                <div className={`rounded-lg px-3 py-2 max-w-xs ${m.fromMe ? "bg-blue-500 text-white" : "bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100"}`}>
                   <div>{m.text}</div>
                   <div className="text-xs mt-1 text-right opacity-70">{m.time} {m.fromMe && <CheckCircle className="inline w-3 h-3 ml-1" />}</div>
                 </div>
@@ -512,7 +516,7 @@ export default function Messages() {
             <div ref={messagesEndRef} />
           </div>
           <form
-            className="flex gap-2 p-4 border-t bg-white flex-shrink-0"
+            className="flex gap-2 p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex-shrink-0"
             onSubmit={e => {
               e.preventDefault();
               sendMessage();
@@ -522,7 +526,7 @@ export default function Messages() {
               placeholder="Type a message..."
               value={input}
               onChange={e => setInput(e.target.value)}
-              className="flex-1"
+              className="flex-1 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
             />
             <Button type="submit" className="bg-blue-600 hover:bg-blue-700 hover:scale-105 hover:shadow-md transition-all duration-200">Send</Button>
           </form>
@@ -531,9 +535,9 @@ export default function Messages() {
 
       {/* Mobile Contact Detail Dialog */}
       <Dialog open={contactDetailOpen} onOpenChange={setContactDetailOpen}>
-        <DialogContent className="max-w-sm mx-4">
+        <DialogContent className="max-w-sm mx-4 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <DialogHeader>
-            <DialogTitle>Contact Details</DialogTitle>
+            <DialogTitle className="text-gray-900 dark:text-gray-100">Contact Details</DialogTitle>
           </DialogHeader>
           {selectedContactForDetail && (
             <div className="space-y-4">
@@ -541,16 +545,16 @@ export default function Messages() {
               <div className="flex items-center gap-4">
                 <Avatar className="w-16 h-16">
                   <AvatarImage src={selectedContactForDetail.avatar} alt={selectedContactForDetail.name} />
-                  <AvatarFallback className="bg-gray-300 text-gray-600 text-lg">
+                  <AvatarFallback className="bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-lg">
                     {selectedContactForDetail.name.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-800">{selectedContactForDetail.name}</h3>
-                  <p className="text-gray-600">{selectedContactForDetail.role}</p>
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100">{selectedContactForDetail.name}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">{selectedContactForDetail.role}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <div className={`w-2 h-2 rounded-full ${getStatusColor(selectedContactForDetail.status)}`}></div>
-                    <span className="text-sm text-gray-500">{selectedContactForDetail.status}</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">{selectedContactForDetail.status}</span>
                   </div>
                 </div>
               </div>
@@ -558,20 +562,20 @@ export default function Messages() {
               {/* Contact Details */}
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-sm">
-                  <Mail className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-700">{selectedContactForDetail.email}</span>
+                  <Mail className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                  <span className="text-gray-700 dark:text-gray-300">{selectedContactForDetail.email}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
-                  <Phone className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-700">{selectedContactForDetail.phone}</span>
+                  <Phone className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                  <span className="text-gray-700 dark:text-gray-300">{selectedContactForDetail.phone}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
-                  <MapPin className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-700">{selectedContactForDetail.location}</span>
+                  <MapPin className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                  <span className="text-gray-700 dark:text-gray-300">{selectedContactForDetail.location}</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
-                  <Clock className="w-4 h-4 text-gray-400" />
-                  <span className="text-gray-700">{selectedContactForDetail.timezone}</span>
+                  <Clock className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                  <span className="text-gray-700 dark:text-gray-300">{selectedContactForDetail.timezone}</span>
                 </div>
               </div>
 
@@ -593,7 +597,7 @@ export default function Messages() {
                   Call
                 </Button>
               </div>
-              <Button variant="ghost" className="w-full text-gray-600 hover:text-gray-800">
+              <Button variant="ghost" className="w-full text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 View Full Profile
               </Button>

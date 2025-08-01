@@ -130,6 +130,13 @@ const gradients = [
   // ...add as many as you have carousel items
 ];
 
+const darkGradients = [
+  "dark:from-blue-800 dark:to-blue-600",
+  "dark:from-purple-800 dark:to-purple-600", 
+  "dark:from-emerald-800 dark:to-emerald-600",
+  // ...add as many as you have carousel items
+];
+
 export default function Discover({ onBack }: DiscoverProps) {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
@@ -215,30 +222,30 @@ export default function Discover({ onBack }: DiscoverProps) {
   };
 
   return (
-    <div className="p-2 sm:p-4 md:p-6 bg-gray-200 min-h-screen">
+    <div className="p-2 sm:p-4 md:p-6 bg-gray-200 dark:bg-gray-900 min-h-screen transition-colors duration-200">
       {/* Dialog Modal for Apply Now */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
           <DialogHeader>
-            <DialogTitle>Apply for Project</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-gray-900 dark:text-gray-100">Apply for Project</DialogTitle>
+            <DialogDescription className="text-gray-600 dark:text-gray-400">
               {selectedProject ? selectedProject.title : ""}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name" className="text-gray-900 dark:text-gray-100">Name</Label>
               <Input
                 id="name"
                 name="name"
                 value={form.name}
                 onChange={handleFormChange}
                 required
-                className="mt-1"
+                className="mt-1 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
               />
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-gray-900 dark:text-gray-100">Email</Label>
               <Input
                 id="email"
                 name="email"
@@ -246,24 +253,24 @@ export default function Discover({ onBack }: DiscoverProps) {
                 value={form.email}
                 onChange={handleFormChange}
                 required
-                className="mt-1"
+                className="mt-1 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
               />
             </div>
             <div>
-              <Label htmlFor="message">Message</Label>
+              <Label htmlFor="message" className="text-gray-900 dark:text-gray-100">Message</Label>
               <Textarea
                 id="message"
                 name="message"
                 value={form.message}
                 onChange={handleFormChange}
                 required
-                className="mt-1"
+                className="mt-1 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
                 rows={4}
                 placeholder="Write a cover letter..."
               />
             </div>
             <DialogFooter>
-              <Button type="submit" disabled={submitting} className="w-full">
+              <Button type="submit" disabled={submitting} className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600">
                 {submitting ? "Submitting..." : "Submit Application"}
               </Button>
             </DialogFooter>
@@ -276,15 +283,15 @@ export default function Discover({ onBack }: DiscoverProps) {
           <CarouselContent>
             {carouselItems.map((item, idx) => (
               <CarouselItem key={idx} >
-                <div className={`rounded-xl p-4 shadow-xs ${gradients[idx]}`}>
-                  <h3 className="font-bold text-lg mb-1">{item.title}</h3>
-                  <p className="text-sm text-gray-700">{item.description}</p>
+                <div className={`rounded-xl p-4 shadow-xs ${gradients[idx]} ${darkGradients[idx]}`}>
+                  <h3 className="font-bold text-lg mb-1 text-gray-900 dark:text-gray-100">{item.title}</h3>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">{item.description}</p>
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10" />
-          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10" />
+          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100" />
+          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100" />
         </div>
       </Carousel>
       {/* Search and Filters */}
@@ -313,13 +320,13 @@ export default function Discover({ onBack }: DiscoverProps) {
               placeholder="Search projects..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="w-full bg-white"
+              className="w-full bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch("")}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
                 aria-label="Clear search"
               >
                 ×
@@ -333,7 +340,11 @@ export default function Discover({ onBack }: DiscoverProps) {
               key={cat}
               variant={activeCategory === cat ? "default" : "outline"}
               onClick={() => setActiveCategory(cat)}
-              className="text-xs"
+              className={`text-xs ${
+                activeCategory === cat 
+                  ? "bg-blue-600 dark:bg-blue-500 text-white" 
+                  : "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600"
+              }`}
             >
               {cat}
             </Button>
@@ -343,12 +354,12 @@ export default function Discover({ onBack }: DiscoverProps) {
 
       {/* Featured Projects */}
       <div className="mb-8 ">
-        <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
+        <h2 className="text-lg font-bold mb-3 flex items-center gap-2 text-gray-900 dark:text-gray-100">
           <span role="img" aria-label="star">⭐</span> Featured Projects
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {featuredProjects.length === 0 ? (
-            <div className="col-span-2 text-center text-gray-500  py-8">Not Found</div>
+            <div className="col-span-2 text-center text-gray-500 dark:text-gray-400 py-8">Not Found</div>
           ) : (
             featuredProjects.map(project => (
               <ProjectCard
@@ -364,12 +375,12 @@ export default function Discover({ onBack }: DiscoverProps) {
       </div>
 
       {/* Project Listings */}
-      <h2 className="text-lg font-bold mb-3 flex items-center gap-2">
+      <h2 className="text-lg font-bold mb-3 flex items-center gap-2 text-gray-900 dark:text-gray-100">
         <span role="img" aria-label="clipboard">📋</span> Project Listings
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {regularProjects.length === 0 ? (
-          <div className="col-span-2 text-center text-gray-500 py-8">Not Found</div>
+          <div className="col-span-2 text-center text-gray-500 dark:text-gray-400 py-8">Not Found</div>
         ) : (
           regularProjects.map(project => (
             <ProjectCard
@@ -409,18 +420,18 @@ function ProjectCard({ project, onApply, isSaved, onToggleSave }: {
   onToggleSave?: (project: Project) => void;
 }) {
   return (
-    <div className="bg-gradient-to-br from-white via-[#f7f9fc] to-[#eaf1fb] rounded-lg shadow p-4 flex flex-col gap-2 border hover:shadow-lg transition">
+    <div className="bg-gradient-to-br from-white via-[#f7f9fc] to-[#eaf1fb] rounded-lg shadow p-4 flex flex-col gap-2 border hover:shadow-lg transition dark:from-gray-800 dark:to-gray-700 dark:border-gray-600">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-base">{project.title}</h3>
+        <h3 className="font-semibold text-base text-gray-900 dark:text-gray-200">{project.title}</h3>
         {project.featured && <Badge className="bg-yellow-400 text-black">Featured</Badge>}
       </div>
       <div className="flex gap-2 flex-wrap">
         {project.skills.map(skill => (
-          <Badge key={skill} className="bg-blue-100 text-blue-700">{skill}</Badge>
+          <Badge key={skill} className="bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">{skill}</Badge>
         ))}
       </div>
-      <div className="text-sm text-gray-600">{project.type} • {project.budget}</div>
-      <div className="flex items-center gap-2 text-xs text-gray-500">
+      <div className="text-sm text-gray-600 dark:text-gray-600">{project.type} • {project.budget}</div>
+      <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-600">
         <span>{project.client.name} ({project.client.location})</span>
         <span className="flex items-center gap-1">
           <Star className="w-3 h-3 text-yellow-400" />
@@ -429,7 +440,7 @@ function ProjectCard({ project, onApply, isSaved, onToggleSave }: {
         <span>• {project.posted}</span>
       </div>
       <div className="flex gap-2 mt-2">
-        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => onApply && onApply(project)}>
+        <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-500 dark:hover:bg-blue-600" onClick={() => onApply && onApply(project)}>
           📝 Apply Now
         </Button>
         <Button
@@ -437,7 +448,7 @@ function ProjectCard({ project, onApply, isSaved, onToggleSave }: {
           variant="outline"
           onClick={() => onToggleSave && onToggleSave(project)}
           aria-pressed={isSaved}
-          className="bg-gradient-to-r from-blue-500 to-green-400 hover:from-pink-500 hover:to-yellow-500 text-white"
+          className="bg-gradient-to-r from-blue-500 to-green-400 hover:from-pink-500 hover:to-yellow-500 text-white dark:from-blue-600 dark:to-green-400 dark:hover:from-pink-500 dark:hover:to-yellow-500"
         >
           {isSaved ? (
             <Heart className="w-4 h-4 fill-red-500 text-red-500" />
