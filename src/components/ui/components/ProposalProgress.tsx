@@ -26,19 +26,19 @@ function getRandomMetricsForDate(date: Date): Metric[] {
       label: "Proposals sent",
       value: seededRandom(40, 100, 1),
       color: "text-gray-800",
-      barColor: "bg-gray-400",
+      barColor: "bg-blue-400 dark:bg-blue-500",
     },
     {
       label: "Interviews",
       value: seededRandom(5, 25, 2),
       color: "text-gray-800",
-      barColor: "bg-red-400",
+      barColor: "bg-gray-600 dark:bg-gray-500",
     },
     {
       label: "Hires",
       value: seededRandom(5, 20, 3),
       color: "text-gray-800",
-      barColor: "bg-gray-800",
+      barColor: "bg-red-600 dark:bg-red-500",
     },
   ];
 }
@@ -134,10 +134,14 @@ const ProposalProgress = forwardRef<HTMLDivElement, ProposalProgressProps>(({ hi
               </div>
               {/* Vertical line at right edge for all but last column */}
               {idx < 2 && (
-                <div className="absolute top-0 right-0 h-full  w-0.5" style={{ backgroundColor: idx === 0 ? '#cbd5e1' : '#f87171' }} />
+                <div className={`absolute top-0 right-0 h-full w-0.5 ${
+                  idx === 0 
+                    ? 'bg-gray-300 dark:bg-gray-600' 
+                    : 'bg-red-400 dark:bg-red-500'
+                }`} />
               )}
               {idx === 0 && (
-                <div className="absolute top-0 left-0 h-full w-1 bg-blue-300 rounded" />
+                <div className="absolute top-0 left-0 h-full w-1 bg-blue-300 dark:bg-blue-400 rounded" />
               )}
             </div>
           ))}

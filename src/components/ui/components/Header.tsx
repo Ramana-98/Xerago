@@ -354,8 +354,8 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
           
         </div>
 
-        {/* Notification button for small screens */}
-        <div className="sm:hidden">
+        {/* Notification button for small screens - HIDDEN */}
+        {/* <div className="sm:hidden">
           <button 
             className="rounded-full bg-white dark:bg-gray-700 p-2.5 flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 transition relative" 
             onClick={onOpenNotifications}
@@ -365,7 +365,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
               <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
             )}
           </button>
-        </div>
+        </div> */}
         
         {/* Avatar with Popover Menu */}
         <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -779,7 +779,7 @@ export default function Header({ onOpenSettings, onOpenNotifications, onOpenMess
             >
               <X className="w-6 h-6" />
             </button>
-            <a href="#" className="mb-4 font-medium text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={() => setSidebarOpen(false)}><Home className="w-4 h-4 sm:w-5 sm:h-5" /> Home</a>
+            <button className="mb-4 font-medium text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={() => { onOpenHome(); setSidebarOpen(false); }}><Home className="w-4 h-4 sm:w-5 sm:h-5" /> Home</button>
             <button className="mb-4 font-medium text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={onOpenMessages}><MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" /> Messages</button>
             <button className="mb-4 font-medium text-lg text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-left w-full flex items-center gap-3 hover:scale-110 hover:animate-pulse transition-all duration-200 ease-in-out transform hover:shadow-md px-3 py-2 rounded-lg hover:bg-gray-200/50 dark:hover:bg-gray-700/50" onClick={() => { onOpenDiscover?.(); setSidebarOpen(false); }}><Compass className="w-4 h-4 sm:w-5 sm:h-5" /> Discover</button>
             <button

@@ -22,7 +22,7 @@ export function NotificationsDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative px-3 py-5 rounded-full bg-white hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 transition">
+        <Button variant="ghost" className="relative px-3 py-5 rounded-full bg-white hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:text-gray-100 transition">
           <Bell className="w-5 h-5 text-gray-600 dark:text-gray-300" />
           {hasUnreadNotifications && (
             <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full" />

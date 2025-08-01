@@ -12,26 +12,34 @@ import NotificationPage from './components/ui/components/NotificationPage';
 import { Toaster } from "sonner";
 import './App.css';
 
-function App() {
-  // Header state and handlers
+// Wrapper component to handle navigation
+function AppContent() {
+  const navigate = useNavigate();
   const [showNotifications, setShowNotifications] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
+  const handleOpenSettings = () => navigate("/settings");
+  const handleOpenNotifications = () => navigate("/notifications");
+  const handleOpenMessages = () => navigate("/messages");
+  const handleOpenDiscover = () => navigate("/discover");
+  const handleOpenWallet = () => navigate("/wallet");
+  const handleOpenProjects = () => navigate("/projects");
+  const handleOpenHome = () => navigate("/Home");
+
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
-        <Header
-          onOpenSettings={() => { window.location.href = "/settings"; }}
-          onOpenNotifications={() => { window.location.href = "/notifications"; }}
-          onOpenMessages={() => { window.location.href = "/messages"; }}
-          onOpenDiscover={() => { window.location.href = "/discover"; }}
-          onOpenWallet={() => { window.location.href = "/wallet"; }}
-          onOpenProjects={() => { window.location.href = "/projects"; }}
-          onOpenHome={() => { window.location.href = "/Home"; }}
-          searchValue={searchValue}
-          setSearchValue={setSearchValue}
-          onSearchTrigger={() => {}}
-        />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+      <Header
+        onOpenSettings={handleOpenSettings}
+        onOpenNotifications={handleOpenNotifications}
+        onOpenMessages={handleOpenMessages}
+        onOpenDiscover={handleOpenDiscover}
+        onOpenWallet={handleOpenWallet}
+        onOpenProjects={handleOpenProjects}
+        onOpenHome={handleOpenHome}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        onSearchTrigger={() => {}}
+      />
       {/* Modals */}
       {showNotifications && <NotificationsDropdown />}
       {/* Main Routes */}
@@ -40,14 +48,21 @@ function App() {
         <Route path="/Home" element={<Home searchValue={searchValue} />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/messages" element={<Messages />} />
-        <Route path="/discover" element={<Discover onBack={() => { window.location.href = "/Home"; }} />} />
+        <Route path="/discover" element={<Discover onBack={() => navigate("/Home")} />} />
         <Route path="/wallet" element={<WalletPage />} />
-        <Route path="/projects" element={<ProjectsPage onBack={() => { window.location.href = "/Home"; }} />} />
+        <Route path="/projects" element={<ProjectsPage onBack={() => navigate("/Home")} />} />
         <Route path="/notifications" element={<NotificationPage />} />
         {/* Add more routes as needed */}
       </Routes>
-        <Toaster />
-      </div>
+      <Toaster />
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

@@ -87,32 +87,32 @@ const ClientFeedback = forwardRef<HTMLDivElement, ClientFeedbackProps>(
                 "absolute top-1/2 left-1/2 transition-all duration-700 flex flex-col items-center";
               if (pos === 'center') {
                 className +=
-                  " z-20 -translate-x-1/2 -translate-y-[60%] scale-110 shadow-2xl bg-white dark:bg-gray-800 opacity-100";
+                  " z-20 -translate-x-1/2 -translate-y-[60%] scale-110 shadow-2xl bg-white dark:bg-gray-200 opacity-100";
               } else if (pos === 'left') {
                 className +=
-                  " z-10 -translate-x-[170%] -translate-y-1/2 scale-95 opacity-60 bg-white dark:bg-gray-800";
+                  " z-10 -translate-x-[170%] -translate-y-1/2 scale-95 opacity-60 bg-white dark:bg-gray-200";
               } else if (pos === 'right') {
                 className +=
-                  " z-10 translate-x-[70%] -translate-y-1/2 scale-95 opacity-60 bg-white dark:bg-gray-800";
+                  " z-10 translate-x-[70%] -translate-y-1/2 scale-95 opacity-60 bg-white dark:bg-gray-200";
               } else {
                 className += " opacity-0 pointer-events-none";
               }
               return (
-                <div key={idx} className={className} style={style}>
-                  <Card className="min-w-[220px] max-w-[200px] mx-auto rounded-1xl border-0 px-3 py-4  flex flex-col items-center">
+                                 <div key={idx} className={className} style={style}>
+                   <Card className="min-w-[220px] max-w-[200px] mx-auto rounded-1xl border-0 px-3 py-4 flex flex-col items-center bg-white dark:bg-gray-400">
                     <CardHeader className="flex flex-col items-center p-0 mb-1">
                       <img
                         src={fb.avatar || `/avatars/default.png`}
                         alt={fb.name}
                         className="w-10 h-10 rounded-full object-cover border-2 border-blue-100 dark:border-blue-700 shadow mb-1"
                       />
-                      <CardTitle className="text-sm font-semibold text-gray-800 dark:text-gray-100 text-center">
+                      <CardTitle className="text-sm font-semibold text-gray-800 dark:text-gray-800 text-center">
                         {fb.name}
                       </CardTitle>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 text-center">{fb.role}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-800 text-center">{fb.role}</p>
                     </CardHeader>
                     <CardContent className="p-0 text-center">
-                      <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                      <p className="text-xs text-gray-600 dark:text-gray-200 leading-relaxed">
                         "{fb.message}"
                       </p>
                     </CardContent>
